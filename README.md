@@ -4,31 +4,17 @@
 
 ## Getting Started
 
-1. Clone the project using one of these two:
-   - https: `git clone https://github.com/CIS4301-Project-University-of-Florida/U.S.-Gun-Crime.git`
-   - ssh: `git clone git@github.com:CIS4301-Project-University-of-Florida/U.S.-Gun-Crime.git`
+1. Clone the repo using your preferred method (`https` or `ssh`).
 
-2. `cd` into `client` and run `yarn` to install all packages.
+2. From the root project directory, run `yarn setup`. This will install packages for all directories in succession.
 
    - Note: I'd recommend temporarily disabling Windows Defender if you're on Windows. It can significantly slow down the speed of package managers like `npm` and `yarn`, but you're obviously disabling it at your own risk.
 
-3. Repeat #2 for `server` to install all of the back-end packages.
+### Contribution Guidelines
 
-That's it! You should be good to go.
+#### Linting and Code Style
 
-## Command Cheat Sheet
-
-- Run `yarn client` from the root directory to change your working directory to `client` and launch the frontend.
-
-- Run `yarn server` from the root directory to change your working directory to `server` and launch the backend server.
-
-- Run `yarn dev` to do both of the above concurrently.
-
-## Contribution Guidelines
-
-### Linting and Code Style
-
-We're not going to enforce any strict rules since it's a course project. Code however you want and in whatever style you prefer; TSLint and Prettier will take care of automatically formatting our code in a consistent manner.
+We're not going to enforce any strict rules since it's a course project. TSLint and Prettier will take care of automatically formatting our code for us.
 
 Follow these simple steps:
 
@@ -55,13 +41,13 @@ Follow these simple steps:
 "prettier.singleQuote": true,
 ```
 
-Let's say you used double quotes instead of single quotes, or your code is not indented properly, or you have a curly brace where it doesn't belong. When you save the file, VS Code will automatically reformat your code to fix those minor errors for you.
+When you save any file that has linting errors, VS Code will automatically reformat your code to fix those errors for you.
 
 ### Workflow
 
 We're using the [Git feature branch workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow). This means we won't be directly committing to master.
 
-When you want to contribute a new feature, run the following commands:
+Whenever you want to contribute a new feature or begin a new iteration of work, run the following commands:
 
 ```
 git checkout master
@@ -75,7 +61,7 @@ When you're ready to integrate your new feature into the app, be sure to:
 2. Resolve any merge conflicts
 3. Push your feature branch
 
-Assuming you're on your feature branch, run these commands:
+So, assuming you're on your feature branch, run these commands:
 
 ```
 git fetch && git rebase origin/master
@@ -85,3 +71,12 @@ git push
 
 Finally, make a pull request to merge your feature branch into `master`.
 
+## Command Cheat Sheet
+
+- Run `yarn setup` from the root directory to install all packages (root + client + server).
+
+- Run `yarn client` from the root directory to launch the frontend (client).
+
+- Run `yarn server` from the root directory to launch the backend (server).
+
+- Run `yarn dev` from the root directory to do both of the above in parallel (for convenience).
