@@ -18,7 +18,7 @@
     "typings-for-css-modules-loader": "^1.7.0"
   },
   "scripts": {
-    "start": "react-app-rewired start",
+    "start": "PORT=8000 react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"

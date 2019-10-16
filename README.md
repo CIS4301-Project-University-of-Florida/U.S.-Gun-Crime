@@ -16,6 +16,14 @@
 
 That's it! You should be good to go.
 
+## Command Cheat Sheet
+
+- Run `yarn client` from the root directory to change your working directory to `client` and launch the frontend.
+
+- Run `yarn server` from the root directory to change your working directory to `server` and launch the backend server.
+
+- Run `yarn dev` to do both of the above concurrently.
+
 ## Contribution Guidelines
 
 ### Linting and Code Style
