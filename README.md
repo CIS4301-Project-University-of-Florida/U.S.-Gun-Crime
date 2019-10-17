@@ -10,6 +10,8 @@
 
    - Note: I'd recommend temporarily disabling Windows Defender if you're on Windows. It can significantly slow down the speed of package managers like `npm` and `yarn`, but you're obviously disabling it at your own risk.
 
+3. In `/server`, rename the `env_template` directory to `env` for our environment variables. The `env` directory is part of our gitignore and will not be checked in. 
+
 ### Contribution Guidelines
 
 #### Linting and Code Style

@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "description": "> A web app that informs users about gun crime trends in the U.S., using over 260,000 incident records scraped from the Gun Violence Archive for the period of 2013–2018. [Data source](https://github.com/jamesqo/gun-violence-data).",
   "scripts": {
-    "install:root": "yarn",
     "install:client": "cd client && yarn",
     "install:server": "cd server && yarn",
-    "setup": "run-p install:*",
+    "setup": "yarn && yarn install:client && yarn install:server",
     "client": "cd client && yarn start",
-    "server": "cd server && yarn dev",
+    "server": "cd server && yarn start-dev",
     "dev": "concurrently \"yarn run server\" \"yarn run client\""
   },
   "repository": {
