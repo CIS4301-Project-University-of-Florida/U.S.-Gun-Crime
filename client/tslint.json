@@ -12,11 +12,13 @@
       "interface-name": false,
       "member-ordering": false,
       "object-literal-sort-keys": false,
-      "ordered-imports": false
+      "ordered-imports": false,
+      "ban-types": false
     },
     "linterOptions": {
       "exclude": [
         "./node_modules/**"
-      ]
+      ],
+      "include": ["src"]
     }
 }

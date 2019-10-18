@@ -1,12 +1,16 @@
-import { Button } from 'antd';
+import { Route, Switch } from 'react-router-dom';
 import React from 'react';
-import styles from './App.module.scss';
+import HomePage from 'components/Pages/HomePage';
+import CatalogPage from 'components/Pages/CatalogPage';
+import AboutPage from 'components/Pages/AboutPage';
 
 const App = () => {
   return (
-    <div className={styles.app}>
-      <Button>Click me! Style me! etc.</Button>
-    </div>
+    <Switch>
+      <Route exact={true} path="/" component={HomePage} />
+      <Route path="/catalog" component={CatalogPage} />
+      <Route path="/about" component={AboutPage} />
+    </Switch>
   );
 };
 

@@ -21,7 +21,12 @@
   },
   "homepage": "https://github.com/CIS4301-Project-University-of-Florida/U.S.-Gun-Crime#readme",
   "devDependencies": {
+    "@types/react-router-dom": "^5.1.0",
     "concurrently": "^5.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@types/react-helmet": "^5.0.12",
+    "react-helmet": "^5.2.1",
+    "react-router-dom": "^5.1.2"
+  }
 }
