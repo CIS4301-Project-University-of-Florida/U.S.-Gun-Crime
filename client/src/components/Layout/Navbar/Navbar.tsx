@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from 'antd/lib/layout';
-import styles from './Navbar.module.scss';
+import styles from './Navbar.module.less';
 import Container from 'components/Layout/Container/Container';
 import { Link } from 'react-router-dom';
 

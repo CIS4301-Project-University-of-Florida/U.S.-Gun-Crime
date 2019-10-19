@@ -1,9 +1,10 @@
 import React from 'react';
-import styles from './Page.module.scss';
+import styles from './Page.module.less';
 import Layout from 'antd/lib/layout';
 import Navbar from 'components/Layout/Navbar/Navbar';
-import ContentContainer from 'components/Layout/Container/Container';
+import Container from 'components/Layout/Container/Container';
 import Helmet from 'react-helmet';
+import Footer from 'components/Layout/Footer/Footer';
 
 interface PageProps {
   title: String;
@@ -11,16 +12,19 @@ interface PageProps {
 
 const Page = (props: React.PropsWithChildren<PageProps>) => {
   return (
-    <Layout className={styles.page}>
-      <Helmet>
-        <title>{props.title}</title>
-      </Helmet>
-      <Navbar />
-      <ContentContainer>
-        <h1>{props.title}</h1>
-        {props.children}
-      </ContentContainer>
-    </Layout>
+    <div>
+      <Layout className={styles.page}>
+        <Helmet>
+          <title>{props.title}</title>
+        </Helmet>
+        <Navbar />
+        <Container>
+          <h1>{props.title}</h1>
+          {props.children}
+        </Container>
+      </Layout>
+      <Footer />
+    </div>
   );
 };
 

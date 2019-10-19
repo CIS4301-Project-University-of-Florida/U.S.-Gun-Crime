@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Container.module.scss';
+import styles from './Container.module.less';
 
 interface ContainerProps {
   className?: String;

@@ -5,7 +5,7 @@ class CatalogPage extends React.Component {
   public render() {
     return (
       <Page title="Data Catalog">
-        <p>This is the catalog page</p>
+        <p></p>
       </Page>
     );
   }
