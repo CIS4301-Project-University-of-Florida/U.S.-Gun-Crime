@@ -2,21 +2,28 @@
 
 > A web app that informs users about gun crime trends in the U.S., using over 260,000 incident records scraped from the Gun Violence Archive for the period of 2013–2018. [Data source](https://github.com/jamesqo/gun-violence-data).
 
-## Quickstart Guide
+## Getting Started
 
-### Repo Setup
+Follow these steps:
 
 1. Clone this repo using your preferred method (`https` or `ssh`).
 
 2. From the root project directory, run `yarn setup`. This will install packages for all directories in succession.
 
-   - Note: I'd recommend temporarily disabling Windows Defender if you're on Windows. It can significantly slow down the speed of package managers like `yarn`, but you're obviously disabling it at your own risk.
+Note: I'd recommend temporarily disabling Windows Defender if you're on Windows. It can significantly slow down the speed of package managers like `yarn`, but you're obviously disabling it at your own risk.
 
-3. In `server/`, make a copy of the `env_emplate` directory. Name then new one `env`. The `env` directory is for environment variables and will not be checked in to Git. Whenever we add a new environment variable, we'll share its *name* via the template. **Never** put sensitive information (e.g., API keys) in the template.
+### Environment Variables
 
-By default, the frontend runs on `localhost:8000` and the backend on `localhost:3000`. You can now run `yarn dev` from the root directory to launch both the backend and the frontend (see [Command Cheat Sheet](#command-cheat-sheet))
+We'll need to use environment variables in both the frontend (e.g., for the Google Maps API key) and the backend (e.g., for our DB connection credentials). To avoid exposing sensitive information to the public, we'll introduce new variables via template files that will be checked in to Git. Whenever we add a new environment variable, we'll share its name (but not the *value*) via the template file. **Never** put sensitive information in the templates.
 
-### VS Code Extensions
+Follow these two steps:
+
+1. In `client/`, make a copy of the `env.template` file and rename it to `.env`.
+
+
+2. In `server/`, make a copy of the `env_emplate` directory and name it `env`.
+
+### Required VS Code Extensions
 
 1. Install the [TSLint extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-typescript-tslint-plugin) for VS Code (the non-deprecated version).
 
@@ -24,11 +31,15 @@ By default, the frontend runs on `localhost:8000` and the backend on `localhost:
 
 3. Install the [Path Autocomplete extension](https://marketplace.visualstudio.com/items?itemName=ionutvmi.path-autocomplete) for VS Code.
 
+### Running the App
+
+By default, the frontend runs on `localhost:8000` and the backend on `localhost:3000`. You can now run `yarn dev` from the root directory to launch both the backend and the frontend in parallel (see [Command Cheat Sheet](#command-cheat-sheet) for other commands).
+
 ## Contribution Guidelines
 
 ### Linting and Code Style
 
-We're not going to enforce any strict rules since it's a course project. TSLint and Prettier will take care of automatically formatting our code for us (see [VS Code Extensions](#vs-code-extensions) above).
+We're not going to enforce any strict rules since it's a course project. TSLint and Prettier will take care of automatically formatting our code for us (see [VS Code Extensions](#required-vs-code-extensions) above).
 
 Assuming you installed the TSLint and Prettier extensions: Do `Ctrl+Shift+P` in VS Code to bring up the command palette. Type `settings json`, and select `Preferences: Open Settings (JSON)`. Copy-paste the following code anywhere in the JSON block:
 
