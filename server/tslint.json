@@ -12,7 +12,7 @@
     "member-ordering": false,
     "object-literal-sort-keys": false,
     "ordered-imports": false,
-    "ban-types": false
+    "ban-types": true
   },
   "linterOptions": {
     "exclude": [

@@ -7,7 +7,7 @@ import Helmet from 'react-helmet';
 import Footer from 'components/Layout/Footer/Footer';
 
 interface PageProps {
-  title: String;
+  title: string;
 }
 
 const Page = (props: React.PropsWithChildren<PageProps>) => {

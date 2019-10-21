@@ -3,11 +3,12 @@ import Page from 'components/Layout/Page/Page';
 import { Card } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import styles from './CatalogPage.module.less';
+import { PageEnum } from 'pages/PageEnum';
 
 class CatalogPage extends React.Component {
   public render() {
     return (
-      <Page title="Data Catalog">
+      <Page title={PageEnum.DATA_CATALOG.title}>
         <p>
           Learn how gun crime impacts the U.S. by exploring a number of trends
           for the years 2013–2018.

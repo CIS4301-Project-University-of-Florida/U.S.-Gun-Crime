@@ -1,10 +1,11 @@
 import React from 'react';
 import Page from 'components/Layout/Page/Page';
+import { PageEnum } from 'pages/PageEnum';
 
 class AboutPage extends React.Component {
   public render() {
     return (
-      <Page title="About the App">
+      <Page title={PageEnum.ABOUT.title}>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Non quam
