@@ -1,6 +1,9 @@
 import HomePage from 'pages/HomePage/HomePage';
 import CatalogPage from './CatalogPage/CatalogPage';
 import AboutPage from './AboutPage/AboutPage';
+import DataVisualization from './CatalogPage/DataVisualizations/DataVisualizations';
+import Rankings from './CatalogPage/Rankings/Rankings';
+import DeepDive from './CatalogPage/DeepDive/DeepDive';
 
 // https://stackoverflow.com/a/51398471/5323344
 
@@ -21,14 +24,34 @@ export class PageEnum {
     'U.S. Gun Crime Data',
     HomePage
   );
+
   public static readonly DATA_CATALOG = new PageEnum(
     '/data-catalog',
     'Data Catalog',
     CatalogPage
   );
+
   public static readonly ABOUT = new PageEnum(
     '/about',
     'About the Data',
     AboutPage
+  );
+
+  public static readonly DATA_VISUALIZATIONS = new PageEnum(
+    '/data-visualizations',
+    'Data Visualizations',
+    DataVisualization
+  );
+
+  public static readonly RANKINGS = new PageEnum(
+    '/rankings',
+    'Rankings',
+    Rankings
+  );
+
+  public static readonly DEEP_DIVE = new PageEnum(
+    '/deep-dive',
+    'Data Deep Dive',
+    DeepDive
   );
 }
