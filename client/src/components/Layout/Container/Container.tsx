@@ -5,14 +5,12 @@ interface ContainerProps {
   className?: String;
 }
 
-class Container extends React.Component<ContainerProps> {
-  public render() {
-    return (
-      <div className={`${styles.container} ${this.props.className}`}>
-        {this.props.children}
-      </div>
-    );
-  }
-}
+const Container = (props: React.PropsWithChildren<ContainerProps>) => {
+  return (
+    <div className={`${styles.container} ${props.className}`}>
+      {props.children}
+    </div>
+  );
+};
 
 export default Container;

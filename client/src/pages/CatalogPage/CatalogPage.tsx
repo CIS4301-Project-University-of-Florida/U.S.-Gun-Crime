@@ -28,8 +28,8 @@ class CatalogPage extends React.Component {
             <Card hoverable={true} className={styles.card}>
               <Meta
                 title={PageEnum.RANKINGS.title}
-                description={`Which states have it worse when it comes to gun crime? What were the 
-              deadliest gun crimes in this time period?`}
+                description={`What types of guns account for the most fatalities and injuries? 
+                What were the deadliest gun crimes in this time period?`}
               />
             </Card>
           </Link>
@@ -37,8 +37,8 @@ class CatalogPage extends React.Component {
             <Card hoverable={true} className={styles.card}>
               <Meta
                 title={PageEnum.DEEP_DIVE.title}
-                description={`Only interested in seeing a subset of the data? No problem.
-              Filter the data set to get only the info you need.`}
+                description={`Looking to conduct a more specific search? No problem!
+              Use this tool to filter the data set and get the info you need.`}
               />
             </Card>
           </Link>
