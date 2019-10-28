@@ -108,6 +108,14 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.11.1.tgz#1fd7b821f798b7fa29f667a1be8f3442bb8922a3"
   integrity sha512-TJtwsqZ39pqcljJpajeoofYRfeZ7/I/OMUQ5pR4q5wOKf2ocrUvBAZUMhWsOvKx3dVc/aaV5GluBivt0sWqA5A==
 
+"@types/oracledb@^4.0.5":
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/@types/oracledb/-/oracledb-4.0.5.tgz#341e98cffd025c6972431dd330757aaeac5af2ff"
+  integrity sha512-X8VHyK7YBFuV9PwPUOrhPw0SNHAWAifHLkVYhZbHrSFPiObqrypjJwwnQexBA00FKepQb6Sd2+gQswwfmxEobw==
+  dependencies:
+    "@types/node" "*"
+    dotenv "^8.2.0"
+
 "@types/range-parser@*":
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.3.tgz#7ee330ba7caafb98090bece86a5ee44115904c2c"
@@ -1839,6 +1847,11 @@ one-time@0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/one-time/-/one-time-0.0.4.tgz#f8cdf77884826fe4dff93e3a9cc37b1e4480742e"
   integrity sha1-+M33eISCb+Tf+T46nMN7HkSAdC4=
+
+oracledb@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/oracledb/-/oracledb-4.0.1.tgz#1580be9d932a394bfe9cb5f913dfb41b21849cb8"
+  integrity sha512-IHgPS7+7kLHDEGP/L8o3Kh+rSyV6FArX1ob4xcOMc6hWt4EJVSVbHpPIpChGMOgb91x33AAb+kW9lVkqQIwRsg==
 
 os-homedir@^1.0.0:
   version "1.0.2"
