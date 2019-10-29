@@ -1,26 +1,20 @@
 import React from 'react';
 import { Form, Select } from 'antd';
 import { incidentCharacteristics } from 'mockData/MockData';
+import DataForm from './DataForm/DataForm';
 
 const { Option } = Select;
 
 const IncidentForm = () => {
   return (
-    <Form
-      layout="inline"
-      style={{
-        marginBottom: '20px',
-        backgroundColor: '#edf2f5',
-        padding: '20px',
-      }}
-    >
+    <DataForm>
       <h2>Crime Characteristics</h2>
 
-      <Form.Item label="Characteristics" hasFeedback={true}>
+      <Form.Item label="Incident type">
         <Select
           mode="multiple"
           style={{ width: '100%', minWidth: '200px' }}
-          placeholder="Select crime types"
+          placeholder="Select incident types"
           dropdownMatchSelectWidth={false}
         >
           {incidentCharacteristics.map(characteristic => (
@@ -30,7 +24,7 @@ const IncidentForm = () => {
           ))}
         </Select>
       </Form.Item>
-    </Form>
+    </DataForm>
   );
 };
 

@@ -1,43 +1,31 @@
 import React from 'react';
-import { Form, AutoComplete, Input, Select } from 'antd';
+import { Form, Select, Input, Checkbox } from 'antd';
 import { gunTypes } from 'mockData/MockData';
-
+import DataForm from './DataForm/DataForm';
+import SelectSearch from './SelectSearch/SelectSearch';
 const { Option } = Select;
 
 const equalityOptions = ['>=', '>', '=', '<', '<='];
 
 const GunForm = () => {
   return (
-    <Form
-      layout="inline"
-      style={{
-        marginBottom: '20px',
-        backgroundColor: '#edf2f5',
-        padding: '20px',
-      }}
-    >
+    <DataForm>
       <h2>Gun Characteristics</h2>
-      <Form.Item label="Type" hasFeedback={true}>
-        <AutoComplete style={{ width: 200 }} dataSource={gunTypes} />
-      </Form.Item>
-
-      <Form.Item label="Number involved" hasFeedback={true}>
+      <Form.Item label="Types of guns involved">
         <Select
+          mode="multiple"
+          style={{ width: '100%', minWidth: '200px' }}
+          placeholder="Select gun types"
           dropdownMatchSelectWidth={false}
-          suffixIcon={undefined}
-          style={{ width: '60px' }}
         >
-          {equalityOptions.map((option: string) => (
-            <Option key={option} value={option}>
-              {option}
+          {gunTypes.map(type => (
+            <Option key={type} value={type}>
+              {type}
             </Option>
           ))}
         </Select>
-        <Input
-          style={{ width: '60px', marginLeft: '5px', textAlign: 'right' }}
-        />
       </Form.Item>
-    </Form>
+    </DataForm>
   );
 };
 
