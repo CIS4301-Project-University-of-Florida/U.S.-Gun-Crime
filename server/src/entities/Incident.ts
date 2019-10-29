@@ -3,11 +3,11 @@ interface Incident {
   I_DATE: Date;
   N_KILLED: number;
   N_INJURED: number;
-  N_GUNS_INVOLVED: number;
-  NOTES: string;
+  N_GUNS_INVOLVED: number | null;
+  NOTES: string | null;
   LATITUDE: number;
   LONGITUDE: number;
-  SOURCE_URL: string;
+  SOURCE_URL: string | null;
 }
 
 export default Incident;
