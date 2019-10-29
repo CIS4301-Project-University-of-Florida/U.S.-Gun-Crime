@@ -4,3 +4,5 @@ interface Gun {
   TYPE: string | null;
   STOLEN: 0 | 1 | null;
 }
+
+export default Gun;
