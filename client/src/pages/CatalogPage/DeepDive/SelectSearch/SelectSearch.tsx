@@ -15,6 +15,7 @@ class SelectSearch extends React.Component<ISelectSearch> {
         placeholder={this.props.placeholder}
         style={{ width: 200 }}
         allowClear={true}
+        onChange={this.props.onChange}
       >
         {this.props.data.map(element => (
           <Option key={element} value={element}>

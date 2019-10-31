@@ -2,10 +2,13 @@ import React from 'react';
 import { Form, Select } from 'antd';
 import { incidentCharacteristics } from 'mockData/MockData';
 import DataForm from './DataForm/DataForm';
-
 const { Option } = Select;
 
-const IncidentForm = () => {
+interface IncidentFormProps {
+  onCharacteristicChange: (characteristics: string[]) => void;
+}
+
+const IncidentForm = (props: IncidentFormProps) => {
   return (
     <DataForm>
       <h2>Crime Characteristics</h2>
@@ -16,6 +19,7 @@ const IncidentForm = () => {
           style={{ width: '100%', minWidth: '200px' }}
           placeholder="Select incident types"
           dropdownMatchSelectWidth={false}
+          onChange={props.onCharacteristicChange}
         >
           {incidentCharacteristics.map(characteristic => (
             <Option key={characteristic} value={characteristic}>

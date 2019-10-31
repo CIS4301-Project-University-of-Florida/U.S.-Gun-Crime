@@ -8,7 +8,11 @@ class CrimeCard extends React.Component<CardProps> {
     return (
       <Card
         hoverable={true}
-        title={this.props.title}
+        title={
+          <div>
+            <Icon type="calendar" /> {this.props.title}
+          </div>
+        }
         className={styles.crimeCard}
       >
         <div className={styles.crimeCardGrid}>
