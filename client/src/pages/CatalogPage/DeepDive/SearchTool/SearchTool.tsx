@@ -5,9 +5,10 @@ import LocationForm from '../LocationForm';
 import { Button, Icon, Spin } from 'antd';
 import CrimeCard from '../CrimeCard/CrimeCard';
 import { SelectValue } from 'antd/lib/select';
+import axios, { AxiosRequestConfig } from 'axios';
 
 // TODO: add the date range
-interface SearchToolState {
+export interface SearchToolState {
   characteristics: string[];
   numKilled: { equality: string; count: number };
   numInjured: { equality: string; count: number };
@@ -119,16 +120,19 @@ class SearchTool extends React.Component<{}, SearchToolState> {
       console.log(this.state)
     );
 
-    // TODO: pass in state as arguments
-    const response = await fetch('/api/incidents/firstFour');
-    const body = await response.json();
+    try {
+      const request: AxiosRequestConfig = {
+        method: 'post',
+        url: '/api/deepdive',
+        data: this.state,
+      };
 
-    if (response.status !== 200) {
-      throw Error(body.message);
+      const response = await axios(request);
+
+      console.log(response);
+    } catch (error) {
+      // TODO: give user some indication that it failed
     }
-
-    // TODO: do stuff with the data returned
-    console.log(body);
 
     // Spinning indicator stops
     this.setState({ ...this.state, waitingForData: false });
@@ -137,28 +141,34 @@ class SearchTool extends React.Component<{}, SearchToolState> {
   public render() {
     return (
       <div>
-        <IncidentForm
-          onCharacteristicChange={this.onCharacteristicChange}
-          onKilledEqualityChange={this.onKilledEqualityChange}
-          onKillCountChange={this.onKillCountChange}
-          onInjuredEqualityChange={this.onInjuredEqualityChange}
-          onInjuredCountChange={this.onInjuredCountChange}
-        />
-        <GunForm onGunTypeChange={this.onGunTypeChange} />
-        <LocationForm
-          onUSStateChange={this.onUSStateChange}
-          onCityOrCountyChange={this.onCityOrCountyChange}
-          onHouseDistrictChange={this.onHouseDistrictChange}
-          onSenateDistrictChange={this.onSenateDistrictChange}
-        />
-        <Button type="primary" onClick={this.requestGunCrimesFromAPI}>
-          Search database
-        </Button>
-        <Spin
-          spinning={this.state.waitingForData}
-          indicator={<Icon type="loading" />}
-          style={{ marginLeft: '5px' }}
-        />
+        <section>
+          <IncidentForm
+            onCharacteristicChange={this.onCharacteristicChange}
+            onKilledEqualityChange={this.onKilledEqualityChange}
+            onKillCountChange={this.onKillCountChange}
+            onInjuredEqualityChange={this.onInjuredEqualityChange}
+            onInjuredCountChange={this.onInjuredCountChange}
+          />
+          <GunForm onGunTypeChange={this.onGunTypeChange} />
+          <LocationForm
+            onUSStateChange={this.onUSStateChange}
+            onCityOrCountyChange={this.onCityOrCountyChange}
+            onHouseDistrictChange={this.onHouseDistrictChange}
+            onSenateDistrictChange={this.onSenateDistrictChange}
+          />
+          <Button type="primary" onClick={this.requestGunCrimesFromAPI}>
+            Search database
+          </Button>
+          <Spin
+            spinning={this.state.waitingForData}
+            indicator={<Icon type="loading" />}
+            style={{ marginLeft: '5px' }}
+          />
+        </section>
+        {/* TODO: results here */}
+        <section />
+        <div />
+
         {/* TODO: this was only here as a placeholder, replace with results pane */}
         <CrimeCard title="06/18/2016" />
       </div>
