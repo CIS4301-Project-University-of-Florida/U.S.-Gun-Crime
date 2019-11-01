@@ -11,6 +11,7 @@ interface IData {
   characteristics: string[];
   numKilled: { equality: string; count: number };
   numInjured: { equality: string; count: number };
+  dateRange: [string, string];
   gunTypes: string[];
   usState: string;
   cityOrCounty: string;

@@ -3,7 +3,21 @@ import { Form, Select } from 'antd';
 import { incidentCharacteristics } from 'mockData/MockData';
 import DataForm from './DataForm/DataForm';
 import EqualityInput from 'components/EqualityInput/EqualityInput';
+import { DatePicker } from 'antd';
+import { RangePickerValue } from 'antd/lib/date-picker/interface';
+import moment from 'moment';
+
 const { Option } = Select;
+const { RangePicker } = DatePicker;
+
+export const earliestDate = '01/01/2013';
+export const latestDate = '12/31/2018';
+
+const forbiddenDates = (current: moment.Moment | undefined) => {
+  return (
+    !current || current.isBefore(earliestDate) || current.isAfter(latestDate)
+  );
+};
 
 interface IncidentFormProps {
   onCharacteristicChange: (characteristics: string[]) => void;
@@ -11,6 +25,10 @@ interface IncidentFormProps {
   onKillCountChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onInjuredEqualityChange: (value: string) => void;
   onInjuredCountChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onDateRangeChange: (
+    dates: RangePickerValue,
+    dateStrings: [string, string]
+  ) => void;
 }
 
 const IncidentForm = (props: IncidentFormProps) => {
@@ -34,8 +52,6 @@ const IncidentForm = (props: IncidentFormProps) => {
         </Select>
       </Form.Item>
 
-      {/* TODO: make a component that has the equality select + number combo and handle all the logic in there
-        for what should happen if, e.g., < is selected, then the min should be 1 and not 0, and so on */}
       <Form.Item label="Number killed">
         <EqualityInput
           numericalMinimum={0}
@@ -49,6 +65,15 @@ const IncidentForm = (props: IncidentFormProps) => {
           numericalMinimum={0}
           onEqualityChange={props.onInjuredEqualityChange}
           onNumberChange={props.onInjuredCountChange}
+        />
+      </Form.Item>
+
+      <Form.Item label="Time range">
+        <RangePicker
+          onChange={props.onDateRangeChange}
+          format="MM/DD/YYYY"
+          defaultPickerValue={[moment(earliestDate), moment(latestDate)]}
+          disabledDate={forbiddenDates}
         />
       </Form.Item>
     </DataForm>

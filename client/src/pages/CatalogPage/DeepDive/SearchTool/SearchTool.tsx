@@ -7,12 +7,14 @@ import CrimeCard from '../CrimeCard/CrimeCard';
 import { SelectValue } from 'antd/lib/select';
 import axios from 'axios';
 import { equalityDefault } from 'components/EqualityInput/EqualityInput';
+import { RangePickerValue } from 'antd/lib/date-picker/interface';
 
-// TODO: add the date range
+// TODO: add participants
 export interface SearchToolState {
   characteristics: string[];
   numKilled: { equality: string; count: number };
   numInjured: { equality: string; count: number };
+  dateRange: [string, string];
   gunTypes: string[];
   usState: string;
   cityOrCounty: string;
@@ -25,6 +27,7 @@ const initialState: SearchToolState = {
   characteristics: [],
   numKilled: { equality: equalityDefault, count: 0 },
   numInjured: { equality: equalityDefault, count: 0 },
+  dateRange: ['', ''],
   gunTypes: [],
   usState: '',
   cityOrCounty: '',
@@ -78,6 +81,19 @@ class SearchTool extends React.Component<{}, SearchToolState> {
         count: Number(event.target.value),
       },
     });
+  };
+
+  public onDateRangeChange = (
+    dates: RangePickerValue,
+    dateStrings: [string, string]
+  ) => {
+    this.setState(
+      {
+        ...this.state,
+        dateRange: dateStrings,
+      },
+      () => console.log(this.state)
+    );
   };
 
   public onGunTypeChange = (gunTypes: string[]) => {
@@ -142,6 +158,7 @@ class SearchTool extends React.Component<{}, SearchToolState> {
             onKillCountChange={this.onKillCountChange}
             onInjuredEqualityChange={this.onInjuredEqualityChange}
             onInjuredCountChange={this.onInjuredCountChange}
+            onDateRangeChange={this.onDateRangeChange}
           />
           <GunForm onGunTypeChange={this.onGunTypeChange} />
           <LocationForm

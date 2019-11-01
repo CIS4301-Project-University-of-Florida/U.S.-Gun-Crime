@@ -10,7 +10,6 @@ import { DatePicker } from 'antd';
 import DataForm from './DataForm/DataForm';
 import SelectSearch from './SelectSearch/SelectSearch';
 import { SelectValue } from 'antd/lib/select';
-const { RangePicker } = DatePicker;
 
 interface LocationFormProps {
   onUSStateChange: (value: SelectValue | undefined) => void;
@@ -22,7 +21,7 @@ interface LocationFormProps {
 const LocationForm = (props: LocationFormProps) => {
   return (
     <DataForm>
-      <h2>Location & Time</h2>
+      <h2>Location</h2>
       <Form.Item label="State">
         <SelectSearch
           data={states}
@@ -53,10 +52,6 @@ const LocationForm = (props: LocationFormProps) => {
           placeholder="(State level)"
           onChange={props.onSenateDistrictChange}
         />
-      </Form.Item>
-
-      <Form.Item label="Time range">
-        <RangePicker />
       </Form.Item>
     </DataForm>
   );
