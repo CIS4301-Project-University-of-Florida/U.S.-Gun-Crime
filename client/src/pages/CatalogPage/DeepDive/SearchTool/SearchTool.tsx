@@ -5,7 +5,8 @@ import LocationForm from '../LocationForm';
 import { Button, Icon, Spin } from 'antd';
 import CrimeCard from '../CrimeCard/CrimeCard';
 import { SelectValue } from 'antd/lib/select';
-import axios, { AxiosRequestConfig } from 'axios';
+import axios from 'axios';
+import { equalityDefault } from 'components/EqualityInput/EqualityInput';
 
 // TODO: add the date range
 export interface SearchToolState {
@@ -22,8 +23,8 @@ export interface SearchToolState {
 
 const initialState: SearchToolState = {
   characteristics: [],
-  numKilled: { equality: '=', count: 0 },
-  numInjured: { equality: '=', count: 0 },
+  numKilled: { equality: equalityDefault, count: 0 },
+  numInjured: { equality: equalityDefault, count: 0 },
   gunTypes: [],
   usState: '',
   cityOrCounty: '',
@@ -121,15 +122,8 @@ class SearchTool extends React.Component<{}, SearchToolState> {
     );
 
     try {
-      const request: AxiosRequestConfig = {
-        method: 'post',
-        url: '/api/deepdive',
-        data: this.state,
-      };
-
-      const response = await axios(request);
-
-      console.log(response);
+      const response = await axios.post('/api/deepdive', this.state);
+      console.log(response.data);
     } catch (error) {
       // TODO: give user some indication that it failed
     }

@@ -4,6 +4,7 @@ import styles from './EqualityInput.module.less';
 const { Option } = Select;
 
 const equalityOptions = ['>=', '>', '=', '<', '<='];
+export const equalityDefault = '>=';
 
 interface EqualityInputProps {
   onEqualityChange: (value: string) => void;
@@ -29,7 +30,7 @@ class EqualityInput extends React.Component<EqualityInputProps> {
       <div className={styles.equalityInput}>
         <Select
           onChange={this.props.onEqualityChange}
-          defaultValue={'='}
+          defaultValue={equalityDefault}
           className={styles.select}
         >
           {equalityOptions.map((option: string) => (
@@ -42,6 +43,7 @@ class EqualityInput extends React.Component<EqualityInputProps> {
           type="number"
           min={this.props.numericalMinimum}
           onChange={this.onNumberChange}
+          defaultValue={this.props.numericalMinimum}
         />
       </div>
     );
