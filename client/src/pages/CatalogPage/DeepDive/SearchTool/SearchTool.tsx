@@ -96,26 +96,20 @@ class SearchTool extends React.Component<{}, SearchToolState> {
   };
 
   public onGunCountEqualityChange = (equality: string) => {
-    this.setState(
-      {
-        ...this.state,
-        numGuns: { equality, count: this.state.numGuns.count },
-      },
-      () => console.log(this.state)
-    );
+    this.setState({
+      ...this.state,
+      numGuns: { equality, count: this.state.numGuns.count },
+    });
   };
 
   public onGunCountChange = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState(
-      {
-        ...this.state,
-        numGuns: {
-          equality: this.state.numGuns.equality,
-          count: Number(event.target.value),
-        },
+    this.setState({
+      ...this.state,
+      numGuns: {
+        equality: this.state.numGuns.equality,
+        count: Number(event.target.value),
       },
-      () => console.log(this.state)
-    );
+    });
   };
 
   public onGunTypeChange = (gunTypes: string[]) => {
