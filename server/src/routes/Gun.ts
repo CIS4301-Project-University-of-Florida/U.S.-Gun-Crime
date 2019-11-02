@@ -7,14 +7,12 @@ import query from 'src/query/query';
 const router = Router();
 
 /**
- * Returns all distinct characteristics that an incident may have.
+ * Returns all gun types.
  */
-router.get('/characteristics', async (req: Request, res: Response) => {
+router.get('/types', async (req: Request, res: Response) => {
   try {
-    const characteristics = await query(
-      `SELECT DISTINCT incident_characteristic FROM IncidentCharacteristic ORDER BY incident_characteristic`
-    );
-    return res.status(OK).json(characteristics);
+    const types = await query(`SELECT DISTINCT type FROM Gun ORDER BY type`);
+    return res.status(OK).json(types);
   } catch (err) {
     logger.error(err.message, err);
     return res.status(BAD_REQUEST).json({

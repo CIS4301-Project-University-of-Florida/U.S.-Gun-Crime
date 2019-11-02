@@ -4,7 +4,6 @@ import SelectSearch from 'components/Forms/SelectSearch/SelectSearch';
 import { SelectValue } from 'antd/lib/select';
 import FormField from 'components/Forms/FormField/FormField';
 import axios from 'axios';
-import { Spin } from 'antd';
 import LoadingSpin from 'components/LoadingSpin/LoadingSpin';
 
 interface LocationFormProps {
