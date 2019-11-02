@@ -6,7 +6,7 @@ import { Button, Icon, Spin } from 'antd';
 import CrimeCard from '../CrimeCard/CrimeCard';
 import { SelectValue } from 'antd/lib/select';
 import axios from 'axios';
-import { equalityDefault } from 'components/EqualityInput/EqualityInput';
+import { equalityDefault } from 'components/Forms/EqualityInput/EqualityInput';
 import { RangePickerValue } from 'antd/lib/date-picker/interface';
 
 // TODO: add participants

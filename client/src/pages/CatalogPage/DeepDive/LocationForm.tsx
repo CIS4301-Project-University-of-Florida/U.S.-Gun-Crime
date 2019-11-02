@@ -6,9 +6,9 @@ import {
   houseDistricts,
 } from 'mockData/MockData';
 import DataForm from './DataForm/DataForm';
-import SelectSearch from './SelectSearch/SelectSearch';
+import SelectSearch from 'components/Forms/SelectSearch/SelectSearch';
 import { SelectValue } from 'antd/lib/select';
-import FormField from 'components/FormField/FormField';
+import FormField from 'components/Forms/FormField/FormField';
 
 interface LocationFormProps {
   onUSStateChange: (value: SelectValue | undefined) => void;

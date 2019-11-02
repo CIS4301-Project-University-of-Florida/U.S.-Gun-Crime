@@ -1,10 +1,9 @@
 import React, { ChangeEvent } from 'react';
-import { Select } from 'antd';
 import { gunTypes } from 'mockData/MockData';
 import DataForm from './DataForm/DataForm';
-import EqualityInput from 'components/EqualityInput/EqualityInput';
-import FormField from 'components/FormField/FormField';
-const { Option } = Select;
+import EqualityInput from 'components/Forms/EqualityInput/EqualityInput';
+import FormField from 'components/Forms/FormField/FormField';
+import MultiSelect from 'components/Forms/MultiSelect/MultiSelect';
 
 interface GunFormProps {
   onGunTypeChange: (gunTypes: string[]) => void;
@@ -26,19 +25,12 @@ const GunForm = (props: GunFormProps) => {
         />
       </FormField>
       <FormField label="Gun types">
-        <Select
-          mode="multiple"
-          style={{ width: '100%', minWidth: '200px' }}
+        <MultiSelect
+          style={{ minWidth: '200px' }}
           placeholder="Select gun types"
-          dropdownMatchSelectWidth={false}
           onChange={props.onGunTypeChange}
-        >
-          {gunTypes.map(type => (
-            <Option key={type} value={type}>
-              {type}
-            </Option>
-          ))}
-        </Select>
+          data={gunTypes}
+        />
       </FormField>
     </DataForm>
   );

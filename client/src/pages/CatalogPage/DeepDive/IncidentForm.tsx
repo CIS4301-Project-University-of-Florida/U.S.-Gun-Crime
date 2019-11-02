@@ -2,11 +2,12 @@ import React, { ChangeEvent } from 'react';
 import { Select } from 'antd';
 import { incidentCharacteristics } from 'mockData/MockData';
 import DataForm from './DataForm/DataForm';
-import EqualityInput from 'components/EqualityInput/EqualityInput';
+import EqualityInput from 'components/Forms/EqualityInput/EqualityInput';
 import { DatePicker } from 'antd';
 import { RangePickerValue } from 'antd/lib/date-picker/interface';
 import moment from 'moment';
-import FormField from 'components/FormField/FormField';
+import FormField from 'components/Forms/FormField/FormField';
+import MultiSelect from 'components/Forms/MultiSelect/MultiSelect';
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -38,19 +39,12 @@ const IncidentForm = (props: IncidentFormProps) => {
       <h2>Crime Characteristics</h2>
 
       <FormField label="Incident type">
-        <Select
-          mode="multiple"
-          style={{ width: '100%', minWidth: '200px' }}
+        <MultiSelect
+          style={{ minWidth: '200px' }}
           placeholder="Select incident types"
-          dropdownMatchSelectWidth={false}
+          data={incidentCharacteristics}
           onChange={props.onCharacteristicChange}
-        >
-          {incidentCharacteristics.map(characteristic => (
-            <Option key={characteristic} value={characteristic}>
-              {characteristic}
-            </Option>
-          ))}
-        </Select>
+        />
       </FormField>
 
       <FormField label="Number killed">
