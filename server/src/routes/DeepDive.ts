@@ -63,8 +63,8 @@ router.post('', async (req: Request, res: Response) => {
         ? `AND type IN (${quoteAndSeparateWithCommas(data.gunTypes)})`
         : ''
     }
-    ${data.usState ? `AND state=${data.usState})` : ''}
-    ${data.cityOrCounty ? `AND city_or_county=${data.cityOrCounty}` : ''}
+    ${data.usState ? `AND state='${data.usState}'` : ''}
+    ${data.cityOrCounty ? `AND city_or_county='${data.cityOrCounty}'` : ''}
     ${data.houseDistrict ? `AND house_district=${data.houseDistrict}` : ''}
     ${data.senateDistrict ? `AND senate_district=${data.senateDistrict}` : ''}
   `;

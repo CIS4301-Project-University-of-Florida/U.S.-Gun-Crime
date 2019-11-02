@@ -11,7 +11,9 @@ const router = Router();
  */
 router.get('/states', async (req: Request, res: Response) => {
   try {
-    const states = await query(`SELECT DISTINCT state FROM Location`);
+    const states = await query(
+      `SELECT DISTINCT state FROM Location ORDER BY state`
+    );
     return res.status(OK).json(states);
   } catch (err) {
     logger.error(err.message, err);
@@ -24,10 +26,10 @@ router.get('/states', async (req: Request, res: Response) => {
 /**
  * Returns all cities/counties in which gun crimes can occur.
  */
-router.get('/citiesOrCounties', async (req: Request, res: Response) => {
+router.get('/citiesAndCounties', async (req: Request, res: Response) => {
   try {
     const citiesOrCounties = await query(
-      `SELECT DISTINCT city_or_county FROM Location`
+      `SELECT DISTINCT city_or_county FROM Location ORDER BY city_or_county`
     );
     return res.status(OK).json(citiesOrCounties);
   } catch (err) {
@@ -44,7 +46,7 @@ router.get('/citiesOrCounties', async (req: Request, res: Response) => {
 router.get('/houseDistricts', async (req: Request, res: Response) => {
   try {
     const houseDistricts = await query(
-      `SELECT DISTINCT state_house_district FROM Location`
+      `SELECT DISTINCT state_house_district FROM Location ORDER BY state_house_district`
     );
     return res.status(OK).json(houseDistricts);
   } catch (err) {
@@ -61,7 +63,7 @@ router.get('/houseDistricts', async (req: Request, res: Response) => {
 router.get('/senateDistricts', async (req: Request, res: Response) => {
   try {
     const senateDistricts = await query(
-      `SELECT DISTINCT state_senate_district FROM Location`
+      `SELECT DISTINCT state_senate_district FROM Location ORDER BY state_senate_district`
     );
     return res.status(OK).json(senateDistricts);
   } catch (err) {

@@ -7,6 +7,7 @@ import moment from 'moment';
 import FormField from 'components/Forms/FormField/FormField';
 import MultiSelect from 'components/Forms/MultiSelect/MultiSelect';
 import axios from 'axios';
+import LoadingSpin from 'components/LoadingSpin/LoadingSpin';
 
 const { RangePicker } = DatePicker;
 
@@ -74,9 +75,11 @@ class IncidentForm extends React.Component<
           <MultiSelect
             style={{ minWidth: '200px' }}
             placeholder={
-              this.state.waitingForIncidentData
-                ? 'Loading data...'
-                : 'Select incident types'
+              this.state.waitingForIncidentData ? (
+                <LoadingSpin />
+              ) : (
+                'Select incident types'
+              )
             }
             data={this.state.incidentCharacteristics}
             disabled={this.state.waitingForIncidentData}
