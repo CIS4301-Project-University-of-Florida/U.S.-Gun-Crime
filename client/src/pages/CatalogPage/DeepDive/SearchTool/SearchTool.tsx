@@ -15,6 +15,7 @@ export interface SearchToolState {
   numKilled: { equality: string; count: number };
   numInjured: { equality: string; count: number };
   dateRange: [string, string];
+  numGuns: { equality: string; count: number };
   gunTypes: string[];
   usState: string;
   cityOrCounty: string;
@@ -28,6 +29,7 @@ const initialState: SearchToolState = {
   numKilled: { equality: equalityDefault, count: 0 },
   numInjured: { equality: equalityDefault, count: 0 },
   dateRange: ['', ''],
+  numGuns: { equality: equalityDefault, count: 0 },
   gunTypes: [],
   usState: '',
   cityOrCounty: '',
@@ -87,10 +89,30 @@ class SearchTool extends React.Component<{}, SearchToolState> {
     dates: RangePickerValue,
     dateStrings: [string, string]
   ) => {
+    this.setState({
+      ...this.state,
+      dateRange: dateStrings,
+    });
+  };
+
+  public onGunCountEqualityChange = (equality: string) => {
     this.setState(
       {
         ...this.state,
-        dateRange: dateStrings,
+        numGuns: { equality, count: this.state.numGuns.count },
+      },
+      () => console.log(this.state)
+    );
+  };
+
+  public onGunCountChange = (event: ChangeEvent<HTMLInputElement>) => {
+    this.setState(
+      {
+        ...this.state,
+        numGuns: {
+          equality: this.state.numGuns.equality,
+          count: Number(event.target.value),
+        },
       },
       () => console.log(this.state)
     );
@@ -160,7 +182,11 @@ class SearchTool extends React.Component<{}, SearchToolState> {
             onInjuredCountChange={this.onInjuredCountChange}
             onDateRangeChange={this.onDateRangeChange}
           />
-          <GunForm onGunTypeChange={this.onGunTypeChange} />
+          <GunForm
+            onGunCountEqualityChange={this.onGunCountEqualityChange}
+            onGunCountChange={this.onGunCountChange}
+            onGunTypeChange={this.onGunTypeChange}
+          />
           <LocationForm
             onUSStateChange={this.onUSStateChange}
             onCityOrCountyChange={this.onCityOrCountyChange}
