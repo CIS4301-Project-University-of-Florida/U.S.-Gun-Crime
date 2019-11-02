@@ -1,11 +1,12 @@
 import React, { ChangeEvent } from 'react';
-import { Form, Select } from 'antd';
+import { Select } from 'antd';
 import { incidentCharacteristics } from 'mockData/MockData';
 import DataForm from './DataForm/DataForm';
 import EqualityInput from 'components/EqualityInput/EqualityInput';
 import { DatePicker } from 'antd';
 import { RangePickerValue } from 'antd/lib/date-picker/interface';
 import moment from 'moment';
+import FormField from 'components/FormField/FormField';
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -36,7 +37,7 @@ const IncidentForm = (props: IncidentFormProps) => {
     <DataForm>
       <h2>Crime Characteristics</h2>
 
-      <Form.Item label="Incident type">
+      <FormField label="Incident type">
         <Select
           mode="multiple"
           style={{ width: '100%', minWidth: '200px' }}
@@ -50,32 +51,32 @@ const IncidentForm = (props: IncidentFormProps) => {
             </Option>
           ))}
         </Select>
-      </Form.Item>
+      </FormField>
 
-      <Form.Item label="Number killed">
+      <FormField label="Number killed">
         <EqualityInput
           numericalMinimum={0}
           onEqualityChange={props.onKilledEqualityChange}
           onNumberChange={props.onKillCountChange}
         />
-      </Form.Item>
+      </FormField>
 
-      <Form.Item label="Number injured">
+      <FormField label="Number injured">
         <EqualityInput
           numericalMinimum={0}
           onEqualityChange={props.onInjuredEqualityChange}
           onNumberChange={props.onInjuredCountChange}
         />
-      </Form.Item>
+      </FormField>
 
-      <Form.Item label="Time range">
+      <FormField label="Time range">
         <RangePicker
           onChange={props.onDateRangeChange}
           format="MM/DD/YYYY"
           defaultPickerValue={[moment(earliestDate), moment(latestDate)]}
           disabledDate={forbiddenDates}
         />
-      </Form.Item>
+      </FormField>
     </DataForm>
   );
 };

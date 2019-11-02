@@ -1,8 +1,9 @@
 import React, { ChangeEvent } from 'react';
-import { Form, Select } from 'antd';
+import { Select } from 'antd';
 import { gunTypes } from 'mockData/MockData';
 import DataForm from './DataForm/DataForm';
 import EqualityInput from 'components/EqualityInput/EqualityInput';
+import FormField from 'components/FormField/FormField';
 const { Option } = Select;
 
 interface GunFormProps {
@@ -17,14 +18,14 @@ const GunForm = (props: GunFormProps) => {
   return (
     <DataForm>
       <h2>Guns Involved</h2>
-      <Form.Item label="Number">
+      <FormField label="Number">
         <EqualityInput
           onEqualityChange={props.onGunCountEqualityChange}
           onNumberChange={props.onGunCountChange}
           numericalMinimum={0}
         />
-      </Form.Item>
-      <Form.Item label="Gun types">
+      </FormField>
+      <FormField label="Gun types">
         <Select
           mode="multiple"
           style={{ width: '100%', minWidth: '200px' }}
@@ -38,7 +39,7 @@ const GunForm = (props: GunFormProps) => {
             </Option>
           ))}
         </Select>
-      </Form.Item>
+      </FormField>
     </DataForm>
   );
 };
