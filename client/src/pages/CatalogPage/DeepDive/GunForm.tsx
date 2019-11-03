@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import DataForm from './DataForm/DataForm';
+import DataForm from 'components/Forms/DataForm/DataForm';
 import EqualityInput from 'components/Forms/EqualityInput/EqualityInput';
 import FormField from 'components/Forms/FormField/FormField';
 import MultiSelect from 'components/Forms/MultiSelect/MultiSelect';

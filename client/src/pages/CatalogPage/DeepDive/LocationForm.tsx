@@ -1,5 +1,5 @@
 import React from 'react';
-import DataForm from './DataForm/DataForm';
+import DataForm from 'components/Forms/DataForm/DataForm';
 import SelectSearch from 'components/Forms/SelectSearch/SelectSearch';
 import { SelectValue } from 'antd/lib/select';
 import FormField from 'components/Forms/FormField/FormField';

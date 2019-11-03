@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
-import DataForm from './DataForm/DataForm';
+import DataForm from 'components/Forms/DataForm/DataForm';
 import EqualityInput from 'components/Forms/EqualityInput/EqualityInput';
-import { DatePicker, Spin } from 'antd';
+import { DatePicker } from 'antd';
 import { RangePickerValue } from 'antd/lib/date-picker/interface';
 import moment from 'moment';
 import FormField from 'components/Forms/FormField/FormField';
