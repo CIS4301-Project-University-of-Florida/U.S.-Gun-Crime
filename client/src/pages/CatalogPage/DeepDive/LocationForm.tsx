@@ -177,7 +177,7 @@ class LocationForm extends React.Component<
         </FormField>
 
         {/* TODO: implement windowing to reduce lag */}
-        <FormField label="City">
+        <FormField label="City/county">
           <SelectSearch
             data={this.state.citiesAndCounties}
             disabled={this.state.waitingForCityCountyData}
