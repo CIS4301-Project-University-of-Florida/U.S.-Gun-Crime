@@ -5,23 +5,6 @@ import { Link } from 'react-router-dom';
 import { PageEnum } from 'pages/PageEnum';
 
 class HomePage extends React.Component {
-  // TODO: remove, this is only for demo purposes
-  private callApi = async () => {
-    const response = await fetch('/api/incidents/firstFour');
-    const body = await response.json();
-    if (response.status !== 200) {
-      throw Error(body.message);
-    }
-
-    return body;
-  };
-
-  // TODO: remove, see above
-  public componentDidMount() {
-    // tslint:disable-next-line: no-console
-    this.callApi().then(value => console.log(value));
-  }
-
   public render() {
     return (
       <Page title={PageEnum.HOME.title}>
