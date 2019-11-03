@@ -8,6 +8,7 @@ import { SelectValue } from 'antd/lib/select';
 import axios from 'axios';
 import { equalityDefault } from 'components/Forms/EqualityInput/EqualityInput';
 import { RangePickerValue } from 'antd/lib/date-picker/interface';
+import ParticipantForm from '../ParticipantForm';
 
 // TODO: add participants
 export interface SearchToolState {
@@ -181,6 +182,7 @@ class SearchTool extends React.Component<{}, SearchToolState> {
             onGunCountChange={this.onGunCountChange}
             onGunTypeChange={this.onGunTypeChange}
           />
+          <ParticipantForm />
           <LocationForm
             onUSStateChange={this.onUSStateChange}
             onCityOrCountyChange={this.onCityOrCountyChange}

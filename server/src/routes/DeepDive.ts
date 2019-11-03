@@ -36,6 +36,7 @@ router.post('', async (req: Request, res: Response) => {
   console.log(data);
 
   // TODO: return multi-valued attributes; squash duplicate incidents into one in the frontend maybe?
+  // TODO: add participants
   const queryString = `
     SELECT DISTINCT Incident.id, i_date, n_killed, n_injured, 
     Incident.latitude, Incident.longitude, state, city_or_county, state_house_district, state_senate_district, notes, source_url
