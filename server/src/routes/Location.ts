@@ -24,6 +24,23 @@ router.get('/states', async (req: Request, res: Response) => {
 });
 
 /**
+ * Returns all cities/counties for the specified state.
+ */
+router.get('/:state/citiesAndCounties', async (req: Request, res: Response) => {
+  try {
+    const citiesOrCounties = await query(
+      `SELECT DISTINCT city_or_county FROM Location WHERE state='${req.params.state}' ORDER BY city_or_county`
+    );
+    return res.status(OK).json(citiesOrCounties);
+  } catch (err) {
+    logger.error(err.message, err);
+    return res.status(BAD_REQUEST).json({
+      error: err.message,
+    });
+  }
+});
+
+/**
  * Returns all cities/counties in which gun crimes can occur.
  */
 router.get('/citiesAndCounties', async (req: Request, res: Response) => {
@@ -41,6 +58,23 @@ router.get('/citiesAndCounties', async (req: Request, res: Response) => {
 });
 
 /**
+ * Returns all house districts for the given state.
+ */
+router.get('/:state/houseDistricts', async (req: Request, res: Response) => {
+  try {
+    const houseDistricts = await query(
+      `SELECT DISTINCT state_house_district FROM Location WHERE state='${req.params.state}' ORDER BY state_house_district`
+    );
+    return res.status(OK).json(houseDistricts);
+  } catch (err) {
+    logger.error(err.message, err);
+    return res.status(BAD_REQUEST).json({
+      error: err.message,
+    });
+  }
+});
+
+/**
  * Returns all house districts in which gun crimes can occur.
  */
 router.get('/houseDistricts', async (req: Request, res: Response) => {
@@ -49,6 +83,23 @@ router.get('/houseDistricts', async (req: Request, res: Response) => {
       `SELECT DISTINCT state_house_district FROM Location ORDER BY state_house_district`
     );
     return res.status(OK).json(houseDistricts);
+  } catch (err) {
+    logger.error(err.message, err);
+    return res.status(BAD_REQUEST).json({
+      error: err.message,
+    });
+  }
+});
+
+/**
+ * Returns all senate districts for the given state.
+ */
+router.get('/:state/senateDistricts', async (req: Request, res: Response) => {
+  try {
+    const senateDistricts = await query(
+      `SELECT DISTINCT state_senate_district FROM Location WHERE state='${req.params.state}' ORDER BY state_senate_district`
+    );
+    return res.status(OK).json(senateDistricts);
   } catch (err) {
     logger.error(err.message, err);
     return res.status(BAD_REQUEST).json({

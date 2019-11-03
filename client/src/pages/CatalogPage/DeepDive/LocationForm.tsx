@@ -62,9 +62,11 @@ class LocationForm extends React.Component<
     } catch (error) {}
   };
 
-  private fetchCityAndCountyData = async () => {
+  private fetchCityAndCountyData = async (state?: string) => {
     try {
-      const response = await axios.get('/api/location/citiesAndCounties');
+      const response = await axios.get(
+        `/api/location/${state ? `${state}/` : ''}citiesAndCounties`
+      );
 
       const citiesAndCounties: string[] = [];
       response.data.forEach((c: { CITY_OR_COUNTY: string }) =>
@@ -79,9 +81,11 @@ class LocationForm extends React.Component<
     } catch (error) {}
   };
 
-  private fetchHouseDistrictData = async () => {
+  private fetchHouseDistrictData = async (state?: string) => {
     try {
-      const response = await axios.get('/api/location/houseDistricts');
+      const response = await axios.get(
+        `/api/location/${state ? `${state}/` : ''}houseDistricts`
+      );
 
       const houseDistricts: string[] = [];
       response.data.forEach((h: { STATE_HOUSE_DISTRICT: string }) =>
@@ -96,9 +100,11 @@ class LocationForm extends React.Component<
     } catch (error) {}
   };
 
-  private fetchSenateDistrictData = async () => {
+  private fetchSenateDistrictData = async (state?: string) => {
     try {
-      const response = await axios.get('/api/location/senateDistricts');
+      const response = await axios.get(
+        `/api/location/${state ? `${state}/` : ''}senateDistricts`
+      );
 
       const senateDistricts: string[] = [];
       response.data.forEach((s: { STATE_SENATE_DISTRICT: string }) =>
@@ -111,6 +117,43 @@ class LocationForm extends React.Component<
         senateDistricts,
       });
     } catch (error) {}
+  };
+
+  /**
+   * Called when the user selects a state. Passes the call up to
+   * the parent component where the form data is maintained. In
+   * addition, it re-fetches city data for this specific state.
+   */
+  private onUSStateChange = (state: SelectValue | undefined) => {
+    // See SearchTool.tsx
+    this.props.onUSStateChange(state);
+
+    // We'll refetch all this data to help users so they don't
+    // select the wrong information for a state
+    this.setState({
+      ...this.state,
+      waitingForCityCountyData: true,
+      waitingForHouseDistrictData: true,
+      waitingForSenateDistrictData: true,
+      citiesAndCounties: [],
+      houseDistricts: [],
+      senateDistricts: [],
+    });
+
+    // If the user selected a state, re-fetch city/house/senate data
+    // for this particular state
+    if (state) {
+      const s = state.toString();
+      this.fetchCityAndCountyData(s);
+      this.fetchHouseDistrictData(s);
+      this.fetchSenateDistrictData(s);
+    } else {
+      // Reset the dropdowns to all available data if no state
+      // (which happens when the user) de-selects a state
+      this.fetchCityAndCountyData();
+      this.fetchHouseDistrictData();
+      this.fetchSenateDistrictData();
+    }
   };
 
   public render() {
@@ -129,7 +172,7 @@ class LocationForm extends React.Component<
                 'Select a state...'
               )
             }
-            onChange={this.props.onUSStateChange}
+            onChange={this.onUSStateChange}
           />
         </FormField>
 
