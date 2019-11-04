@@ -14,6 +14,13 @@ interface IData {
   dateRange: [string, string];
   numGuns: { equality: string; count: number };
   gunTypes: string[];
+  participant: {
+    gender: string;
+    age: { equality: string; count: number };
+    type: string;
+    status: string;
+    relationship: string;
+  };
   usState: string;
   cityOrCounty: string;
   houseDistrict: string;
@@ -34,6 +41,11 @@ router.post('', async (req: Request, res: Response) => {
 
   logger.info('/api/deepDive endpoint received this data:');
   console.log(data);
+
+  const participantQuery = `
+    SELECT *
+    FROM Participant WHERE (${data.participant});
+  `;
 
   // TODO: return multi-valued attributes; squash duplicate incidents into one in the frontend maybe?
   // TODO: add participants

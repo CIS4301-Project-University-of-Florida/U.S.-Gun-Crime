@@ -17,6 +17,7 @@ class EqualityInput extends React.Component<EqualityInputProps> {
     super(props);
   }
 
+  // TODO: handle clearing here.. pass up the minimum
   private onNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (Number(event.target.value) < this.props.numericalMinimum) {
       event.preventDefault();

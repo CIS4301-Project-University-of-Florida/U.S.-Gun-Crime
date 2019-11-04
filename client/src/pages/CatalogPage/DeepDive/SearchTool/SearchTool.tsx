@@ -8,7 +8,9 @@ import { SelectValue } from 'antd/lib/select';
 import axios from 'axios';
 import { equalityDefault } from 'components/Forms/EqualityInput/EqualityInput';
 import { RangePickerValue } from 'antd/lib/date-picker/interface';
-import ParticipantForm from '../ParticipantForm';
+import ParticipantForm from '../../ParticipantForm/ParticipantForm';
+import Participant from 'pages/CatalogPage/ParticipantForm/Participant';
+import { ANY_OPTION } from '../AnyOption';
 
 // TODO: add participants
 export interface SearchToolState {
@@ -18,6 +20,7 @@ export interface SearchToolState {
   dateRange: [string, string];
   numGuns: { equality: string; count: number };
   gunTypes: string[];
+  participant: Participant;
   usState: string;
   cityOrCounty: string;
   houseDistrict: string;
@@ -32,6 +35,13 @@ const initialState: SearchToolState = {
   dateRange: ['', ''],
   numGuns: { equality: equalityDefault, count: 0 },
   gunTypes: [],
+  participant: {
+    gender: ANY_OPTION,
+    age: { equality: equalityDefault, count: 0 },
+    type: '',
+    status: '',
+    relationship: '',
+  },
   usState: '',
   cityOrCounty: '',
   houseDistrict: '',
@@ -120,6 +130,54 @@ class SearchTool extends React.Component<{}, SearchToolState> {
     });
   };
 
+  public onParticipantGenderChange = (gender: string) => {
+    this.setState({
+      ...this.state,
+      participant: { ...this.state.participant, gender },
+    });
+  };
+
+  public onParticipantAgeEqualityChange = (equality: string) => {
+    this.setState({
+      ...this.state,
+      participant: {
+        ...this.state.participant,
+        age: { ...this.state.participant.age, equality },
+      },
+    });
+  };
+
+  public onParticipantAgeValueChange = (age: number) => {
+    this.setState({
+      ...this.state,
+      participant: {
+        ...this.state.participant,
+        age: { ...this.state.participant.age, count: age },
+      },
+    });
+  };
+
+  public onParticipantTypeChange = (type: string) => {
+    this.setState({
+      ...this.state,
+      participant: { ...this.state.participant, type },
+    });
+  };
+
+  public onParticipantStatusChange = (status: string) => {
+    this.setState({
+      ...this.state,
+      participant: { ...this.state.participant, status },
+    });
+  };
+
+  public onParticipantRelationshipChange = (relationship: string) => {
+    this.setState({
+      ...this.state,
+      participant: { ...this.state.participant, relationship },
+    });
+  };
+
   public onUSStateChange = (usState: SelectValue | undefined) => {
     this.setState({
       ...this.state,
@@ -182,7 +240,16 @@ class SearchTool extends React.Component<{}, SearchToolState> {
             onGunCountChange={this.onGunCountChange}
             onGunTypeChange={this.onGunTypeChange}
           />
-          <ParticipantForm />
+          <ParticipantForm
+            onParticipantGenderChange={this.onParticipantGenderChange}
+            onParticipantAgeEqualityChange={this.onParticipantAgeEqualityChange}
+            onParticipantAgeValueChange={this.onParticipantAgeValueChange}
+            onParticipantTypeChange={this.onParticipantTypeChange}
+            onParticipantStatusChange={this.onParticipantStatusChange}
+            onParticipantRelationshipChange={
+              this.onParticipantRelationshipChange
+            }
+          />
           <LocationForm
             onUSStateChange={this.onUSStateChange}
             onCityOrCountyChange={this.onCityOrCountyChange}

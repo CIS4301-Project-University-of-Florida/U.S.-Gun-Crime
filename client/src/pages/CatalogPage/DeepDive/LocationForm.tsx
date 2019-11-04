@@ -163,6 +163,7 @@ class LocationForm extends React.Component<
 
         <FormField label="State">
           <SelectSearch
+            style={{ minWidth: '200px' }}
             data={this.state.states}
             disabled={this.state.waitingForStateData}
             placeholder={
@@ -179,6 +180,7 @@ class LocationForm extends React.Component<
         {/* TODO: implement windowing to reduce lag */}
         <FormField label="City/county">
           <SelectSearch
+            style={{ minWidth: '300px' }}
             data={this.state.citiesAndCounties}
             disabled={this.state.waitingForCityCountyData}
             placeholder={
@@ -194,6 +196,7 @@ class LocationForm extends React.Component<
 
         <FormField label="House district">
           <SelectSearch
+            style={{ minWidth: '180px' }}
             data={this.state.houseDistricts}
             disabled={this.state.waitingForHouseDistrictData}
             placeholder={
@@ -209,6 +212,7 @@ class LocationForm extends React.Component<
 
         <FormField label="Senate district">
           <SelectSearch
+            style={{ minWidth: '180px' }}
             data={this.state.senateDistricts}
             disabled={this.state.waitingForSenateDistrictData}
             placeholder={
