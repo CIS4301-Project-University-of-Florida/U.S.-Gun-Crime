@@ -20,7 +20,7 @@ export interface SearchToolState {
   dateRange: [string, string];
   numGuns: { equality: string; count: number };
   gunTypes: string[];
-  participant: Participant;
+  participant: Participant & { qualifier: string };
   usState: string;
   cityOrCounty: string;
   houseDistrict: string;
@@ -36,6 +36,7 @@ const initialState: SearchToolState = {
   numGuns: { equality: equalityDefault, count: 0 },
   gunTypes: [],
   participant: {
+    qualifier: 'any',
     gender: ANY_OPTION,
     age: { equality: equalityDefault, count: 0 },
     type: '',
@@ -127,6 +128,13 @@ class SearchTool extends React.Component<{}, SearchToolState> {
     this.setState({
       ...this.state,
       gunTypes,
+    });
+  };
+
+  public onParticipantQualifierChange = (qualifier: string) => {
+    this.setState({
+      ...this.state,
+      participant: { ...this.state.participant, qualifier },
     });
   };
 
@@ -241,6 +249,7 @@ class SearchTool extends React.Component<{}, SearchToolState> {
             onGunTypeChange={this.onGunTypeChange}
           />
           <ParticipantForm
+            onParticipantQualifierChange={this.onParticipantQualifierChange}
             onParticipantGenderChange={this.onParticipantGenderChange}
             onParticipantAgeEqualityChange={this.onParticipantAgeEqualityChange}
             onParticipantAgeValueChange={this.onParticipantAgeValueChange}

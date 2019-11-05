@@ -9,8 +9,10 @@ import EqualityInput from 'components/Forms/EqualityInput/EqualityInput';
 import { SelectValue } from 'antd/lib/select';
 import { RadioChangeEvent } from 'antd/lib/radio';
 import SelectSearch from 'components/Forms/SelectSearch/SelectSearch';
+import styles from './ParticipantForm.module.less';
 
 interface ParticipantFormProps {
+  onParticipantQualifierChange: (qualifier: string) => void;
   onParticipantGenderChange: (gender: string) => void;
   onParticipantAgeEqualityChange: (equality: string) => void;
   onParticipantAgeValueChange: (age: number) => void;
@@ -128,6 +130,10 @@ class ParticipantForm extends React.Component<
     }
   };
 
+  private onQualifierChange = (event: SelectValue) => {
+    this.props.onParticipantQualifierChange(event.toString());
+  };
+
   private onGenderChange = (event: RadioChangeEvent) => {
     const gender = event.target.value;
     this.props.onParticipantGenderChange(gender === ANY_OPTION ? '' : gender);
@@ -159,71 +165,85 @@ class ParticipantForm extends React.Component<
   public render() {
     return (
       <DataForm>
-        <h2>Participants Involved</h2>
+        <h2>Participants</h2>
 
-        {/* TODO: add text for "Crimes involving [only/any] participants with these characteristics:" */}
-
-        <FormField label="Gender">
-          <Radio.Group
-            options={this.state.participantGenders}
-            defaultValue={ANY_OPTION}
-            onChange={this.onGenderChange}
-          >
-            {this.state.waitingForParticipantGenderData ? (
-              <LoadingSpin />
-            ) : null}
-          </Radio.Group>
-        </FormField>
-
-        <FormField label="Age">
-          <EqualityInput
-            onEqualityChange={this.onAgeEqualityChange}
-            onNumberChange={this.onAgeValueChange}
-            numericalMinimum={0}
-          />
-        </FormField>
-
-        <FormField label="Type">
-          <Radio.Group
-            options={this.state.participantTypes}
-            defaultValue={ANY_OPTION}
-            onChange={this.onTypeChange}
-          >
-            {this.state.waitingForParticipantTypeData ? <LoadingSpin /> : null}
-          </Radio.Group>
-        </FormField>
-
-        <FormField label="Status" style={{ width: '100%' }}>
+        <p>
+          Gun crimes involving{' '}
           <SelectSearch
-            style={{ minWidth: '300px', width: '100%' }}
-            data={this.state.participantStatuses}
-            disabled={this.state.waitingForParticipantStatusData}
-            onChange={this.onStatusChange}
-            placeholder={
-              this.state.waitingForParticipantStatusData ? (
-                <LoadingSpin />
-              ) : (
-                'Select a status...'
-              )
-            }
-          />
-        </FormField>
+            data={['any', 'only']}
+            defaultValue={'any'}
+            style={{ width: '100px' }}
+            allowClear={false}
+            onChange={this.onQualifierChange}
+          />{' '}
+          participants with these characteristics:
+        </p>
 
-        <FormField label="Relationship" style={{ width: '100%' }}>
-          <SelectSearch
-            style={{ minWidth: '300px', width: '100%' }}
-            data={this.state.participantRelationships}
-            disabled={this.state.waitingForParticipantRelationshipData}
-            onChange={this.onRelationshipChange}
-            placeholder={
-              this.state.waitingForParticipantRelationshipData ? (
+        <div className={styles.participantCharacteristics}>
+          <FormField label="Gender">
+            <Radio.Group
+              options={this.state.participantGenders}
+              defaultValue={ANY_OPTION}
+              onChange={this.onGenderChange}
+            >
+              {this.state.waitingForParticipantGenderData ? (
                 <LoadingSpin />
-              ) : (
-                'Select a relationship...'
-              )
-            }
-          />
-        </FormField>
+              ) : null}
+            </Radio.Group>
+          </FormField>
+
+          <FormField label="Age">
+            <EqualityInput
+              onEqualityChange={this.onAgeEqualityChange}
+              onNumberChange={this.onAgeValueChange}
+              numericalMinimum={0}
+            />
+          </FormField>
+
+          <FormField label="Type">
+            <Radio.Group
+              options={this.state.participantTypes}
+              defaultValue={ANY_OPTION}
+              onChange={this.onTypeChange}
+            >
+              {this.state.waitingForParticipantTypeData ? (
+                <LoadingSpin />
+              ) : null}
+            </Radio.Group>
+          </FormField>
+
+          <FormField label="Status" style={{ width: '100%' }}>
+            <SelectSearch
+              style={{ minWidth: '300px', width: '100%' }}
+              data={this.state.participantStatuses}
+              disabled={this.state.waitingForParticipantStatusData}
+              onChange={this.onStatusChange}
+              placeholder={
+                this.state.waitingForParticipantStatusData ? (
+                  <LoadingSpin />
+                ) : (
+                  'Select a status...'
+                )
+              }
+            />
+          </FormField>
+
+          <FormField label="Relationship" style={{ width: '100%' }}>
+            <SelectSearch
+              style={{ minWidth: '300px', width: '100%' }}
+              data={this.state.participantRelationships}
+              disabled={this.state.waitingForParticipantRelationshipData}
+              onChange={this.onRelationshipChange}
+              placeholder={
+                this.state.waitingForParticipantRelationshipData ? (
+                  <LoadingSpin />
+                ) : (
+                  'Select a relationship...'
+                )
+              }
+            />
+          </FormField>
+        </div>
       </DataForm>
     );
   }
