@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 import IncidentForm from '../IncidentForm';
 import GunForm from '../GunForm';
 import LocationForm from '../LocationForm';
-import { Button, Icon, Spin, Result } from 'antd';
+import { Button, Icon, Spin, Result, List } from 'antd';
 import CrimeCard from '../CrimeCard/CrimeCard';
 import { SelectValue } from 'antd/lib/select';
 import axios from 'axios';
@@ -257,6 +257,18 @@ class SearchTool extends React.Component<{}, SearchToolState> {
     this.setState({ ...this.state, waitingForData: false });
   };
 
+  private renderCrimeCard = (crime: GunCrime) => {
+    return (
+      <CrimeCard
+        title={`#${crime.INCIDENT_ID} on ${moment(crime.INCIDENT_DATE).format(
+          DATE_FORMAT
+        )}`}
+        key={crime.INCIDENT_ID}
+        {...crime}
+      />
+    );
+  };
+
   public render() {
     return (
       <div>
@@ -311,25 +323,30 @@ class SearchTool extends React.Component<{}, SearchToolState> {
 
         {/* TODO: statistics at a glance section. Also, consider refactoring the results out of this? */}
 
-        <section className={styles.searchResults}>
-          {this.state.gunCrimes.length !== 0 ? (
-            this.state.gunCrimes.map((crime: GunCrime) => (
-              <CrimeCard
-                title={`#${crime.INCIDENT_ID} on ${moment(
-                  crime.INCIDENT_DATE
-                ).format(DATE_FORMAT)}`}
-                key={crime.INCIDENT_ID}
-                {...crime}
-              />
-            ))
-          ) : this.state.resultsAvailable ? (
-            <Result
-              icon={<Icon type="frown" theme="twoTone" />}
-              title="No data found"
-              subTitle="Try changing the search parameters"
-            />
-          ) : null}
-        </section>
+        {this.state.resultsAvailable ? (
+          <List
+            pagination={{ pageSize: 10 }}
+            dataSource={this.state.gunCrimes}
+            grid={{
+              xs: 1,
+              sm: 2,
+              md: 2,
+              lg: 2,
+              xl: 2,
+              xxl: 2,
+            }}
+            renderItem={this.renderCrimeCard}
+            locale={{
+              emptyText: (
+                <Result
+                  icon={<Icon type="frown" />}
+                  title="No matching results"
+                  subTitle="Try tweaking your search parameters"
+                />
+              ),
+            }}
+          />
+        ) : null}
       </div>
     );
   }
