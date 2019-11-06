@@ -12,6 +12,7 @@ import ParticipantForm from '../../ParticipantForm/ParticipantForm';
 import Participant from 'pages/CatalogPage/ParticipantForm/Participant';
 import { ANY_OPTION } from '../AnyOption';
 import { GunCrime } from 'pages/CatalogPage/GunCrime';
+import styles from './SearchTool.module.less';
 
 export interface SearchToolState {
   characteristics: string[];
@@ -289,17 +290,25 @@ class SearchTool extends React.Component<{}, SearchToolState> {
             onHouseDistrictChange={this.onHouseDistrictChange}
             onSenateDistrictChange={this.onSenateDistrictChange}
           />
-          <Button type="primary" onClick={this.requestGunCrimesFromAPI}>
-            Search database
+          <Button
+            type="primary"
+            onClick={this.requestGunCrimesFromAPI}
+            disabled={this.state.waitingForData}
+            style={{ width: '175px', height: '40px' }}
+          >
+            {this.state.waitingForData ? (
+              <Spin
+                spinning={this.state.waitingForData}
+                indicator={<Icon type="loading" />}
+                style={{ marginLeft: '5px' }}
+              />
+            ) : (
+              'Search database'
+            )}
           </Button>
-          <Spin
-            spinning={this.state.waitingForData}
-            indicator={<Icon type="loading" />}
-            style={{ marginLeft: '5px' }}
-          />
         </section>
 
-        <section>
+        <section className={styles.searchResults}>
           {this.state.gunCrimes.length !== 0 ? (
             this.state.gunCrimes.map((crime: GunCrime) => (
               <CrimeCard
