@@ -133,9 +133,11 @@ router.post('', async (req: Request, res: Response) => {
   // TODO: return multi-valued attributes; squash duplicate incidents into one in the frontend maybe?
   const queryString = `
     SELECT DISTINCT 
-    Incident.id, i_date, n_killed, n_injured, notes, source_url,
-    Incident.latitude, Incident.longitude, state, city_or_county, state_house_district, state_senate_district,
-    Participant.name, Participant.age, Participant.gender, Participant.type, Participant.status, Participant.relationship
+    Incident.id AS incident_id, i_date AS incident_date, n_killed, n_injured, notes, source_url, incident_characteristic,
+    Location.latitude, Location.longitude, state, city_or_county, state_house_district, state_senate_district,
+    Gun.id AS gun_id, Gun.type AS gun_type, Gun.stolen AS gun_stolen,
+    Participant.name AS participant_name, Participant.age AS participant_age, Participant.gender AS participant_gender,
+    Participant.type AS participant_type, Participant.status AS participant_status, Participant.relationship AS participant_relationship
     FROM Incident INNER JOIN IncidentCharacteristic ON Incident.id = IncidentCharacteristic.incident_id
     INNER JOIN Location ON Incident.latitude = Location.latitude AND Incident.longitude = Location.longitude
     INNER JOIN Gun ON Incident.id = Gun.incident_id
