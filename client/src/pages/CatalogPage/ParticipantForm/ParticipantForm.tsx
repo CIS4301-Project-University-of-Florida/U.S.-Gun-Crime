@@ -9,7 +9,6 @@ import EqualityInput from 'components/Forms/EqualityInput/EqualityInput';
 import { SelectValue } from 'antd/lib/select';
 import { RadioChangeEvent } from 'antd/lib/radio';
 import SelectSearch from 'components/Forms/SelectSearch/SelectSearch';
-import styles from './ParticipantForm.module.less';
 
 interface ParticipantFormProps {
   onParticipantQualifierChange: (qualifier: string) => void;
@@ -179,7 +178,7 @@ class ParticipantForm extends React.Component<
           participants with these characteristics:
         </p>
 
-        <div className={styles.participantCharacteristics}>
+        <div>
           <FormField label="Gender">
             <Radio.Group
               options={this.state.participantGenders}

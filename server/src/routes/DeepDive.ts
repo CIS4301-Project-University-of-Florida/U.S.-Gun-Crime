@@ -69,7 +69,7 @@ router.post('', async (req: Request, res: Response) => {
 
   if (participant.qualifier === 'any') {
     participantQuery = `
-    SELECT incident_id FROM Participant
+    SELECT id, incident_id FROM Participant
     WHERE (
       age IS NOT NULL AND age${ageEquality}${participant.age.count}
       ${
@@ -100,10 +100,10 @@ router.post('', async (req: Request, res: Response) => {
     // Applying DeMorgan's laws yields ORs, IS NULLs, and <> in place of
     // AND, IS NOT NULL, and =, respectively.
     participantQuery = `
-    SELECT incident_id FROM Participant
+    SELECT id, incident_id FROM Participant
     MINUS
     (
-    SELECT incident_id FROM Participant
+    SELECT id, incident_id FROM Participant
     WHERE (
       age IS NULL OR age${ageEquality}${participant.age.count}
       ${
@@ -132,17 +132,15 @@ router.post('', async (req: Request, res: Response) => {
 
   // TODO: return multi-valued attributes; squash duplicate incidents into one in the frontend maybe?
   const queryString = `
-    SELECT DISTINCT 
-    Incident.id AS incident_id, i_date AS incident_date, n_killed, n_injured, notes, source_url, incident_characteristic,
-    Location.latitude, Location.longitude, state, city_or_county, state_house_district, state_senate_district,
-    Gun.id AS gun_id, Gun.type AS gun_type, Gun.stolen AS gun_stolen,
-    Participant.name AS participant_name, Participant.age AS participant_age, Participant.gender AS participant_gender,
-    Participant.type AS participant_type, Participant.status AS participant_status, Participant.relationship AS participant_relationship
+    SELECT DISTINCT i.incident_id, n_participants, i_date AS incident_date, n_killed, n_injured, notes, source_url,
+    n_guns_involved, Location.latitude, Location.longitude, state, city_or_county, state_house_district, state_senate_district
+    FROM
+    (
+    SELECT Incident.id AS incident_id,  COUNT(DISTINCT p.id) AS n_participants
     FROM Incident INNER JOIN IncidentCharacteristic ON Incident.id = IncidentCharacteristic.incident_id
     INNER JOIN Location ON Incident.latitude = Location.latitude AND Incident.longitude = Location.longitude
     INNER JOIN Gun ON Incident.id = Gun.incident_id
     INNER JOIN (${participantQuery}) p ON Incident.id = p.incident_id 
-    INNER JOIN Participant ON Participant.incident_id = p.incident_id
     WHERE 
     n_killed${data.numKilled.equality}${data.numKilled.count}
     AND n_injured${data.numInjured.equality}${data.numInjured.count}
@@ -168,6 +166,12 @@ router.post('', async (req: Request, res: Response) => {
     ${data.cityOrCounty ? `AND city_or_county='${data.cityOrCounty}'` : ''}
     ${data.houseDistrict ? `AND house_district=${data.houseDistrict}` : ''}
     ${data.senateDistrict ? `AND senate_district=${data.senateDistrict}` : ''}
+    GROUP BY Incident.id
+    ) i
+    INNER JOIN Incident ON i.incident_id = Incident.id
+    INNER JOIN Location ON Incident.latitude = Location.latitude AND Incident.longitude = Location.longitude
+    INNER JOIN Gun ON Incident.id = Gun.incident_id
+    ORDER BY incident_date
   `;
 
   logger.info('Attempting to execute this query:');

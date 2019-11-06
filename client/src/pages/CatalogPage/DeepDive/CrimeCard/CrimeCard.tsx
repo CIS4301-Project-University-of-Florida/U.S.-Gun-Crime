@@ -2,8 +2,9 @@ import React from 'react';
 import { Card, Icon } from 'antd';
 import { CardProps } from 'antd/lib/card';
 import styles from './CrimeCard.module.less';
+import { GunCrime } from 'pages/CatalogPage/GunCrime';
 
-class CrimeCard extends React.Component<CardProps> {
+class CrimeCard extends React.Component<GunCrime & CardProps> {
   public render() {
     return (
       <Card
@@ -15,26 +16,26 @@ class CrimeCard extends React.Component<CardProps> {
         }
         className={styles.crimeCard}
       >
-        <div className={styles.crimeCardGrid}>
-          <div>
-            <section>
-              <Icon type="global" />
-              City, State
-            </section>
-            <section>
-              <Icon type="number" />x killed, y injured
-            </section>
-          </div>
-          <div>
-            <section>
-              <Icon type="info-circle" />
-              <div>Characteristic</div>
-              <div>Characteristic</div>
-              <div>Characteristic</div>
-            </section>
-            <section />
-          </div>
-          <div>Stuff</div>
+        <div>
+          {this.props.N_KILLED} killed, {this.props.N_INJURED} injured
+          <section>
+            <Icon type="global" />
+            {this.props.CITY_OR_COUNTY},{this.props.STATE}({this.props.LATITUDE}
+            , {this.props.LONGITUDE}) Senate:
+            {this.props.STATE_SENATE_DISTRICT}
+            House: {this.props.STATE_HOUSE_DISTRICT}
+          </section>
+          <section>
+            {this.props.N_PARTICIPANTS} participants
+            {this.props.N_GUNS_INVOLVED} guns
+          </section>
+          <section>
+            {this.props.NOTES ? `Notes: ${this.props.NOTES}` : null}
+            In the news:{' '}
+            <a href={this.props.SOURCE_URL} target="_blank">
+              Click me
+            </a>
+          </section>
         </div>
       </Card>
     );

@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 import IncidentForm from '../IncidentForm';
 import GunForm from '../GunForm';
 import LocationForm from '../LocationForm';
-import { Button, Icon, Spin } from 'antd';
+import { Button, Icon, Spin, Result } from 'antd';
 import CrimeCard from '../CrimeCard/CrimeCard';
 import { SelectValue } from 'antd/lib/select';
 import axios from 'axios';
@@ -11,8 +11,8 @@ import { RangePickerValue } from 'antd/lib/date-picker/interface';
 import ParticipantForm from '../../ParticipantForm/ParticipantForm';
 import Participant from 'pages/CatalogPage/ParticipantForm/Participant';
 import { ANY_OPTION } from '../AnyOption';
+import { GunCrime } from 'pages/CatalogPage/GunCrime';
 
-// TODO: add participants
 export interface SearchToolState {
   characteristics: string[];
   numKilled: { equality: string; count: number };
@@ -25,7 +25,10 @@ export interface SearchToolState {
   cityOrCounty: string;
   houseDistrict: string;
   senateDistrict: string;
+
+  resultsAvailable: boolean;
   waitingForData: boolean;
+  gunCrimes: GunCrime[];
 }
 
 const initialState: SearchToolState = {
@@ -47,7 +50,9 @@ const initialState: SearchToolState = {
   cityOrCounty: '',
   houseDistrict: '',
   senateDistrict: '',
+  resultsAvailable: false,
   waitingForData: false,
+  gunCrimes: [],
 };
 
 class SearchTool extends React.Component<{}, SearchToolState> {
@@ -216,13 +221,32 @@ class SearchTool extends React.Component<{}, SearchToolState> {
 
   public requestGunCrimesFromAPI = async () => {
     // Fire up the spinning indicator
-    this.setState({ ...this.state, waitingForData: true }, () =>
-      console.log(this.state)
+    this.setState(
+      {
+        ...this.state,
+        waitingForData: true,
+        gunCrimes: [],
+        resultsAvailable: false,
+      },
+      () => console.log(this.state)
     );
 
     try {
-      const response = await axios.post('/api/deepdive', this.state);
+      // Separate out the things we don't need for the payload using destructuring and spread
+      const {
+        waitingForData,
+        resultsAvailable,
+        gunCrimes,
+        ...payload
+      } = this.state;
+
+      const response = await axios.post('/api/deepdive', payload);
       console.log(response.data);
+      this.setState({
+        ...this.state,
+        gunCrimes: response.data,
+        resultsAvailable: true,
+      });
     } catch (error) {
       // TODO: give user some indication that it failed
     }
@@ -274,12 +298,24 @@ class SearchTool extends React.Component<{}, SearchToolState> {
             style={{ marginLeft: '5px' }}
           />
         </section>
-        {/* TODO: results here */}
-        <section />
-        <div />
 
-        {/* TODO: this was only here as a placeholder, replace with results pane */}
-        <CrimeCard title="06/18/2016" />
+        <section>
+          {this.state.gunCrimes.length !== 0 ? (
+            this.state.gunCrimes.map((crime: GunCrime) => (
+              <CrimeCard
+                title={`#${crime.INCIDENT_ID}, on ${crime.INCIDENT_DATE}`}
+                key={crime.INCIDENT_ID}
+                {...crime}
+              />
+            ))
+          ) : this.state.resultsAvailable ? (
+            <Result
+              icon={<Icon type="frown" theme="twoTone" />}
+              title="No data found"
+              subTitle="Try changing the search parameters"
+            />
+          ) : null}
+        </section>
       </div>
     );
   }
