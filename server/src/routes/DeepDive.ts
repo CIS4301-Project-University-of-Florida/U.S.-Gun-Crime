@@ -15,7 +15,8 @@ interface IData {
   numGuns: { equality: string; count: number };
   gunTypes: string[];
   participant: {
-    gender: string;
+    qualifier: 'any' | 'only';
+    gender: 'Any' | 'M' | 'F';
     age: { equality: string; count: number };
     type: string;
     status: string;
@@ -32,6 +33,21 @@ export const quoteAndSeparateWithCommas = (data: string[]) => {
   return "'" + data.join("','") + "'";
 };
 
+const invert = (equalitySymbol: string) => {
+  switch (equalitySymbol) {
+    case '>=':
+      return '<';
+    case '>':
+      return '<=';
+    case '=':
+      return '<>';
+    case '<=':
+      return '>';
+    case '<':
+      return '>=';
+  }
+};
+
 /******************************************************************************
  *                        See deep dive tool in frontend
  ******************************************************************************/
@@ -42,19 +58,89 @@ router.post('', async (req: Request, res: Response) => {
   logger.info('/api/deepDive endpoint received this data:');
   console.log(data);
 
-  const participantQuery = `
-    SELECT *
-    FROM Participant WHERE (${data.participant});
-  `;
+  const participant = data.participant;
+
+  const ageEquality =
+    participant.qualifier === 'only'
+      ? invert(participant.age.equality)
+      : participant.age.equality;
+
+  let participantQuery;
+
+  if (participant.qualifier === 'any') {
+    participantQuery = `
+    SELECT incident_id FROM Participant
+    WHERE (
+      age IS NOT NULL AND age${ageEquality}${participant.age.count}
+      ${
+        participant.gender !== 'Any'
+          ? ` AND gender IS NOT NULL AND gender='${participant.gender}'`
+          : ''
+      }
+      ${
+        participant.type
+          ? ` AND type IS NOT NULL AND type='${participant.type}'`
+          : ''
+      }
+      ${
+        participant.status
+          ? ` AND status IS NOT NULL AND status='${participant.status}'`
+          : ''
+      }
+      ${
+        participant.relationship
+          ? ` AND relationship IS NOT NULL AND relationship='${participant.relationship}'`
+          : ''
+      }
+    )
+    `;
+  } else {
+    // In this case, we get the set difference between all participants
+    // and those participants not matching any of the conditions.
+    // Applying DeMorgan's laws yields ORs, IS NULLs, and <> in place of
+    // AND, IS NOT NULL, and =, respectively.
+    participantQuery = `
+    SELECT incident_id FROM Participant
+    MINUS
+    (
+    SELECT incident_id FROM Participant
+    WHERE (
+      age IS NULL OR age${ageEquality}${participant.age.count}
+      ${
+        participant.gender !== 'Any'
+          ? ` OR gender IS NULL OR gender<>'${participant.gender}'`
+          : ''
+      }
+      ${
+        participant.type
+          ? ` OR type IS NULL OR type<>'${participant.type}'`
+          : ''
+      }
+      ${
+        participant.status
+          ? ` OR status IS NULL OR status<>'${participant.status}'`
+          : ''
+      }
+      ${
+        participant.relationship
+          ? ` OR relationship IS NULL OR relationship<>'${participant.relationship}'`
+          : ''
+      }
+    )
+    )`;
+  }
 
   // TODO: return multi-valued attributes; squash duplicate incidents into one in the frontend maybe?
-  // TODO: add participants
   const queryString = `
-    SELECT DISTINCT Incident.id, i_date, n_killed, n_injured, 
-    Incident.latitude, Incident.longitude, state, city_or_county, state_house_district, state_senate_district, notes, source_url
+    SELECT DISTINCT 
+    Incident.id, i_date, n_killed, n_injured, notes, source_url,
+    Incident.latitude, Incident.longitude, state, city_or_county, state_house_district, state_senate_district,
+    Participant.name, Participant.age, Participant.gender, Participant.type, Participant.status, Participant.relationship
     FROM Incident INNER JOIN IncidentCharacteristic ON Incident.id = IncidentCharacteristic.incident_id
     INNER JOIN Location ON Incident.latitude = Location.latitude AND Incident.longitude = Location.longitude
     INNER JOIN Gun ON Incident.id = Gun.incident_id
+    INNER JOIN (${participantQuery}) p ON Incident.id = p.incident_id 
+    INNER JOIN Participant ON Participant.incident_id = p.incident_id
     WHERE 
     n_killed${data.numKilled.equality}${data.numKilled.count}
     AND n_injured${data.numInjured.equality}${data.numInjured.count}
