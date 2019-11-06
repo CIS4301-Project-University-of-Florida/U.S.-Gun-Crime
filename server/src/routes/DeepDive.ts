@@ -7,7 +7,7 @@ import query from 'src/query/query';
 const router = Router();
 
 // Client-side data sent as a POST payload
-interface IData {
+interface FormData {
   characteristics: string[];
   numKilled: { equality: string; count: number };
   numInjured: { equality: string; count: number };
@@ -26,7 +26,6 @@ interface IData {
   cityOrCounty: string;
   houseDistrict: string;
   senateDistrict: string;
-  waitingForData: boolean;
 }
 
 export const quoteAndSeparateWithCommas = (data: string[]) => {
@@ -53,7 +52,7 @@ const invert = (equalitySymbol: string) => {
  ******************************************************************************/
 
 router.post('', async (req: Request, res: Response) => {
-  const data: IData = req.body;
+  const data: FormData = req.body;
 
   logger.info('/api/deepDive endpoint received this data:');
   console.log(data);
