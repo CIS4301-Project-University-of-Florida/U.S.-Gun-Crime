@@ -14,6 +14,7 @@ import { ANY_OPTION } from '../AnyOption';
 import { GunCrime } from 'pages/CatalogPage/GunCrime';
 import styles from './SearchTool.module.less';
 import moment from 'moment';
+import { DATE_FORMAT } from '../DateFormat';
 
 export interface SearchToolState {
   characteristics: string[];
@@ -316,7 +317,7 @@ class SearchTool extends React.Component<{}, SearchToolState> {
               <CrimeCard
                 title={`#${crime.INCIDENT_ID} on ${moment(
                   crime.INCIDENT_DATE
-                ).format('MM/DD/YYYY')}`}
+                ).format(DATE_FORMAT)}`}
                 key={crime.INCIDENT_ID}
                 {...crime}
               />

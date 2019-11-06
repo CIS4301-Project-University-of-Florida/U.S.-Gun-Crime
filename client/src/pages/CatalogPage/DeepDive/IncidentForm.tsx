@@ -8,6 +8,7 @@ import FormField from 'components/Forms/FormField/FormField';
 import MultiSelect from 'components/Forms/MultiSelect/MultiSelect';
 import axios from 'axios';
 import LoadingSpin from 'components/LoadingSpin/LoadingSpin';
+import { DATE_FORMAT } from './DateFormat';
 
 const { RangePicker } = DatePicker;
 
@@ -106,7 +107,7 @@ class IncidentForm extends React.Component<
         <FormField label="Time range">
           <RangePicker
             onChange={this.props.onDateRangeChange}
-            format="MM/DD/YYYY"
+            format={DATE_FORMAT}
             defaultPickerValue={[moment(earliestDate), moment(latestDate)]}
             disabledDate={forbiddenDates}
           />
