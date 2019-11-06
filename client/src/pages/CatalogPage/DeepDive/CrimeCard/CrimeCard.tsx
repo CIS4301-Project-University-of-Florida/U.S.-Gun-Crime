@@ -48,7 +48,11 @@ class CrimeCard extends React.Component<GunCrime & CardProps> {
               <Icon type="info-circle" /> {this.props.NOTES}
             </p>
           ) : null}
-          <a href={this.props.SOURCE_URL} target="_blank">
+          <a
+            href={this.props.SOURCE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <Icon type="notification" /> In the news
           </a>
         </section>

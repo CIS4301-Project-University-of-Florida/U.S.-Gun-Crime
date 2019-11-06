@@ -13,6 +13,7 @@ import Participant from 'pages/CatalogPage/ParticipantForm/Participant';
 import { ANY_OPTION } from '../AnyOption';
 import { GunCrime } from 'pages/CatalogPage/GunCrime';
 import styles from './SearchTool.module.less';
+import moment from 'moment';
 
 export interface SearchToolState {
   characteristics: string[];
@@ -242,14 +243,13 @@ class SearchTool extends React.Component<{}, SearchToolState> {
       } = this.state;
 
       const response = await axios.post('/api/deepdive', payload);
-      console.log(response.data);
       this.setState({
         ...this.state,
         gunCrimes: response.data,
         resultsAvailable: true,
       });
     } catch (error) {
-      // TODO: give user some indication that it failed
+      this.setState({ ...this.state, resultsAvailable: false });
     }
 
     // Spinning indicator stops
@@ -308,11 +308,15 @@ class SearchTool extends React.Component<{}, SearchToolState> {
           </Button>
         </section>
 
+        {/* TODO: statistics at a glance section. Also, consider refactoring the results out of this? */}
+
         <section className={styles.searchResults}>
           {this.state.gunCrimes.length !== 0 ? (
             this.state.gunCrimes.map((crime: GunCrime) => (
               <CrimeCard
-                title={`#${crime.INCIDENT_ID}, on ${crime.INCIDENT_DATE}`}
+                title={`#${crime.INCIDENT_ID} on ${moment(
+                  crime.INCIDENT_DATE
+                ).format('MM/DD/YYYY')}`}
                 key={crime.INCIDENT_ID}
                 {...crime}
               />
