@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 import IncidentForm from '../IncidentForm';
 import GunForm from '../GunForm';
 import LocationForm from '../LocationForm';
-import { Button, Icon, Spin, Result, List } from 'antd';
+import { Button, Icon, Spin, Result, List, Row, Col, Statistic } from 'antd';
 import CrimeCard from '../CrimeCard/CrimeCard';
 import { SelectValue } from 'antd/lib/select';
 import axios from 'axios';
@@ -321,31 +321,63 @@ class SearchTool extends React.Component<{}, SearchToolState> {
           </Button>
         </section>
 
-        {/* TODO: statistics at a glance section. Also, consider refactoring the results out of this? */}
-
         {this.state.resultsAvailable ? (
-          <List
-            pagination={{ pageSize: 10 }}
-            dataSource={this.state.gunCrimes}
-            grid={{
-              xs: 1,
-              sm: 2,
-              md: 2,
-              lg: 2,
-              xl: 2,
-              xxl: 2,
-            }}
-            renderItem={this.renderCrimeCard}
-            locale={{
-              emptyText: (
-                <Result
-                  icon={<Icon type="frown" />}
-                  title="No matching results"
-                  subTitle="Try tweaking your search parameters"
-                />
-              ),
-            }}
-          />
+          <section>
+            {this.state.gunCrimes.length !== 0 ? (
+              <section className={styles.stats}>
+                <h2>Statistics at a Glance:</h2>
+                <Row gutter={16}>
+                  <Col xs={6}>
+                    <Statistic
+                      title="Total # of crimes"
+                      value={this.state.gunCrimes.length}
+                    />
+                  </Col>
+                  <Col span={6}>
+                    <Statistic
+                      title="Total killed"
+                      value={this.state.gunCrimes.reduce(
+                        (acc, { N_KILLED }) => acc + N_KILLED,
+                        0
+                      )}
+                    />
+                  </Col>
+                  <Col span={6}>
+                    <Statistic
+                      title="Total injured"
+                      value={this.state.gunCrimes.reduce(
+                        (acc, { N_INJURED }) => acc + N_INJURED,
+                        0
+                      )}
+                    />
+                  </Col>
+                  <Col span={6}>
+                    <Statistic
+                      title="Total # of guns involved"
+                      value={this.state.gunCrimes.reduce(
+                        (acc, { N_GUNS_INVOLVED }) => acc + N_GUNS_INVOLVED,
+                        0
+                      )}
+                    />
+                  </Col>
+                </Row>
+              </section>
+            ) : null}
+            <List
+              pagination={{ pageSize: 10 }}
+              dataSource={this.state.gunCrimes}
+              renderItem={this.renderCrimeCard}
+              locale={{
+                emptyText: (
+                  <Result
+                    icon={<Icon type="frown" />}
+                    title="No matching results"
+                    subTitle="Try tweaking your search parameters"
+                  />
+                ),
+              }}
+            />
+          </section>
         ) : null}
       </div>
     );
