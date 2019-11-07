@@ -52,7 +52,7 @@ class GunForm extends React.Component<GunFormProps, GunFormState> {
           <EqualityInput
             onEqualityChange={this.props.onGunCountEqualityChange}
             onNumberChange={this.props.onGunCountChange}
-            numericalMinimum={0}
+            numericalMinimum={1}
           />
         </FormField>
         <FormField label="Gun types">

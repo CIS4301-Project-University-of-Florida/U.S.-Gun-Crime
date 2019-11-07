@@ -64,31 +64,41 @@ router.post('', async (req: Request, res: Response) => {
       ? invert(participant.age.equality)
       : participant.age.equality;
 
+  // Okay, here's the deal: By default, the age field is set to >= 0.
+  // By definition, every living thing on this planet is of age >= 0.
+  // It's simply not possible to be of negative age. Now, a null age
+  // in the database, while technically denoting an "unknown" age, is
+  // at least known to be >= 0 (this does not hold true for any other
+  // threshold or equality sign). So we have to account for this special case.
+  const ageCanBeNull =
+    participant.age.equality === '>=' && participant.age.count === 0;
+
+  // Same logic here. All crimes involved >= 1 gun, even if the count is null.
+  // Why? Because a gun crime... had to involve at least one gun :D
+  const gunCountCanBeNull =
+    data.numGuns.equality === '>=' && data.numGuns.count === 1;
+
   let participantQuery;
 
   if (participant.qualifier === 'any') {
     participantQuery = `
-    SELECT id, incident_id FROM Participant
+    SELECT incident_id FROM Participant
     WHERE (
-      age IS NOT NULL AND age${ageEquality}${participant.age.count}
+      ${
+        ageCanBeNull
+          ? `(age IS NULL OR age${ageEquality}${participant.age.count})`
+          : `age${ageEquality}${participant.age.count}`
+      }
       ${
         participant.gender !== 'Any'
-          ? ` AND gender IS NOT NULL AND gender='${participant.gender}'`
+          ? ` AND gender='${participant.gender}'`
           : ''
       }
-      ${
-        participant.type
-          ? ` AND type IS NOT NULL AND type='${participant.type}'`
-          : ''
-      }
-      ${
-        participant.status
-          ? ` AND status IS NOT NULL AND status='${participant.status}'`
-          : ''
-      }
+      ${participant.type ? ` AND type='${participant.type}'` : ''}
+      ${participant.status ? ` AND status='${participant.status}'` : ''}
       ${
         participant.relationship
-          ? ` AND relationship IS NOT NULL AND relationship='${participant.relationship}'`
+          ? ` AND relationship='${participant.relationship}'`
           : ''
       }
     )
@@ -97,14 +107,20 @@ router.post('', async (req: Request, res: Response) => {
     // In this case, we get the set difference between all participants
     // and those participants not matching any of the conditions.
     // Applying DeMorgan's laws yields ORs, IS NULLs, and <> in place of
-    // AND, IS NOT NULL, and =, respectively.
+    // AND, IS NOT NULL, and =, respectively. Note that the ageCanBeNull
+    // case has to be inverted as well. It's tricky but makes sense
+    // because of the negation logic in a set difference query: if the
+    // age can be null, then we have to subtract all cases where age
+    // is not null and whatever equality we have.
     participantQuery = `
-    SELECT id, incident_id FROM Participant
+    SELECT incident_id FROM Participant
     MINUS
     (
-    SELECT id, incident_id FROM Participant
+    SELECT incident_id FROM Participant
     WHERE (
-      age IS NULL OR age${ageEquality}${participant.age.count}
+      ${ageCanBeNull ? `(age IS NOT NULL AND ` : ''}age${ageEquality}${
+      participant.age.count
+    }${ageCanBeNull ? `)` : ''}
       ${
         participant.gender !== 'Any'
           ? ` OR gender IS NULL OR gender<>'${participant.gender}'`
@@ -129,17 +145,16 @@ router.post('', async (req: Request, res: Response) => {
     )`;
   }
 
-  // TODO: return multi-valued attributes; squash duplicate incidents into one in the frontend maybe?
   const queryString = `
     SELECT DISTINCT i.incident_id, n_participants, i_date AS incident_date, n_killed, n_injured, notes, source_url,
     n_guns_involved, Location.latitude, Location.longitude, state, city_or_county, state_house_district, state_senate_district
     FROM
     (
-    SELECT Incident.id AS incident_id,  COUNT(DISTINCT p.id) AS n_participants
-    FROM Incident INNER JOIN IncidentCharacteristic ON Incident.id = IncidentCharacteristic.incident_id
-    INNER JOIN Location ON Incident.latitude = Location.latitude AND Incident.longitude = Location.longitude
-    INNER JOIN Gun ON Incident.id = Gun.incident_id
-    INNER JOIN (${participantQuery}) p ON Incident.id = p.incident_id 
+    SELECT Incident.id AS incident_id,  COUNT(DISTINCT p.incident_id) AS n_participants
+    FROM Incident INNER JOIN (${participantQuery}) p ON Incident.id = p.incident_id 
+    LEFT OUTER JOIN IncidentCharacteristic ON Incident.id = IncidentCharacteristic.incident_id
+    LEFT OUTER JOIN Location ON Incident.latitude = Location.latitude AND Incident.longitude = Location.longitude
+    LEFT OUTER JOIN Gun ON Incident.id = Gun.incident_id
     WHERE 
     n_killed${data.numKilled.equality}${data.numKilled.count}
     AND n_injured${data.numInjured.equality}${data.numInjured.count}
@@ -155,7 +170,11 @@ router.post('', async (req: Request, res: Response) => {
         ? `AND i_date BETWEEN TO_DATE('${data.dateRange[0]}', 'MM/DD/YYYY') AND TO_DATE('${data.dateRange[1]}', 'MM/DD/YYYY')`
         : ''
     }
-    AND n_guns_involved${data.numGuns.equality}${data.numGuns.count}
+    AND ${
+      gunCountCanBeNull
+        ? `(n_guns_involved IS NULL OR n_guns_involved${data.numGuns.equality}${data.numGuns.count})`
+        : `n_guns_involved${data.numGuns.equality}${data.numGuns.count}`
+    }
     ${
       data.gunTypes.length
         ? `AND type IN (${quoteAndSeparateWithCommas(data.gunTypes)})`
@@ -167,9 +186,9 @@ router.post('', async (req: Request, res: Response) => {
     ${data.senateDistrict ? `AND senate_district=${data.senateDistrict}` : ''}
     GROUP BY Incident.id
     ) i
-    INNER JOIN Incident ON i.incident_id = Incident.id
-    INNER JOIN Location ON Incident.latitude = Location.latitude AND Incident.longitude = Location.longitude
-    INNER JOIN Gun ON Incident.id = Gun.incident_id
+    LEFT OUTER JOIN Incident ON i.incident_id = Incident.id
+    LEFT OUTER JOIN Location ON Incident.latitude = Location.latitude AND Incident.longitude = Location.longitude
+    LEFT OUTER JOIN Gun ON Incident.id = Gun.incident_id
     ORDER BY incident_date
   `;
 
