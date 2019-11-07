@@ -29,17 +29,19 @@ export interface SearchToolState {
   houseDistrict: string;
   senateDistrict: string;
 
-  resultsAvailable: boolean;
   waitingForData: boolean;
+  resultsAvailable: boolean;
+  dataFetchFailed: boolean;
   gunCrimes: GunCrime[];
 }
 
+// TODO: get some of these initial counts from exports
 const initialState: SearchToolState = {
   characteristics: [],
   numKilled: { equality: equalityDefault, count: 0 },
   numInjured: { equality: equalityDefault, count: 0 },
   dateRange: ['', ''],
-  numGuns: { equality: equalityDefault, count: 0 },
+  numGuns: { equality: equalityDefault, count: 1 },
   gunTypes: [],
   participant: {
     qualifier: 'any',
@@ -53,8 +55,10 @@ const initialState: SearchToolState = {
   cityOrCounty: '',
   houseDistrict: '',
   senateDistrict: '',
-  resultsAvailable: false,
+
   waitingForData: false,
+  resultsAvailable: false,
+  dataFetchFailed: false,
   gunCrimes: [],
 };
 
@@ -224,37 +228,42 @@ class SearchTool extends React.Component<{}, SearchToolState> {
 
   public requestGunCrimesFromAPI = async () => {
     // Fire up the spinning indicator
-    this.setState(
-      {
-        ...this.state,
-        waitingForData: true,
-        gunCrimes: [],
-        resultsAvailable: false,
-      },
-      () => console.log(this.state)
-    );
+    this.setState({
+      ...this.state,
+      waitingForData: true,
+      gunCrimes: [],
+      resultsAvailable: false,
+    });
 
     try {
       // Separate out the things we don't need for the payload using destructuring and spread
       const {
         waitingForData,
         resultsAvailable,
+        dataFetchFailed,
         gunCrimes,
         ...payload
       } = this.state;
 
-      const response = await axios.post('/api/deepdive', payload);
+      // 60,000 ms = 1 minute
+      const response = await axios.post('/api/deepdive', payload, {
+        timeout: 60000,
+      });
       this.setState({
         ...this.state,
         gunCrimes: response.data,
-        resultsAvailable: true,
+        dataFetchFailed: false,
       });
     } catch (error) {
-      this.setState({ ...this.state, resultsAvailable: false });
+      this.setState({ ...this.state, dataFetchFailed: true });
     }
 
     // Spinning indicator stops
-    this.setState({ ...this.state, waitingForData: false });
+    this.setState({
+      ...this.state,
+      waitingForData: false,
+      resultsAvailable: true,
+    });
   };
 
   private renderCrimeCard = (crime: GunCrime) => {
@@ -327,7 +336,7 @@ class SearchTool extends React.Component<{}, SearchToolState> {
               <section className={styles.stats}>
                 <h2>Statistics at a Glance:</h2>
                 <Row gutter={16}>
-                  <Col xs={6}>
+                  <Col span={6}>
                     <Statistic
                       title="Total # of crimes"
                       value={this.state.gunCrimes.length}
@@ -371,8 +380,17 @@ class SearchTool extends React.Component<{}, SearchToolState> {
                 emptyText: (
                   <Result
                     icon={<Icon type="frown" />}
-                    title="No matching results"
-                    subTitle="Try tweaking your search parameters"
+                    title={
+                      this.state.dataFetchFailed
+                        ? 'Failed to fetch data'
+                        : 'No matching results'
+                    }
+                    subTitle={
+                      this.state.dataFetchFailed
+                        ? `This may be due to a connection issue, or maybe 
+                        there's too much data to return. Try applying more filters.`
+                        : 'Try tweaking your search parameters'
+                    }
                   />
                 ),
               }}
