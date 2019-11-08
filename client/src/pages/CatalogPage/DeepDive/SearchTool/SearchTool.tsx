@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 import IncidentForm from '../IncidentForm';
 import GunForm from '../GunForm';
 import LocationForm from '../LocationForm';
-import { Button, Icon, Spin, Result, List, Row, Col, Statistic } from 'antd';
+import { Button, Icon, Spin } from 'antd';
 import CrimeCard from '../CrimeCard/CrimeCard';
 import { SelectValue } from 'antd/lib/select';
 import axios from 'axios';
@@ -15,6 +15,7 @@ import { GunCrime } from 'pages/CatalogPage/GunCrime';
 import styles from './SearchTool.module.less';
 import moment from 'moment';
 import { DATE_FORMAT } from '../DateFormat';
+import CrimeResults from '../CrimeResults/CrimeResults';
 
 export interface SearchToolState {
   characteristics: string[];
@@ -35,7 +36,6 @@ export interface SearchToolState {
   gunCrimes: GunCrime[];
 }
 
-// TODO: get some of these initial counts from exports
 const initialState: SearchToolState = {
   characteristics: [],
   numKilled: { equality: equalityDefault, count: 0 },
@@ -330,63 +330,10 @@ class SearchTool extends React.Component<{}, SearchToolState> {
         </section>
 
         {this.state.resultsAvailable ? (
-          <section>
-            {this.state.gunCrimes.length !== 0 ? (
-              <section className={styles.statistics}>
-                <h2>Statistics at a Glance:</h2>
-                <div className={styles.statisticGrid}>
-                  <Statistic
-                    title="Total # of crimes"
-                    value={this.state.gunCrimes.length}
-                  />
-                  <Statistic
-                    title="Total killed"
-                    value={this.state.gunCrimes.reduce(
-                      (acc, { N_KILLED }) => acc + N_KILLED,
-                      0
-                    )}
-                  />
-                  <Statistic
-                    title="Total injured"
-                    value={this.state.gunCrimes.reduce(
-                      (acc, { N_INJURED }) => acc + N_INJURED,
-                      0
-                    )}
-                  />
-                  <Statistic
-                    title="Total # of guns involved"
-                    value={this.state.gunCrimes.reduce(
-                      (acc, { N_GUNS_INVOLVED }) => acc + N_GUNS_INVOLVED,
-                      0
-                    )}
-                  />
-                </div>
-              </section>
-            ) : null}
-            <List
-              pagination={{ pageSize: 10 }}
-              dataSource={this.state.gunCrimes}
-              renderItem={this.renderCrimeCard}
-              locale={{
-                emptyText: (
-                  <Result
-                    icon={<Icon type="frown" />}
-                    title={
-                      this.state.dataFetchFailed
-                        ? 'Failed to fetch data'
-                        : 'No matching results'
-                    }
-                    subTitle={
-                      this.state.dataFetchFailed
-                        ? `This may be due to a connection issue, or maybe 
-                        there's too much data to return. Try applying more filters.`
-                        : 'Try tweaking your search parameters'
-                    }
-                  />
-                ),
-              }}
-            />
-          </section>
+          <CrimeResults
+            gunCrimes={this.state.gunCrimes}
+            dataFetchFailed={this.state.dataFetchFailed}
+          />
         ) : null}
       </div>
     );
