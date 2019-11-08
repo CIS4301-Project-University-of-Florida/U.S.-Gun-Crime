@@ -226,7 +226,7 @@ class SearchTool extends React.Component<{}, SearchToolState> {
     });
   };
 
-  public requestGunCrimesFromAPI = async () => {
+  public fetchGunCrimes = async () => {
     // Fire up the spinning indicator
     this.setState({
       ...this.state,
@@ -314,15 +314,14 @@ class SearchTool extends React.Component<{}, SearchToolState> {
           />
           <Button
             type="primary"
-            onClick={this.requestGunCrimesFromAPI}
+            onClick={this.fetchGunCrimes}
             disabled={this.state.waitingForData}
-            style={{ width: '175px', height: '40px' }}
+            className={styles.searchButton}
           >
             {this.state.waitingForData ? (
               <Spin
                 spinning={this.state.waitingForData}
                 indicator={<Icon type="loading" />}
-                style={{ marginLeft: '5px' }}
               />
             ) : (
               'Search database'
@@ -333,43 +332,35 @@ class SearchTool extends React.Component<{}, SearchToolState> {
         {this.state.resultsAvailable ? (
           <section>
             {this.state.gunCrimes.length !== 0 ? (
-              <section className={styles.stats}>
+              <section className={styles.statistics}>
                 <h2>Statistics at a Glance:</h2>
-                <Row gutter={16}>
-                  <Col span={6}>
-                    <Statistic
-                      title="Total # of crimes"
-                      value={this.state.gunCrimes.length}
-                    />
-                  </Col>
-                  <Col span={6}>
-                    <Statistic
-                      title="Total killed"
-                      value={this.state.gunCrimes.reduce(
-                        (acc, { N_KILLED }) => acc + N_KILLED,
-                        0
-                      )}
-                    />
-                  </Col>
-                  <Col span={6}>
-                    <Statistic
-                      title="Total injured"
-                      value={this.state.gunCrimes.reduce(
-                        (acc, { N_INJURED }) => acc + N_INJURED,
-                        0
-                      )}
-                    />
-                  </Col>
-                  <Col span={6}>
-                    <Statistic
-                      title="Total # of guns involved"
-                      value={this.state.gunCrimes.reduce(
-                        (acc, { N_GUNS_INVOLVED }) => acc + N_GUNS_INVOLVED,
-                        0
-                      )}
-                    />
-                  </Col>
-                </Row>
+                <div className={styles.statisticGrid}>
+                  <Statistic
+                    title="Total # of crimes"
+                    value={this.state.gunCrimes.length}
+                  />
+                  <Statistic
+                    title="Total killed"
+                    value={this.state.gunCrimes.reduce(
+                      (acc, { N_KILLED }) => acc + N_KILLED,
+                      0
+                    )}
+                  />
+                  <Statistic
+                    title="Total injured"
+                    value={this.state.gunCrimes.reduce(
+                      (acc, { N_INJURED }) => acc + N_INJURED,
+                      0
+                    )}
+                  />
+                  <Statistic
+                    title="Total # of guns involved"
+                    value={this.state.gunCrimes.reduce(
+                      (acc, { N_GUNS_INVOLVED }) => acc + N_GUNS_INVOLVED,
+                      0
+                    )}
+                  />
+                </div>
               </section>
             ) : null}
             <List
