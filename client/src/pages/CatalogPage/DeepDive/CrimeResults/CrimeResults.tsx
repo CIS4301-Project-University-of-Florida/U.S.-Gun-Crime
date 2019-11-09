@@ -59,7 +59,7 @@ const CrimeResults = (props: CrimeResultsProps) => {
         </section>
       ) : null}
       <List
-        pagination={{ pageSize: 10, showQuickJumper: true }}
+        pagination={{ showSizeChanger: true, showQuickJumper: true }}
         dataSource={props.gunCrimes}
         renderItem={renderCrimeCard}
         locale={{
