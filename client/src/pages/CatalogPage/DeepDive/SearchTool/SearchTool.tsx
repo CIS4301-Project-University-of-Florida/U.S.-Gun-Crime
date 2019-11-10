@@ -3,7 +3,6 @@ import IncidentForm from '../IncidentForm';
 import GunForm from '../GunForm';
 import LocationForm from '../LocationForm';
 import { Button, Icon, Spin } from 'antd';
-import CrimeCard from '../CrimeCard/CrimeCard';
 import { SelectValue } from 'antd/lib/select';
 import axios from 'axios';
 import { equalityDefault } from 'components/Forms/EqualityInput/EqualityInput';
@@ -13,8 +12,6 @@ import Participant from 'pages/CatalogPage/ParticipantForm/Participant';
 import { ANY_OPTION } from '../AnyOption';
 import { GunCrime } from 'pages/CatalogPage/GunCrime';
 import styles from './SearchTool.module.less';
-import moment from 'moment';
-import { DATE_FORMAT } from '../DateFormat';
 import CrimeResults from '../CrimeResults/CrimeResults';
 
 export interface SearchToolState {

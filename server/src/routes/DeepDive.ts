@@ -82,7 +82,7 @@ router.post('', async (req: Request, res: Response) => {
 
   if (participant.qualifier === 'any') {
     participantQuery = `
-    SELECT incident_id FROM Participant
+    SELECT id, incident_id FROM Participant
     WHERE (
       ${
         ageCanBeNull
@@ -111,8 +111,12 @@ router.post('', async (req: Request, res: Response) => {
     // case has to be inverted as well. It's tricky but makes sense
     // because of the negation logic in a set difference query: if the
     // age can be null, then we have to subtract all cases where age
-    // is not null and whatever equality we have.
+    // is not null and whatever equality we have. We then have to inner
+    // join this again with Participant to get the participant IDs as well.
     participantQuery = `
+    SELECT id, onlyParticipants.incident_id
+    FROM
+    (
     SELECT incident_id FROM Participant
     MINUS
     (
@@ -141,8 +145,7 @@ router.post('', async (req: Request, res: Response) => {
           ? ` OR relationship IS NULL OR relationship<>'${participant.relationship}'`
           : ''
       }
-    )
-    )`;
+    ))) onlyParticipants INNER JOIN Participant ON onlyParticipants.incident_id = Participant.incident_id`;
   }
 
   const queryString = `
@@ -150,7 +153,7 @@ router.post('', async (req: Request, res: Response) => {
     n_guns_involved, Location.latitude, Location.longitude, state, city_or_county, state_house_district, state_senate_district
     FROM
     (
-    SELECT Incident.id AS incident_id,  COUNT(DISTINCT p.incident_id) AS n_participants
+    SELECT Incident.id AS incident_id,  COUNT(DISTINCT p.id) AS n_participants
     FROM Incident INNER JOIN (${participantQuery}) p ON Incident.id = p.incident_id 
     LEFT OUTER JOIN IncidentCharacteristic ON Incident.id = IncidentCharacteristic.incident_id
     LEFT OUTER JOIN Location ON Incident.latitude = Location.latitude AND Incident.longitude = Location.longitude

@@ -4,7 +4,15 @@ import { CardProps } from 'antd/lib/card';
 import styles from './CrimeCard.module.less';
 import { GunCrime } from 'pages/CatalogPage/GunCrime';
 
-class CrimeCard extends React.Component<GunCrime & CardProps> {
+interface CrimeCardProps extends CardProps, GunCrime {
+  launchDetailsModal: (id: number) => void;
+}
+
+class CrimeCard extends React.Component<CrimeCardProps> {
+  public onClick = () => {
+    this.props.launchDetailsModal(this.props.INCIDENT_ID);
+  };
+
   public render() {
     return (
       <Card
@@ -14,6 +22,7 @@ class CrimeCard extends React.Component<GunCrime & CardProps> {
           </div>
         }
         className={styles.crimeCard}
+        onClick={this.onClick}
       >
         <section>
           <p>
