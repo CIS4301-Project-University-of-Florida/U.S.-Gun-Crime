@@ -266,18 +266,6 @@ class SearchTool extends React.Component<{}, SearchToolState> {
     });
   };
 
-  private renderCrimeCard = (crime: GunCrime) => {
-    return (
-      <CrimeCard
-        title={`#${crime.INCIDENT_ID} on ${moment(crime.INCIDENT_DATE).format(
-          DATE_FORMAT
-        )}`}
-        key={crime.INCIDENT_ID}
-        {...crime}
-      />
-    );
-  };
-
   public render() {
     return (
       <div>
