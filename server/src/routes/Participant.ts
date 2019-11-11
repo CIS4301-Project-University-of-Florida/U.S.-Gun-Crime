@@ -7,6 +7,60 @@ import query from 'src/query/query';
 const router = Router();
 
 /**
+ * Returns all genders of gun crime participants.
+ */
+router.get('/genders', async (req: Request, res: Response) => {
+  try {
+    const relationships = await query(
+      `SELECT DISTINCT gender FROM Participant 
+      WHERE gender IS NOT NULL ORDER BY gender`
+    );
+    return res.status(OK).json(relationships);
+  } catch (err) {
+    logger.error(err.message, err);
+    return res.status(BAD_REQUEST).json({
+      error: err.message,
+    });
+  }
+});
+
+/**
+ * Returns all types of gun crime participants.
+ */
+router.get('/types', async (req: Request, res: Response) => {
+  try {
+    const types = await query(
+      `SELECT DISTINCT type FROM Participant 
+      WHERE type IS NOT NULL ORDER BY type`
+    );
+    return res.status(OK).json(types);
+  } catch (err) {
+    logger.error(err.message, err);
+    return res.status(BAD_REQUEST).json({
+      error: err.message,
+    });
+  }
+});
+
+/**
+ * Returns all gun crime participant statuses (e.g., Killed, Arrested).
+ */
+router.get('/statuses', async (req: Request, res: Response) => {
+  try {
+    const statuses = await query(
+      `SELECT DISTINCT status FROM Participant 
+      WHERE status IS NOT NULL ORDER BY status`
+    );
+    return res.status(OK).json(statuses);
+  } catch (err) {
+    logger.error(err.message, err);
+    return res.status(BAD_REQUEST).json({
+      error: err.message,
+    });
+  }
+});
+
+/**
  * Returns all unique relationships characterizing gun crime participants.
  */
 router.get('/relationships', async (req: Request, res: Response) => {

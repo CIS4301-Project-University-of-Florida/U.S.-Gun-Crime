@@ -1,6 +1,6 @@
 import React from 'react';
 import Page from 'components/Layout/Page/Page';
-import { Card } from 'antd';
+import { Card, Icon } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import styles from './CatalogPage.module.less';
 import { PageEnum } from 'pages/PageEnum';
@@ -18,7 +18,12 @@ class CatalogPage extends React.Component {
           <Link to={PageEnum.DATA_VISUALIZATIONS.url}>
             <Card hoverable={true} className={styles.card}>
               <Meta
-                title={PageEnum.DATA_VISUALIZATIONS.title}
+                title={
+                  <span>
+                    <Icon type="fund" theme="twoTone" />{' '}
+                    {PageEnum.DATA_VISUALIZATIONS.title}
+                  </span>
+                }
                 description={`How has gun crime changed with time? How do different states compare?
                 What is the geographic distribution of gun crime in the U.S.?`}
               />
@@ -27,7 +32,12 @@ class CatalogPage extends React.Component {
           <Link to={PageEnum.RANKINGS.url}>
             <Card hoverable={true} className={styles.card}>
               <Meta
-                title={PageEnum.RANKINGS.title}
+                title={
+                  <span>
+                    <Icon type="gold" theme="twoTone" />{' '}
+                    {PageEnum.RANKINGS.title}
+                  </span>
+                }
                 description={`What types of guns account for the most fatalities and injuries? 
                 What were the deadliest gun crimes in this time period?`}
               />
@@ -36,14 +46,18 @@ class CatalogPage extends React.Component {
           <Link to={PageEnum.DEEP_DIVE.url}>
             <Card hoverable={true} className={styles.card}>
               <Meta
-                title={PageEnum.DEEP_DIVE.title}
+                title={
+                  <span>
+                    <Icon type="database" theme="twoTone" />{' '}
+                    {PageEnum.DEEP_DIVE.title}
+                  </span>
+                }
                 description={`Looking to conduct a more specific search? No problem!
               Use this tool to filter the data set and get the info you need.`}
               />
             </Card>
           </Link>
         </article>
-        ,
       </Page>
     );
   }

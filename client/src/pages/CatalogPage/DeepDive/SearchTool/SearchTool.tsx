@@ -3,14 +3,17 @@ import IncidentForm from '../IncidentForm';
 import GunForm from '../GunForm';
 import LocationForm from '../LocationForm';
 import { Button, Icon, Spin } from 'antd';
-import CrimeCard from '../CrimeCard/CrimeCard';
 import { SelectValue } from 'antd/lib/select';
 import axios from 'axios';
 import { equalityDefault } from 'components/Forms/EqualityInput/EqualityInput';
 import { RangePickerValue } from 'antd/lib/date-picker/interface';
-import ParticipantForm from '../ParticipantForm';
+import ParticipantForm from '../../ParticipantForm/ParticipantForm';
+import Participant from 'pages/CatalogPage/ParticipantForm/Participant';
+import { ANY_OPTION } from '../AnyOption';
+import { GunCrime } from 'pages/CatalogPage/GunCrime';
+import styles from './SearchTool.module.less';
+import CrimeResults from '../CrimeResults/CrimeResults';
 
-// TODO: add participants
 export interface SearchToolState {
   characteristics: string[];
   numKilled: { equality: string; count: number };
@@ -18,11 +21,16 @@ export interface SearchToolState {
   dateRange: [string, string];
   numGuns: { equality: string; count: number };
   gunTypes: string[];
+  participant: Participant & { qualifier: string };
   usState: string;
   cityOrCounty: string;
   houseDistrict: string;
   senateDistrict: string;
+
   waitingForData: boolean;
+  resultsAvailable: boolean;
+  dataFetchFailed: boolean;
+  gunCrimes: GunCrime[];
 }
 
 const initialState: SearchToolState = {
@@ -30,13 +38,25 @@ const initialState: SearchToolState = {
   numKilled: { equality: equalityDefault, count: 0 },
   numInjured: { equality: equalityDefault, count: 0 },
   dateRange: ['', ''],
-  numGuns: { equality: equalityDefault, count: 0 },
+  numGuns: { equality: equalityDefault, count: 1 },
   gunTypes: [],
+  participant: {
+    qualifier: 'any',
+    gender: ANY_OPTION,
+    age: { equality: equalityDefault, count: 0 },
+    type: '',
+    status: '',
+    relationship: '',
+  },
   usState: '',
   cityOrCounty: '',
   houseDistrict: '',
   senateDistrict: '',
+
   waitingForData: false,
+  resultsAvailable: false,
+  dataFetchFailed: false,
+  gunCrimes: [],
 };
 
 class SearchTool extends React.Component<{}, SearchToolState> {
@@ -120,6 +140,61 @@ class SearchTool extends React.Component<{}, SearchToolState> {
     });
   };
 
+  public onParticipantQualifierChange = (qualifier: string) => {
+    this.setState({
+      ...this.state,
+      participant: { ...this.state.participant, qualifier },
+    });
+  };
+
+  public onParticipantGenderChange = (gender: string) => {
+    this.setState({
+      ...this.state,
+      participant: { ...this.state.participant, gender },
+    });
+  };
+
+  public onParticipantAgeEqualityChange = (equality: string) => {
+    this.setState({
+      ...this.state,
+      participant: {
+        ...this.state.participant,
+        age: { ...this.state.participant.age, equality },
+      },
+    });
+  };
+
+  public onParticipantAgeValueChange = (age: number) => {
+    this.setState({
+      ...this.state,
+      participant: {
+        ...this.state.participant,
+        age: { ...this.state.participant.age, count: age },
+      },
+    });
+  };
+
+  public onParticipantTypeChange = (type: string) => {
+    this.setState({
+      ...this.state,
+      participant: { ...this.state.participant, type },
+    });
+  };
+
+  public onParticipantStatusChange = (status: string) => {
+    this.setState({
+      ...this.state,
+      participant: { ...this.state.participant, status },
+    });
+  };
+
+  public onParticipantRelationshipChange = (relationship: string) => {
+    this.setState({
+      ...this.state,
+      participant: { ...this.state.participant, relationship },
+    });
+  };
+
   public onUSStateChange = (usState: SelectValue | undefined) => {
     this.setState({
       ...this.state,
@@ -148,21 +223,44 @@ class SearchTool extends React.Component<{}, SearchToolState> {
     });
   };
 
-  public requestGunCrimesFromAPI = async () => {
+  public fetchGunCrimes = async () => {
     // Fire up the spinning indicator
-    this.setState({ ...this.state, waitingForData: true }, () =>
-      console.log(this.state)
-    );
+    this.setState({
+      ...this.state,
+      waitingForData: true,
+      gunCrimes: [],
+      resultsAvailable: false,
+    });
 
     try {
-      const response = await axios.post('/api/deepdive', this.state);
-      console.log(response.data);
+      // Separate out the things we don't need for the payload using destructuring and spread
+      const {
+        waitingForData,
+        resultsAvailable,
+        dataFetchFailed,
+        gunCrimes,
+        ...payload
+      } = this.state;
+
+      // 60,000 ms = 1 minute
+      const response = await axios.post('/api/deepdive', payload, {
+        timeout: 60000,
+      });
+      this.setState({
+        ...this.state,
+        gunCrimes: response.data,
+        dataFetchFailed: false,
+      });
     } catch (error) {
-      // TODO: give user some indication that it failed
+      this.setState({ ...this.state, dataFetchFailed: true });
     }
 
     // Spinning indicator stops
-    this.setState({ ...this.state, waitingForData: false });
+    this.setState({
+      ...this.state,
+      waitingForData: false,
+      resultsAvailable: true,
+    });
   };
 
   public render() {
@@ -182,28 +280,46 @@ class SearchTool extends React.Component<{}, SearchToolState> {
             onGunCountChange={this.onGunCountChange}
             onGunTypeChange={this.onGunTypeChange}
           />
-          <ParticipantForm />
+          <ParticipantForm
+            onParticipantQualifierChange={this.onParticipantQualifierChange}
+            onParticipantGenderChange={this.onParticipantGenderChange}
+            onParticipantAgeEqualityChange={this.onParticipantAgeEqualityChange}
+            onParticipantAgeValueChange={this.onParticipantAgeValueChange}
+            onParticipantTypeChange={this.onParticipantTypeChange}
+            onParticipantStatusChange={this.onParticipantStatusChange}
+            onParticipantRelationshipChange={
+              this.onParticipantRelationshipChange
+            }
+          />
           <LocationForm
             onUSStateChange={this.onUSStateChange}
             onCityOrCountyChange={this.onCityOrCountyChange}
             onHouseDistrictChange={this.onHouseDistrictChange}
             onSenateDistrictChange={this.onSenateDistrictChange}
           />
-          <Button type="primary" onClick={this.requestGunCrimesFromAPI}>
-            Search database
+          <Button
+            type="primary"
+            onClick={this.fetchGunCrimes}
+            disabled={this.state.waitingForData}
+            className={styles.searchButton}
+          >
+            {this.state.waitingForData ? (
+              <Spin
+                spinning={this.state.waitingForData}
+                indicator={<Icon type="loading" />}
+              />
+            ) : (
+              'Search database'
+            )}
           </Button>
-          <Spin
-            spinning={this.state.waitingForData}
-            indicator={<Icon type="loading" />}
-            style={{ marginLeft: '5px' }}
-          />
         </section>
-        {/* TODO: results here */}
-        <section />
-        <div />
 
-        {/* TODO: this was only here as a placeholder, replace with results pane */}
-        <CrimeCard title="06/18/2016" />
+        {this.state.resultsAvailable ? (
+          <CrimeResults
+            gunCrimes={this.state.gunCrimes}
+            dataFetchFailed={this.state.dataFetchFailed}
+          />
+        ) : null}
       </div>
     );
   }

@@ -10,14 +10,9 @@ interface ISelectSearch extends SelectProps {
 class SelectSearch extends React.Component<ISelectSearch> {
   public render() {
     return (
-      <Select
-        {...this.props}
-        style={{ width: '200px' }}
-        showSearch={true}
-        allowClear={true}
-      >
+      <Select showSearch={true} allowClear={true} {...this.props}>
         {this.props.data.map(element => (
-          <Option key={element} value={element}>
+          <Option key={element} value={element} title={element}>
             {element}
           </Option>
         ))}
