@@ -1,10 +1,58 @@
 import React from 'react';
 import Page from 'components/Layout/Page/Page';
 import { PageEnum } from 'pages/PageEnum';
+import LineGraph from './Graphs/LineGraphs';
+import DonutGraph from './Graphs/DonutGraphs';
+import PolarGraph from './Graphs/PolarGraphs';
+import BarGraph from './Graphs/BarGraphs';
+import { Row, Col, Button } from 'antd';
 
 class DataVisualizations extends React.Component {
   public render() {
-    return <Page title={PageEnum.DATA_VISUALIZATIONS.title} />;
+    return (
+      <div>
+        <Page title={PageEnum.DATA_VISUALIZATIONS.title}>
+          <Row gutter={24}>
+            <Button type="primary" shape="round">
+              Gun Deaths Per Year
+            </Button>
+          </Row>
+          <br />
+          <Row gutter={24}>
+            <Col span={12}>
+              <LineGraph />
+            </Col>
+            <Col span={12}>
+              <DonutGraph graphSettings="Victims" />
+            </Col>
+          </Row>
+          <br />
+          <Row gutter={24}>
+            <Col span={12}>
+              <DonutGraph graphSettings="Suspects" />
+            </Col>
+            <Col span={12}>
+              <PolarGraph graphSettings="bygender" />
+            </Col>
+          </Row>
+          <br />
+          <Row gutter={24}>
+            <Col span={12}>
+              <PolarGraph graphSettings="isstolen" />
+            </Col>
+            <Col span={12}>
+              <BarGraph graphSettings="byrelationship" />
+            </Col>
+          </Row>
+          <br />
+          <Row gutter={24}>
+            <Col span={12}>
+              <BarGraph graphSettings="byguntype" />
+            </Col>
+          </Row>
+        </Page>
+      </div>
+    );
   }
 }
 

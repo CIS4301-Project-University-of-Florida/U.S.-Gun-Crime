@@ -48,7 +48,7 @@ router.get('/:id/guns', async (req: Request, res: Response) => {
 router.get('/characteristics', async (req: Request, res: Response) => {
   try {
     const characteristics = await query(
-      `SELECT DISTINCT incident_characteristic FROM IncidentCharacteristic ORDER BY incident_characteristic`
+      `SELECT DISTINCT incident_characteristic FROM ${process.env.OWNER}.IncidentCharacteristic ORDER BY incident_characteristic`
     );
     return res.status(OK).json(characteristics);
   } catch (err) {
