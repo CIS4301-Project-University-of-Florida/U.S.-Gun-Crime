@@ -19,7 +19,7 @@
     "typescript": "3.6.3"
   },
   "scripts": {
-    "start": "set PORT=8000 && react-app-rewired start",
+    "start": "PORT=8000 react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
