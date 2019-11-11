@@ -6,8 +6,8 @@ import moment from 'moment';
 import { DATE_FORMAT } from '../DateFormat';
 import axios from 'axios';
 import styles from './CrimeResults.module.less';
-import Gun from './Gun';
-import Participant from './Participant';
+import Gun from 'entityTypes/Gun';
+import Participant from 'entityTypes/Participant';
 import LoadingSpin from 'components/LoadingSpin/LoadingSpin';
 
 // TODO: maybe extract the modal into its own component
@@ -67,6 +67,10 @@ class CrimeResults extends React.Component<
     } catch (error) {}
   };
 
+  private hideCrimeDetails = () => {
+    this.setState({ ...this.state, detailsModalVisible: false });
+  };
+
   private renderCrimeCard = (crime: GunCrime) => {
     return (
       <CrimeCard
@@ -119,6 +123,9 @@ class CrimeResults extends React.Component<
           visible={this.state.detailsModalVisible}
           title={`Details for incident #${this.state.detailsModalID}`}
           destroyOnClose={true}
+          onOk={this.hideCrimeDetails}
+          onCancel={this.hideCrimeDetails}
+          footer={null}
         >
           <section>
             <h4>Participants involved:</h4>
@@ -127,7 +134,7 @@ class CrimeResults extends React.Component<
             ) : (
               this.state.detailsModalParticipants.map((p: Participant) => {
                 return (
-                  <p key={`participants${this.state.detailsModalID}`}>
+                  <p key={`participant${p.ID}`}>
                     Name: {p.NAME} Age: {p.AGE} Type: {p.TYPE} Status:{' '}
                     {p.STATUS} Relationship: {p.RELATIONSHIP}{' '}
                   </p>
@@ -142,7 +149,7 @@ class CrimeResults extends React.Component<
             ) : (
               this.state.detailsModalGuns.map((g: Gun) => {
                 return (
-                  <p key={`guns${this.state.detailsModalID}`}>
+                  <p key={`gun${g.ID}`}>
                     Type: {g.TYPE} Stolen:{' '}
                     {g.STOLEN === 1 ? 'Yes' : g.STOLEN === 0 ? 'No' : 'Unknown'}
                   </p>

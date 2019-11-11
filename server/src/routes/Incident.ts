@@ -12,9 +12,8 @@ const router = Router();
 router.get('/:id/participants', async (req: Request, res: Response) => {
   try {
     const characteristics = await query(
-      `SELECT Participant.name, Participant.age, Participant.gender, Participant.type, Participant.status, Participant.relationship
-      FROM Incident INNER JOIN Participant ON Incident.id = Participant.incident_id
-      WHERE Incident.id = ${req.params.id}`
+      `SELECT p.id, p.name, p.age, p.gender, p.type, p.status, p.relationship
+      FROM Participant p WHERE p.incident_id = ${req.params.id}`
     );
     return res.status(OK).json(characteristics);
   } catch (err) {
@@ -31,9 +30,8 @@ router.get('/:id/participants', async (req: Request, res: Response) => {
 router.get('/:id/guns', async (req: Request, res: Response) => {
   try {
     const characteristics = await query(
-      `SELECT Gun.type, Gun.stolen
-      FROM Incident INNER JOIN Gun ON Incident.id = Gun.incident_id
-      WHERE Incident.id = ${req.params.id}`
+      `SELECT Gun.id, Gun.type, Gun.stolen
+      FROM Gun WHERE Gun.incident_id = ${req.params.id}`
     );
     return res.status(OK).json(characteristics);
   } catch (err) {

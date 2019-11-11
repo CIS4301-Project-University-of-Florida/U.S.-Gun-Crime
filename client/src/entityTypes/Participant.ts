@@ -1,10 +1,11 @@
 interface Participant {
-  AGE: number;
+  ID: number;
   NAME: string;
+  AGE: number;
   GENDER: string;
   TYPE: string;
-  RELATIONSHIP: string;
   STATUS: string;
+  RELATIONSHIP: string;
 }
 
 export default Participant;

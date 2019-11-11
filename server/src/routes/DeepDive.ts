@@ -122,9 +122,9 @@ router.post('', async (req: Request, res: Response) => {
     (
     SELECT incident_id FROM Participant
     WHERE (
-      ${ageCanBeNull ? `(age IS NOT NULL AND ` : ''}age${ageEquality}${
+      ${!ageCanBeNull ? `(age IS NULL OR ` : ''}age${ageEquality}${
       participant.age.count
-    }${ageCanBeNull ? `)` : ''}
+    }${!ageCanBeNull ? `)` : ''}
       ${
         participant.gender !== 'Any'
           ? ` OR gender IS NULL OR gender<>'${participant.gender}'`
@@ -149,15 +149,17 @@ router.post('', async (req: Request, res: Response) => {
   }
 
   const queryString = `
-    SELECT DISTINCT i.incident_id, n_participants, i_date AS incident_date, n_killed, n_injured, notes, source_url,
-    n_guns_involved, Location.latitude, Location.longitude, state, city_or_county, state_house_district, state_senate_district
-    FROM
-    (
-    SELECT Incident.id AS incident_id,  COUNT(DISTINCT p.id) AS n_participants
-    FROM Incident INNER JOIN (${participantQuery}) p ON Incident.id = p.incident_id 
-    LEFT OUTER JOIN IncidentCharacteristic ON Incident.id = IncidentCharacteristic.incident_id
-    LEFT OUTER JOIN Location ON Incident.latitude = Location.latitude AND Incident.longitude = Location.longitude
-    LEFT OUTER JOIN Gun ON Incident.id = Gun.incident_id
+    SELECT DISTINCT inc.id AS incident_id, n_participants, i_date AS incident_date, n_killed, n_injured, notes, source_url,
+    n_guns_involved, loc.latitude, loc.longitude, state, city_or_county, state_house_district, state_senate_district
+    FROM Incident inc INNER JOIN (${participantQuery}) p ON inc.id = p.incident_id 
+    LEFT OUTER JOIN IncidentCharacteristic ic ON inc.id = ic.incident_id
+    LEFT OUTER JOIN Location loc ON inc.latitude = loc.latitude AND inc.longitude = loc.longitude
+    LEFT OUTER JOIN Gun ON inc.id = Gun.incident_id
+    INNER JOIN (
+      SELECT incident_id, COUNT(DISTINCT id) AS n_participants
+      FROM Participant
+      GROUP BY incident_id
+    ) pcount ON pcount.incident_id = inc.id
     WHERE 
     n_killed${data.numKilled.equality}${data.numKilled.count}
     AND n_injured${data.numInjured.equality}${data.numInjured.count}
@@ -187,11 +189,6 @@ router.post('', async (req: Request, res: Response) => {
     ${data.cityOrCounty ? `AND city_or_county='${data.cityOrCounty}'` : ''}
     ${data.houseDistrict ? `AND house_district=${data.houseDistrict}` : ''}
     ${data.senateDistrict ? `AND senate_district=${data.senateDistrict}` : ''}
-    GROUP BY Incident.id
-    ) i
-    LEFT OUTER JOIN Incident ON i.incident_id = Incident.id
-    LEFT OUTER JOIN Location ON Incident.latitude = Location.latitude AND Incident.longitude = Location.longitude
-    LEFT OUTER JOIN Gun ON Incident.id = Gun.incident_id
     ORDER BY incident_date
   `;
 

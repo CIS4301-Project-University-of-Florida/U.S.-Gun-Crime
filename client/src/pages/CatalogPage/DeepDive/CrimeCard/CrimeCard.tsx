@@ -47,8 +47,11 @@ class CrimeCard extends React.Component<CrimeCardProps> {
             {this.props.N_PARTICIPANTS} participant
             {this.props.N_PARTICIPANTS > 1 ? 's' : ''}
             {', '}
-            {this.props.N_GUNS_INVOLVED} gun
-            {this.props.N_GUNS_INVOLVED > 1 ? 's' : ''}
+            {this.props.N_GUNS_INVOLVED
+              ? `${this.props.N_GUNS_INVOLVED} gun${
+                  this.props.N_GUNS_INVOLVED > 1 ? 's' : ''
+                }`
+              : 'unknown # of guns'}
           </p>
         </section>
         <section>
