@@ -2,6 +2,7 @@ import { logger } from '@shared';
 import { Request, Response, Router } from 'express';
 import { BAD_REQUEST, OK } from 'http-status-codes';
 import query from 'src/query/query';
+import { Incident } from 'src/table';
 
 // Init shared
 const router = Router();
@@ -13,7 +14,7 @@ router.get('/deathsperyear', async (req: Request, res: Response) => {
   try {
     const deathsperyear = await query(
       `SELECT SUM(n_killed) AS deaths
-      FROM ${process.env.OWNER}.incident
+      FROM ${Incident}
       GROUP BY extract(year FROM i_date)
       ORDER BY extract(year FROM i_date) ASC`
     );

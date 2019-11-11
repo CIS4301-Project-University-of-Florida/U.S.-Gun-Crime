@@ -2,6 +2,13 @@ import { logger } from '@shared';
 import { Request, Response, Router } from 'express';
 import { BAD_REQUEST, OK } from 'http-status-codes';
 import query from 'src/query/query';
+import {
+  Participant,
+  Incident,
+  IncidentCharacteristic,
+  Gun,
+  Location,
+} from 'src/table';
 
 // Init shared
 const router = Router();
@@ -82,7 +89,7 @@ router.post('', async (req: Request, res: Response) => {
 
   if (participant.qualifier === 'any') {
     participantQuery = `
-    SELECT id, incident_id FROM Participant
+    SELECT id, incident_id FROM ${Participant}
     WHERE (
       ${
         ageCanBeNull
@@ -117,10 +124,10 @@ router.post('', async (req: Request, res: Response) => {
     SELECT id, onlyParticipants.incident_id
     FROM
     (
-    SELECT incident_id FROM Participant
+    SELECT incident_id FROM ${Participant}
     MINUS
     (
-    SELECT incident_id FROM Participant
+    SELECT incident_id FROM ${Participant}
     WHERE (
       ${!ageCanBeNull ? `(age IS NULL OR ` : ''}age${ageEquality}${
       participant.age.count
@@ -145,19 +152,19 @@ router.post('', async (req: Request, res: Response) => {
           ? ` OR relationship IS NULL OR relationship<>'${participant.relationship}'`
           : ''
       }
-    ))) onlyParticipants INNER JOIN Participant ON onlyParticipants.incident_id = Participant.incident_id`;
+    ))) onlyParticipants INNER JOIN ${Participant} ON onlyParticipants.incident_id = Participant.incident_id`;
   }
 
   const queryString = `
     SELECT DISTINCT inc.id AS incident_id, n_participants, i_date AS incident_date, n_killed, n_injured, notes, source_url,
     n_guns_involved, loc.latitude, loc.longitude, state, city_or_county, state_house_district, state_senate_district
-    FROM Incident inc INNER JOIN (${participantQuery}) p ON inc.id = p.incident_id 
-    LEFT OUTER JOIN IncidentCharacteristic ic ON inc.id = ic.incident_id
-    LEFT OUTER JOIN Location loc ON inc.latitude = loc.latitude AND inc.longitude = loc.longitude
-    LEFT OUTER JOIN Gun ON inc.id = Gun.incident_id
+    FROM ${Incident} inc INNER JOIN (${participantQuery}) p ON inc.id = p.incident_id 
+    LEFT OUTER JOIN ${IncidentCharacteristic} ic ON inc.id = ic.incident_id
+    LEFT OUTER JOIN ${Location} loc ON inc.latitude = loc.latitude AND inc.longitude = loc.longitude
+    LEFT OUTER JOIN ${Gun} ON inc.id = Gun.incident_id
     INNER JOIN (
       SELECT incident_id, COUNT(DISTINCT id) AS n_participants
-      FROM Participant
+      FROM ${Participant}
       GROUP BY incident_id
     ) pcount ON pcount.incident_id = inc.id
     WHERE 

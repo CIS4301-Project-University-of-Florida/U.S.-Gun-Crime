@@ -2,6 +2,7 @@ import { logger } from '@shared';
 import { Request, Response, Router } from 'express';
 import { BAD_REQUEST, OK } from 'http-status-codes';
 import query from 'src/query/query';
+import { Participant } from 'src/table';
 
 // Init shared
 const router = Router();
@@ -24,8 +25,8 @@ router.get('/Victims', async (req: Request, res: Response) => {
         SUM(CASE WHEN A.age BETWEEN 90 AND 99 THEN 1 ELSE 0 END) AS group10,
         SUM(CASE WHEN A.age BETWEEN 100 AND 109 THEN 1 ELSE 0 END) AS group11
         FROM (SELECT * FROM
-        ${process.env.OWNER}.participant
-        WHERE ${process.env.OWNER}.participant.type='Victim') A`
+        ${Participant}
+        WHERE ${Participant}.type='Victim') A`
     );
     return res.status(OK).json(Victims);
   } catch (err) {
@@ -54,8 +55,8 @@ router.get('/Suspects', async (req: Request, res: Response) => {
         SUM(CASE WHEN A.age BETWEEN 90 AND 99 THEN 1 ELSE 0 END) AS group10,
         SUM(CASE WHEN A.age BETWEEN 100 AND 109 THEN 1 ELSE 0 END) AS group11
         FROM (SELECT * FROM
-        ${process.env.OWNER}.participant
-        WHERE ${process.env.OWNER}.participant.type='Subject-Suspect') A`
+        ${Participant}
+        WHERE ${Participant}.type='Subject-Suspect') A`
     );
     return res.status(OK).json(Suspects);
   } catch (err) {

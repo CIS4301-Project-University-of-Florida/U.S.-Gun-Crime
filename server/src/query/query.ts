@@ -4,8 +4,6 @@ import { logger } from '@shared';
 
 /** Convenience function for connecting to the Oracle database and executing queries.
  *  Returns a promise whose value is either undefined or an array of EntityType objects.
- *  Example call: query<Incident>('SELECT * FROM Incident'). Assuming this doesn't return
- *  undefined, you'll get an array of objects that conform to the Incident interface.
  *
  * @param statement The query to execute, denoted as a string.
  * @returns A Promise whose resolved value is either an EntityType array or undefined.

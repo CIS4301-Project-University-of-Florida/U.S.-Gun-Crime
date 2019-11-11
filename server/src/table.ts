@@ -3,7 +3,7 @@
  *
  * @param name The name of the table.
  */
-export const table = (
+const table = (
   name:
     | 'Incident'
     | 'IncidentCharacteristic'
@@ -13,3 +13,9 @@ export const table = (
 ) => {
   return `${process.env.OWNER}.${name}`;
 };
+
+export const Incident = table('Incident');
+export const IncidentCharacteristic = table('IncidentCharacteristic');
+export const Location = table('Location');
+export const Gun = table('Gun');
+export const Participant = table('Participant');
