@@ -12,7 +12,7 @@ const router = Router();
 router.get('/states', async (req: Request, res: Response) => {
   try {
     const states = await query(
-      `SELECT DISTINCT state FROM Location ORDER BY state`
+      `SELECT DISTINCT state FROM ${process.env.OWNER}.Location ORDER BY state`
     );
     return res.status(OK).json(states);
   } catch (err) {

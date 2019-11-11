@@ -7,14 +7,17 @@ import query from 'src/query/query';
 const router = Router();
 
 /**
- * Returns all distinct characteristics that an incident may have.
+ * Returns deaths per year: 2013, 2014, 2015, 2016, 2017, 2018
  */
-router.get('/characteristics', async (req: Request, res: Response) => {
+router.get('/deathsperyear', async (req: Request, res: Response) => {
   try {
-    const characteristics = await query(
-      `SELECT DISTINCT incident_characteristic FROM ${process.env.OWNER}.IncidentCharacteristic ORDER BY incident_characteristic`
+    const deathsperyear = await query(
+      `SELECT SUM(n_killed) AS deaths
+      FROM ${process.env.OWNER}.incident
+      GROUP BY extract(year FROM i_date)
+      ORDER BY extract(year FROM i_date) ASC`
     );
-    return res.status(OK).json(characteristics);
+    return res.status(OK).json(deathsperyear);
   } catch (err) {
     logger.error(err.message, err);
     return res.status(BAD_REQUEST).json({

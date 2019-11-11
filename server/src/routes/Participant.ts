@@ -12,7 +12,7 @@ const router = Router();
 router.get('/relationships', async (req: Request, res: Response) => {
   try {
     const relationships = await query(
-      `SELECT DISTINCT relationship FROM Participant 
+      `SELECT DISTINCT relationship FROM ${process.env.OWNER}.Participant 
       WHERE relationship IS NOT NULL ORDER BY relationship`
     );
     return res.status(OK).json(relationships);

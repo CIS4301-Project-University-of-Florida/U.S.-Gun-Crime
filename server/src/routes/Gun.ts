@@ -11,7 +11,9 @@ const router = Router();
  */
 router.get('/types', async (req: Request, res: Response) => {
   try {
-    const types = await query(`SELECT DISTINCT type FROM Gun ORDER BY type`);
+    const types = await query(
+      `SELECT DISTINCT type FROM ${process.env.OWNER}.Gun ORDER BY type`
+    );
     return res.status(OK).json(types);
   } catch (err) {
     logger.error(err.message, err);

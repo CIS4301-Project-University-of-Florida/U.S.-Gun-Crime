@@ -43,7 +43,6 @@ class CatalogPage extends React.Component {
             </Card>
           </Link>
         </article>
-        ,
       </Page>
     );
   }
