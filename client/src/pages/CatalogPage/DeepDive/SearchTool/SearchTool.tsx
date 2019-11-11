@@ -242,9 +242,9 @@ class SearchTool extends React.Component<{}, SearchToolState> {
         ...payload
       } = this.state;
 
-      // 60,000 ms = 1 minute
+      // 120,000 ms = 2 minutes
       const response = await axios.post('/api/deepdive', payload, {
-        timeout: 60000,
+        timeout: 120000,
       });
       this.setState({
         ...this.state,

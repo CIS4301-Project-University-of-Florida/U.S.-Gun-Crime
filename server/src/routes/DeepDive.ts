@@ -61,9 +61,6 @@ const invert = (equalitySymbol: string) => {
 router.post('', async (req: Request, res: Response) => {
   const data: FormData = req.body;
 
-  logger.info('/api/deepDive endpoint received this data:');
-  console.log(data);
-
   const participant = data.participant;
 
   const ageEquality =
@@ -203,7 +200,7 @@ router.post('', async (req: Request, res: Response) => {
   console.log(queryString);
 
   try {
-    const incidents = await query(queryString);
+    const incidents = await query(queryString, true);
     return res.status(OK).json(incidents);
   } catch (err) {
     logger.error(err.message, err);
