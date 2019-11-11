@@ -12,7 +12,7 @@ const router = Router();
 router.get('/:id/participants', async (req: Request, res: Response) => {
   try {
     const characteristics = await query(
-      `SELECT Participant.name, Participant.age, Partcipant.gender, Participant.type, Participant.status, Participant.relationship
+      `SELECT Participant.name, Participant.age, Participant.gender, Participant.type, Participant.status, Participant.relationship
       FROM Incident INNER JOIN Participant ON Incident.id = Participant.incident_id
       WHERE Incident.id = ${req.params.id}`
     );

@@ -54,6 +54,9 @@ class CrimeResults extends React.Component<
       const participants = await axios.get(`/api/incident/${id}/participants`);
       const guns = await axios.get(`/api/incident/${id}/guns`);
 
+      console.log(participants.data);
+      console.log(guns.data);
+
       this.setState({
         ...this.state,
         waitingForParticipantData: false,
@@ -124,9 +127,9 @@ class CrimeResults extends React.Component<
             ) : (
               this.state.detailsModalParticipants.map((p: Participant) => {
                 return (
-                  <p>
-                    Name: {p.NAME} Age: {p.AGE} Gender: {p.GENDER} Type:{' '}
-                    {p.TYPE} Status: {p.STATUS} Relationship: {p.RELATIONSHIP}{' '}
+                  <p key={`participants${this.state.detailsModalID}`}>
+                    Name: {p.NAME} Age: {p.AGE} Type: {p.TYPE} Status:{' '}
+                    {p.STATUS} Relationship: {p.RELATIONSHIP}{' '}
                   </p>
                 );
               })
@@ -139,7 +142,7 @@ class CrimeResults extends React.Component<
             ) : (
               this.state.detailsModalGuns.map((g: Gun) => {
                 return (
-                  <p>
+                  <p key={`guns${this.state.detailsModalID}`}>
                     Type: {g.TYPE} Stolen:{' '}
                     {g.STOLEN === 1 ? 'Yes' : g.STOLEN === 0 ? 'No' : 'Unknown'}
                   </p>
