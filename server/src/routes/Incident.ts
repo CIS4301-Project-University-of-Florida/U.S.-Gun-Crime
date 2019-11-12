@@ -8,15 +8,33 @@ import { IncidentCharacteristic, Participant, Gun } from 'src/table';
 const router = Router();
 
 /**
+ * Returns the characteristics associated with the given incident ID.
+ */
+router.get('/:id/characteristics', async (req: Request, res: Response) => {
+  try {
+    const characteristics = await query(
+      `SELECT incident_characteristic
+      FROM ${IncidentCharacteristic} WHERE incident_id = ${req.params.id}`
+    );
+    return res.status(OK).json(characteristics);
+  } catch (err) {
+    logger.error(err.message, err);
+    return res.status(BAD_REQUEST).json({
+      error: err.message,
+    });
+  }
+});
+
+/**
  * Returns participant info for the incident with the given ID.
  */
 router.get('/:id/participants', async (req: Request, res: Response) => {
   try {
-    const characteristics = await query(
+    const participants = await query(
       `SELECT p.id, p.name, p.age, p.gender, p.type, p.status, p.relationship
       FROM ${Participant} p WHERE p.incident_id = ${req.params.id}`
     );
-    return res.status(OK).json(characteristics);
+    return res.status(OK).json(participants);
   } catch (err) {
     logger.error(err.message, err);
     return res.status(BAD_REQUEST).json({
@@ -30,11 +48,11 @@ router.get('/:id/participants', async (req: Request, res: Response) => {
  */
 router.get('/:id/guns', async (req: Request, res: Response) => {
   try {
-    const characteristics = await query(
+    const guns = await query(
       `SELECT g.id, g.type, g.stolen
       FROM ${Gun} g WHERE g.incident_id = ${req.params.id}`
     );
-    return res.status(OK).json(characteristics);
+    return res.status(OK).json(guns);
   } catch (err) {
     logger.error(err.message, err);
     return res.status(BAD_REQUEST).json({
