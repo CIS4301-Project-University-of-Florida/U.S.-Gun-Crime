@@ -1,23 +1,27 @@
-import oracledb, { Result } from 'oracledb';
+import oracledb from 'oracledb';
 import config from 'src/config';
 import { logger } from '@shared';
 
 /** Convenience function for connecting to the Oracle database and executing queries.
- *  Returns a promise whose value is either undefined or an array of EntityType objects.
- *  Example call: query<Incident>('SELECT * FROM Incident'). Assuming this doesn't return
- *  undefined, you'll get an array of objects that conform to the Incident interface.
  *
  * @param statement The query to execute, denoted as a string.
+ * @param shouldOptimize A flag denoting whether the query needs to be optimized (e.g., for large result sets).
  * @returns A Promise whose resolved value is either an EntityType array or undefined.
  */
-async function query<EntityType>(
-  statement: string
-): Promise<EntityType[] | undefined> {
+async function query(statement: string, shouldOptimize: boolean = false) {
   let connection;
+
+  // fetchArraySize denotes the number of rows the DB should fetch at a time.
+  // By default, this is 100. Some queries, like ones from the deep dive tool,
+  // return thousands (potentially hundreds of thousands) of rows. Reducing the
+  // number of round trips allows the queries to execute in a more reasonable
+  // amount of time, but it's a tradeoff with memory (because we don't always
+  // need a buffer for 232,000 rows).
+  oracledb.fetchArraySize = shouldOptimize ? 232000 : 300;
 
   try {
     connection = await oracledb.getConnection(config);
-    const result: Result<EntityType> = await connection.execute(statement, [], {
+    const result = await connection.execute(statement, [], {
       outFormat: oracledb.OUT_FORMAT_OBJECT,
     });
     return result.rows;

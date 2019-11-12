@@ -1,6 +1,6 @@
 # U.S. Gun Crime
 
-> A web app that informs users about gun crime trends in the U.S., using over 260,000 incident records scraped from the Gun Violence Archive for the period of 2013–2018. [Data source](https://github.com/jamesqo/gun-violence-data).
+> A web app that informs users about gun crime trends in the U.S., using over 230,000 incident records scraped from the Gun Violence Archive for the period of 2013–2018. [Data source](https://github.com/jamesqo/gun-violence-data).
 
 ## Getting Started
 

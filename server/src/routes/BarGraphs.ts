@@ -2,6 +2,7 @@ import { logger } from '@shared';
 import { Request, Response, Router } from 'express';
 import { BAD_REQUEST, OK } from 'http-status-codes';
 import query from 'src/query/query';
+import { Incident, Gun, Participant } from 'src/table';
 
 // Init shared
 const router = Router();
@@ -13,8 +14,8 @@ router.get('/byguntype', async (req: Request, res: Response) => {
   try {
     const bygender = await query(
       `SELECT type, SUM(n_killed) AS n_killed
-        FROM ${process.env.OWNER}.incident, ${process.env.OWNER}.gun
-        WHERE ${process.env.OWNER}.incident.id = ${process.env.OWNER}.gun.incident_id
+        FROM ${Incident}, ${Gun}
+        WHERE ${Incident}.id = ${Gun}.incident_id
         AND type IS NOT NULL
         GROUP BY type`
     );
@@ -34,8 +35,8 @@ router.get('/byrelationship', async (req: Request, res: Response) => {
   try {
     const bygender = await query(
       `SELECT relationship, COUNT(incident_id) AS incidentcount
-        FROM ${process.env.OWNER}.incident, ${process.env.OWNER}.participant
-        WHERE ${process.env.OWNER}.incident.id = ${process.env.OWNER}.participant.incident_id
+        FROM ${Incident}, ${Participant}
+        WHERE ${Incident}.id = ${Participant}.incident_id
         AND relationship IS NOT NULL
         GROUP BY relationship`
     );

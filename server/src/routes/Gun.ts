@@ -2,6 +2,7 @@ import { logger } from '@shared';
 import { Request, Response, Router } from 'express';
 import { BAD_REQUEST, OK } from 'http-status-codes';
 import query from 'src/query/query';
+import { Gun } from 'src/table';
 
 // Init shared
 const router = Router();
@@ -11,9 +12,7 @@ const router = Router();
  */
 router.get('/types', async (req: Request, res: Response) => {
   try {
-    const types = await query(
-      `SELECT DISTINCT type FROM ${process.env.OWNER}.Gun ORDER BY type`
-    );
+    const types = await query(`SELECT DISTINCT type FROM ${Gun} ORDER BY type`);
     return res.status(OK).json(types);
   } catch (err) {
     logger.error(err.message, err);

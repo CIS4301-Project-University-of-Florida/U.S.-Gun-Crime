@@ -2,6 +2,7 @@ import { logger } from '@shared';
 import { Request, Response, Router } from 'express';
 import { BAD_REQUEST, OK } from 'http-status-codes';
 import query from 'src/query/query';
+import { Participant } from 'src/table';
 
 // Init shared
 const router = Router();
@@ -12,7 +13,7 @@ const router = Router();
 router.get('/genders', async (req: Request, res: Response) => {
   try {
     const relationships = await query(
-      `SELECT DISTINCT gender FROM Participant 
+      `SELECT DISTINCT gender FROM ${Participant} 
       WHERE gender IS NOT NULL ORDER BY gender`
     );
     return res.status(OK).json(relationships);
@@ -30,7 +31,7 @@ router.get('/genders', async (req: Request, res: Response) => {
 router.get('/types', async (req: Request, res: Response) => {
   try {
     const types = await query(
-      `SELECT DISTINCT type FROM Participant 
+      `SELECT DISTINCT type FROM ${Participant} 
       WHERE type IS NOT NULL ORDER BY type`
     );
     return res.status(OK).json(types);
@@ -48,7 +49,7 @@ router.get('/types', async (req: Request, res: Response) => {
 router.get('/statuses', async (req: Request, res: Response) => {
   try {
     const statuses = await query(
-      `SELECT DISTINCT status FROM Participant 
+      `SELECT DISTINCT status FROM ${Participant} 
       WHERE status IS NOT NULL ORDER BY status`
     );
     return res.status(OK).json(statuses);
@@ -66,7 +67,7 @@ router.get('/statuses', async (req: Request, res: Response) => {
 router.get('/relationships', async (req: Request, res: Response) => {
   try {
     const relationships = await query(
-      `SELECT DISTINCT relationship FROM ${process.env.OWNER}.Participant 
+      `SELECT DISTINCT relationship FROM ${Participant} 
       WHERE relationship IS NOT NULL ORDER BY relationship`
     );
     return res.status(OK).json(relationships);

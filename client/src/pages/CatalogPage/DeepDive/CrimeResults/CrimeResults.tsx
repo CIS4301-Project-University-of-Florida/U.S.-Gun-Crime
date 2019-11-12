@@ -54,9 +54,6 @@ class CrimeResults extends React.Component<
       const participants = await axios.get(`/api/incident/${id}/participants`);
       const guns = await axios.get(`/api/incident/${id}/guns`);
 
-      console.log(participants.data);
-      console.log(guns.data);
-
       this.setState({
         ...this.state,
         waitingForParticipantData: false,
