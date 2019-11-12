@@ -22,6 +22,7 @@ class CrimeCard extends React.Component<CrimeCardProps> {
           </div>
         }
         className={styles.crimeCard}
+        hoverable={true}
         onClick={this.onClick}
       >
         <section>

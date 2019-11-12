@@ -9,11 +9,14 @@ import styles from './CrimeResults.module.less';
 import Gun from 'entityTypes/Gun';
 import Participant from 'entityTypes/Participant';
 import LoadingSpin from 'components/LoadingSpin/LoadingSpin';
+import IncidentCharacteristic from 'entityTypes/IncidentCharacteristic';
 
 // TODO: maybe extract the modal into its own component
 interface CrimeResultsState {
   detailsModalVisible: boolean;
   detailsModalID: number;
+  detailsModalCharacteristics: IncidentCharacteristic[];
+  waitingForCharacteristicData: boolean;
   detailsModalParticipants: Participant[];
   waitingForParticipantData: boolean;
   detailsModalGuns: Gun[];
@@ -34,6 +37,8 @@ class CrimeResults extends React.Component<
     this.state = {
       detailsModalVisible: false,
       detailsModalID: -1,
+      detailsModalCharacteristics: [],
+      waitingForCharacteristicData: false,
       detailsModalParticipants: [],
       waitingForParticipantData: false,
       detailsModalGuns: [],
@@ -46,18 +51,24 @@ class CrimeResults extends React.Component<
       ...this.state,
       detailsModalID: id,
       detailsModalVisible: true,
+      waitingForCharacteristicData: true,
       waitingForParticipantData: true,
       waitingForGunData: true,
     });
 
     try {
+      const characteristics = await axios.get(
+        `/api/incident/${id}/characteristics`
+      );
       const participants = await axios.get(`/api/incident/${id}/participants`);
       const guns = await axios.get(`/api/incident/${id}/guns`);
 
       this.setState({
         ...this.state,
+        waitingForCharacteristicData: false,
         waitingForParticipantData: false,
         waitingForGunData: false,
+        detailsModalCharacteristics: characteristics.data,
         detailsModalParticipants: participants.data,
         detailsModalGuns: guns.data,
       });
@@ -125,6 +136,20 @@ class CrimeResults extends React.Component<
           footer={null}
         >
           <section>
+            <h4>Characteristics</h4>
+            {this.state.waitingForCharacteristicData ? (
+              <LoadingSpin />
+            ) : (
+              this.state.detailsModalCharacteristics.map(
+                (c: IncidentCharacteristic) => (
+                  <p key={`${c.INCIDENT_ID}${c.INCIDENT_CHARACTERISTIC}`}>
+                    {c.INCIDENT_CHARACTERISTIC}
+                  </p>
+                )
+              )
+            )}
+          </section>
+          <section>
             <h4>Participants involved:</h4>
             {this.state.waitingForParticipantData ? (
               <LoadingSpin />
@@ -132,8 +157,17 @@ class CrimeResults extends React.Component<
               this.state.detailsModalParticipants.map((p: Participant) => {
                 return (
                   <p key={`participant${p.ID}`}>
-                    Name: {p.NAME} Age: {p.AGE} Type: {p.TYPE} Status:{' '}
-                    {p.STATUS} Relationship: {p.RELATIONSHIP}{' '}
+                    Name: {p.NAME ? p.NAME : 'Unknown'}
+                    <br />
+                    Age: {p.AGE ? p.AGE : 'Unknown'}
+                    <br />
+                    Type: {p.TYPE ? p.TYPE : 'Unknown'}
+                    <br />
+                    Status: {p.STATUS ? p.STATUS : 'Unknown'}
+                    <br />
+                    Relationship: {p.RELATIONSHIP
+                      ? p.RELATIONSHIP
+                      : 'Unknown'}{' '}
                   </p>
                 );
               })
@@ -147,7 +181,9 @@ class CrimeResults extends React.Component<
               this.state.detailsModalGuns.map((g: Gun) => {
                 return (
                   <p key={`gun${g.ID}`}>
-                    Type: {g.TYPE} Stolen:{' '}
+                    Type: {g.TYPE ? g.TYPE : 'Unknown'}
+                    <br />
+                    Stolen:{' '}
                     {g.STOLEN === 1 ? 'Yes' : g.STOLEN === 0 ? 'No' : 'Unknown'}
                   </p>
                 );
