@@ -6,6 +6,7 @@ import MapIcon from './MapIcon';
 import { Slider } from 'antd';
 import axios from 'axios';
 import { SliderValue } from 'antd/lib/slider';
+import { Link } from 'react-router-dom';
 
 interface Coordinate {
   LATITUDE: number;
@@ -77,6 +78,10 @@ class GeographicDistribution extends React.Component<
   public render() {
     return (
       <Page title={PageEnum.GEOGRAPHIC_DISTRIBUTION.title}>
+        <p>
+          Disclaimer: Some data is missing from the years 2013 and 2018. See{' '}
+          <Link to={PageEnum.ABOUT.url}>the about page</Link> for more info.
+        </p>
         <Slider
           dots={true}
           defaultValue={2013}
