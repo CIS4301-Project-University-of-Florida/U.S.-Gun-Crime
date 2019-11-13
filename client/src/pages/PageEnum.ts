@@ -4,6 +4,7 @@ import AboutPage from './AboutPage/AboutPage';
 import DataVisualization from './CatalogPage/DataVisualizations/DataVisualizations';
 import Rankings from './CatalogPage/Rankings/Rankings';
 import DeepDive from './CatalogPage/DeepDive/DeepDive';
+import GeographicDistribution from './CatalogPage/GeographicDistribution/GeographicDistribution';
 
 // https://stackoverflow.com/a/51398471/5323344
 
@@ -53,5 +54,11 @@ export class PageEnum {
     '/deep-dive',
     'Data Deep Dive',
     DeepDive
+  );
+
+  public static readonly GEOGRAPHIC_DISTRIBUTION = new PageEnum(
+    '/geographic-distribution',
+    'Geographic Distribution of Gun Crimes',
+    GeographicDistribution
   );
 }
