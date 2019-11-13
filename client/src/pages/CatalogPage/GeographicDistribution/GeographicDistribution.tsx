@@ -14,7 +14,8 @@ interface Coordinate {
 
 interface GeographicDistributionState {
   waitingForData: boolean;
-  locations: Coordinate[];
+  currentYear: string;
+  locations: { [key: string]: Coordinate[] };
 }
 
 class GeographicDistribution extends React.Component<
@@ -34,25 +35,43 @@ class GeographicDistribution extends React.Component<
 
   public constructor(props: {}) {
     super(props);
-    this.state = { waitingForData: true, locations: [] };
-    this.fetchLocationsFor(this.sliderMarks[2013]);
+    this.state = {
+      currentYear: '2013',
+      waitingForData: true,
+      locations: { 2013: [], 2014: [], 2015: [], 2016: [], 2017: [], 2018: [] },
+    };
+
+    console.log(this.state.locations[this.state.currentYear]);
+
+    this.fetchLocationsFor('2013');
   }
 
   private fetchLocationsFor = async (year: string) => {
-    this.setState({ waitingForData: true });
+    this.setState({ ...this.state, waitingForData: true });
 
     try {
       const locations = await axios.get(`/api/location/coordinates/${year}`);
 
       this.setState({
+        ...this.state,
         waitingForData: false,
-        locations: locations.data,
+        currentYear: year,
+        locations: { ...this.state.locations, [year]: locations.data },
       });
     } catch (error) {}
   };
 
   private onYearChange = (value: SliderValue) => {
-    this.fetchLocationsFor(value.toString());
+    const year = value.toString();
+
+    // If we already have data for that year, simply change the current year
+    // but don't refetch the data from the DB
+    if (this.state.locations[year].length) {
+      this.setState({ ...this.state, currentYear: year });
+      return;
+    }
+
+    this.fetchLocationsFor(year);
   };
 
   public render() {
@@ -72,17 +91,19 @@ class GeographicDistribution extends React.Component<
           <GoogleMapReact
             bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAP_API_KEY }}
             defaultCenter={this.mapCenter}
-            defaultZoom={4.5}
+            defaultZoom={2}
           >
-            {this.state.locations.map((loc: Coordinate) => {
-              return (
-                <MapIcon
-                  key={`${loc.LATITUDE}${loc.LONGITUDE}`}
-                  lat={loc.LATITUDE}
-                  lng={loc.LONGITUDE}
-                />
-              );
-            })}
+            {this.state.locations[this.state.currentYear].map(
+              (loc: Coordinate) => {
+                return (
+                  <MapIcon
+                    key={`${loc.LATITUDE}${loc.LONGITUDE}`}
+                    lat={loc.LATITUDE}
+                    lng={loc.LONGITUDE}
+                  />
+                );
+              }
+            )}
           </GoogleMapReact>
         </div>
       </Page>
