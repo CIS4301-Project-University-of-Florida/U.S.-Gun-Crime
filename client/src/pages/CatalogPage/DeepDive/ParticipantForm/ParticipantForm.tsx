@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import DataForm from 'components/Forms/DataForm/DataForm';
 import axios from 'axios';
-import { ANY_OPTION } from '../DeepDive/AnyOption';
+import { ANY_OPTION } from '../AnyOption';
 import FormField from 'components/Forms/FormField/FormField';
 import { Radio } from 'antd';
 import LoadingSpin from 'components/LoadingSpin/LoadingSpin';
