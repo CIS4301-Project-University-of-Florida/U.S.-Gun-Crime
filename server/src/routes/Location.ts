@@ -2,7 +2,7 @@ import { logger } from '@shared';
 import { Request, Response, Router } from 'express';
 import { BAD_REQUEST, OK } from 'http-status-codes';
 import query from 'src/query/query';
-import { Location } from 'src/table';
+import { Location, Incident } from 'src/table';
 
 // Init shared
 const router = Router();
@@ -116,6 +116,26 @@ router.get('/senateDistricts', async (req: Request, res: Response) => {
   try {
     const senateDistricts = await query(
       `SELECT DISTINCT state_senate_district FROM ${Location} ORDER BY state_senate_district`
+    );
+    return res.status(OK).json(senateDistricts);
+  } catch (err) {
+    logger.error(err.message, err);
+    return res.status(BAD_REQUEST).json({
+      error: err.message,
+    });
+  }
+});
+
+/**
+ * Returns the coordinates (latitude/longitude) of all crimes that occurred in the given year.
+ */
+router.get('/coordinates/:year', async (req: Request, res: Response) => {
+  try {
+    const senateDistricts = await query(
+      `SELECT DISTINCT loc.latitude, loc.longitude
+      FROM ${Location} loc INNER JOIN ${Incident} inc 
+      ON loc.latitude = inc.latitude AND loc.longitude = inc.longitude
+      WHERE EXTRACT(YEAR FROM i_date) = '${req.params.year}'`
     );
     return res.status(OK).json(senateDistricts);
   } catch (err) {
