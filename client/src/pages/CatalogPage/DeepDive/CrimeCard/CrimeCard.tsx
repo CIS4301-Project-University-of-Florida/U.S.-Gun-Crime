@@ -9,7 +9,14 @@ interface CrimeCardProps extends CardProps, GunCrime {
 }
 
 class CrimeCard extends React.Component<CrimeCardProps> {
-  public onClick = () => {
+  private onNewsAnchorClicked = (
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
+    // Don't trigger onCardClicked if just the news article was clicked
+    event.stopPropagation();
+  };
+
+  private onCardClicked = () => {
     this.props.launchDetailsModal(this.props.INCIDENT_ID);
   };
 
@@ -23,7 +30,7 @@ class CrimeCard extends React.Component<CrimeCardProps> {
         }
         className={styles.crimeCard}
         hoverable={true}
-        onClick={this.onClick}
+        onClick={this.onCardClicked}
       >
         <section>
           <p>
@@ -65,6 +72,7 @@ class CrimeCard extends React.Component<CrimeCardProps> {
             href={this.props.SOURCE_URL}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={this.onNewsAnchorClicked}
           >
             <Icon type="notification" /> In the news
           </a>

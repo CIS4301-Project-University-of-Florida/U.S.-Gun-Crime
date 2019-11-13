@@ -1,6 +1,6 @@
 import React from 'react';
 import { GunCrime } from 'pages/CatalogPage/GunCrime';
-import { Statistic, List, Icon, Result, Modal } from 'antd';
+import { List, Icon, Result, Modal } from 'antd';
 import CrimeCard from '../CrimeCard/CrimeCard';
 import moment from 'moment';
 import { DATE_FORMAT } from '../DateFormat';
@@ -12,7 +12,6 @@ import LoadingSpin from 'components/LoadingSpin/LoadingSpin';
 import IncidentCharacteristic from 'entityTypes/IncidentCharacteristic';
 import AggregateStatistics from './AggregateStatistics';
 
-// TODO: maybe extract the modal into its own component
 interface CrimeResultsState {
   detailsModalVisible: boolean;
   detailsModalID: number;
@@ -75,7 +74,9 @@ class CrimeResults extends React.Component<
         detailsModalParticipants: participants.data,
         detailsModalGuns: guns.data,
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log(`CrimeResults's showCrimeDetails: ${error}`);
+    }
   };
 
   private hideCrimeDetails = () => {
@@ -115,48 +116,56 @@ class CrimeResults extends React.Component<
             <>
               <section>
                 <h4>Characteristics</h4>
-                {this.state.detailsModalCharacteristics.map(
-                  (c: IncidentCharacteristic) => (
-                    <p key={`${c.INCIDENT_ID}${c.INCIDENT_CHARACTERISTIC}`}>
-                      {c.INCIDENT_CHARACTERISTIC}
-                    </p>
-                  )
-                )}
+                <ul>
+                  {this.state.detailsModalCharacteristics.map(
+                    (c: IncidentCharacteristic) => (
+                      <li key={`${c.INCIDENT_ID}${c.INCIDENT_CHARACTERISTIC}`}>
+                        {c.INCIDENT_CHARACTERISTIC}
+                      </li>
+                    )
+                  )}
+                </ul>
               </section>
               <section>
                 <h4>Participants involved:</h4>
-                {this.state.detailsModalParticipants.map((p: Participant) => {
-                  return (
-                    <p key={`participant${p.ID}`}>
-                      Name: {interpret(p.NAME)}
-                      <br />
-                      Age: {interpret(p.AGE)}
-                      <br />
-                      Type: {interpret(p.TYPE)}
-                      <br />
-                      Status: {interpret(p.STATUS)}
-                      <br />
-                      Relationship: {interpret(p.RELATIONSHIP)}
-                    </p>
-                  );
-                })}
+                <div className={styles.detailsModalGrid}>
+                  {this.state.detailsModalParticipants.map((p: Participant) => {
+                    return (
+                      <p key={`participant${p.ID}`}>
+                        Name: {interpret(p.NAME)}
+                        <br />
+                        Age: {interpret(p.AGE)}
+                        <br />
+                        Type: {interpret(p.TYPE)}
+                        <br />
+                        Status: {interpret(p.STATUS)}
+                        <br />
+                        Relationship: {interpret(p.RELATIONSHIP)}
+                      </p>
+                    );
+                  })}
+                </div>
               </section>
               <section>
                 <h4>Guns involved:</h4>
-                {this.state.detailsModalGuns.map((g: Gun) => {
-                  return (
-                    <p key={`gun${g.ID}`}>
-                      Type: {interpret(g.TYPE)}
-                      <br />
-                      Stolen:{' '}
-                      {g.STOLEN === 1
-                        ? 'Yes'
-                        : g.STOLEN === 0
-                        ? 'No'
-                        : 'Unknown'}
-                    </p>
-                  );
-                })}
+                <div className={styles.detailsModalGrid}>
+                  {this.state.detailsModalGuns.length
+                    ? this.state.detailsModalGuns.map((g: Gun) => {
+                        return (
+                          <p key={`gun${g.ID}`}>
+                            Type: {interpret(g.TYPE)}
+                            <br />
+                            Stolen:{' '}
+                            {g.STOLEN === 1
+                              ? 'Yes'
+                              : g.STOLEN === 0
+                              ? 'No'
+                              : 'Unknown'}
+                          </p>
+                        );
+                      })
+                    : 'Gun data unavailable for this incident.'}
+                </div>
               </section>
             </>
           )}
