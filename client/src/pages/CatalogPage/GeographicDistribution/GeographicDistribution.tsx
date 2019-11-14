@@ -101,6 +101,7 @@ class GeographicDistribution extends React.Component<
           width={980}
           height={551}
           style={{
+            marginTop: '2.5rem',
             width: '100%',
             height: '100%',
           }}
