@@ -131,13 +131,13 @@ router.get('/senateDistricts', async (req: Request, res: Response) => {
  */
 router.get('/coordinates/:year', async (req: Request, res: Response) => {
   try {
-    const senateDistricts = await query(
+    const coordinates = await query(
       `SELECT DISTINCT loc.latitude, loc.longitude
       FROM ${Location} loc INNER JOIN ${Incident} inc 
       ON loc.latitude = inc.latitude AND loc.longitude = inc.longitude
       WHERE EXTRACT(YEAR FROM i_date) = '${req.params.year}'`
     );
-    return res.status(OK).json(senateDistricts);
+    return res.status(OK).json(coordinates);
   } catch (err) {
     logger.error(err.message, err);
     return res.status(BAD_REQUEST).json({

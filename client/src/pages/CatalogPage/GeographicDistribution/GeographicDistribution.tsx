@@ -1,12 +1,18 @@
 import React from 'react';
 import Page from 'components/Layout/Page/Page';
 import { PageEnum } from 'pages/PageEnum';
-import GoogleMapReact from 'google-map-react';
-import MapIcon from './MapIcon';
 import { Slider } from 'antd';
 import axios from 'axios';
 import { SliderValue } from 'antd/lib/slider';
 import { Link } from 'react-router-dom';
+import {
+  ComposableMap,
+  ZoomableGroup,
+  Geographies,
+  Geography,
+  Markers,
+  Marker,
+} from 'react-simple-maps';
 
 interface Coordinate {
   LATITUDE: number;
@@ -23,8 +29,6 @@ class GeographicDistribution extends React.Component<
   {},
   GeographicDistributionState
 > {
-  private mapCenter = { lat: 39, lng: -98 };
-
   private sliderMarks = {
     2013: '2013',
     2014: '2014',
@@ -92,25 +96,63 @@ class GeographicDistribution extends React.Component<
           onAfterChange={this.onYearChange}
           disabled={this.state.waitingForData}
         />
-        <div style={{ width: '100%', height: '500px', marginTop: '50px' }}>
-          <GoogleMapReact
-            bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAP_API_KEY }}
-            defaultCenter={this.mapCenter}
-            defaultZoom={2}
-          >
-            {this.state.locations[this.state.currentYear].map(
-              (loc: Coordinate) => {
-                return (
-                  <MapIcon
-                    key={`${loc.LATITUDE}${loc.LONGITUDE}`}
-                    lat={loc.LATITUDE}
-                    lng={loc.LONGITUDE}
+        <ComposableMap
+          projectionConfig={{ scale: 1000 }}
+          width={980}
+          height={551}
+          style={{
+            width: '100%',
+            height: '100%',
+          }}
+        >
+          <ZoomableGroup center={[-97, 40]} disablePanning={false}>
+            <Geographies geography="/usa_map.json">
+              {(geographies, projection) =>
+                geographies.map((geography, i) => (
+                  <Geography
+                    key={i}
+                    geography={geography}
+                    projection={projection}
+                    style={{
+                      default: {
+                        fill: '#ECEFF1',
+                        stroke: '#607D8B',
+                        strokeWidth: 0.75,
+                        outline: 'none',
+                      },
+                    }}
                   />
-                );
+                ))
               }
-            )}
-          </GoogleMapReact>
-        </div>
+            </Geographies>
+            <Markers>
+              {this.state.locations[this.state.currentYear].map(
+                (loc: Coordinate) => {
+                  return (
+                    <Marker
+                      key={`${loc.LONGITUDE}${loc.LATITUDE}`}
+                      marker={{ coordinates: [loc.LONGITUDE, loc.LATITUDE] }}
+                      style={{
+                        default: { fill: '#FF5722' },
+                      }}
+                    >
+                      <circle
+                        cx={0}
+                        cy={0}
+                        r={2}
+                        style={{
+                          stroke: '#FF5722',
+                          strokeWidth: 2,
+                          opacity: 0.9,
+                        }}
+                      />
+                    </Marker>
+                  );
+                }
+              )}
+            </Markers>
+          </ZoomableGroup>
+        </ComposableMap>
       </Page>
     );
   }
