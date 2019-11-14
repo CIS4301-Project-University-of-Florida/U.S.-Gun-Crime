@@ -7,6 +7,7 @@ class LoadingSpin extends React.Component<SpinProps> {
   public render() {
     return (
       <Spin
+        {...this.props}
         tip={this.props.tip ? this.props.tip : 'Loading...'}
         className={styles.loadingSpin}
       />
