@@ -142,6 +142,13 @@ class CrimeResults extends React.Component<
                         <br />
                         Age: {interpret(p.AGE)}
                         <br />
+                        Gender:{' '}
+                        {p.GENDER === 'M'
+                          ? 'Male'
+                          : p.GENDER === 'F'
+                          ? 'Female'
+                          : 'Unknown'}
+                        <br />
                         Type: {interpret(p.TYPE)}
                         <br />
                         Status: {interpret(p.STATUS)}
