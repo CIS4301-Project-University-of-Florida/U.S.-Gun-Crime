@@ -136,7 +136,6 @@ interface DateRange {
  */
 router.post('/coordinates', async (req: Request, res: Response) => {
   const args: DateRange = req.body;
-  logger.info(args);
 
   try {
     const coordinates = await query(
