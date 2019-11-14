@@ -126,16 +126,24 @@ router.get('/senateDistricts', async (req: Request, res: Response) => {
   }
 });
 
+interface DateRange {
+  start: string;
+  end: string;
+}
+
 /**
- * Returns the coordinates (latitude/longitude) of all crimes that occurred in the given year.
+ * Returns the coordinates (latitude/longitude) of all crimes that occurred in the given time range.
  */
-router.get('/coordinates/:year', async (req: Request, res: Response) => {
+router.post('/coordinates', async (req: Request, res: Response) => {
+  const args: DateRange = req.body;
+  logger.info(args);
+
   try {
     const coordinates = await query(
       `SELECT DISTINCT loc.latitude, loc.longitude
       FROM ${Location} loc INNER JOIN ${Incident} inc 
       ON loc.latitude = inc.latitude AND loc.longitude = inc.longitude
-      WHERE EXTRACT(YEAR FROM i_date) = '${req.params.year}'`
+      WHERE i_date BETWEEN TO_DATE('${args.start}', 'MM/DD/YYYY') AND TO_DATE('${args.end}', 'MM/DD/YYYY')`
     );
     return res.status(OK).json(coordinates);
   } catch (err) {

@@ -3,7 +3,6 @@ import { GunCrime } from 'pages/CatalogPage/GunCrime';
 import { List, Icon, Result, Modal } from 'antd';
 import CrimeCard from '../CrimeCard/CrimeCard';
 import moment from 'moment';
-import { DATE_FORMAT } from '../DateFormat';
 import axios from 'axios';
 import styles from './CrimeResults.module.less';
 import Gun from 'entityTypes/Gun';
@@ -11,6 +10,7 @@ import Participant from 'entityTypes/Participant';
 import LoadingSpin from 'components/LoadingSpin/LoadingSpin';
 import IncidentCharacteristic from 'entityTypes/IncidentCharacteristic';
 import AggregateStatistics from './AggregateStatistics';
+import { DATE_FORMAT } from 'components/DateRangePicker/DateRangePicker';
 
 interface CrimeResultsState {
   detailsModalVisible: boolean;

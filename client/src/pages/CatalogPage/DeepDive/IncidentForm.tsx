@@ -1,25 +1,12 @@
 import React, { ChangeEvent } from 'react';
 import DataForm from 'components/Forms/DataForm/DataForm';
 import EqualityInput from 'components/Forms/EqualityInput/EqualityInput';
-import { DatePicker } from 'antd';
 import { RangePickerValue } from 'antd/lib/date-picker/interface';
-import moment from 'moment';
 import FormField from 'components/Forms/FormField/FormField';
 import MultiSelect from 'components/Forms/MultiSelect/MultiSelect';
 import axios from 'axios';
 import LoadingSpin from 'components/LoadingSpin/LoadingSpin';
-import { DATE_FORMAT } from './DateFormat';
-
-const { RangePicker } = DatePicker;
-
-export const earliestDate = '01/01/2013';
-export const latestDate = '03/31/2018';
-
-const forbiddenDates = (current: moment.Moment | undefined) => {
-  return (
-    !current || current.isBefore(earliestDate) || current.isAfter(latestDate)
-  );
-};
+import DateRangePicker from 'components/DateRangePicker/DateRangePicker';
 
 interface IncidentFormProps {
   onCharacteristicChange: (characteristics: string[]) => void;
@@ -105,12 +92,7 @@ class IncidentForm extends React.Component<
         </FormField>
 
         <FormField label="Time range">
-          <RangePicker
-            onChange={this.props.onDateRangeChange}
-            format={DATE_FORMAT}
-            defaultPickerValue={[moment(earliestDate), moment(latestDate)]}
-            disabledDate={forbiddenDates}
-          />
+          <DateRangePicker onChange={this.props.onDateRangeChange} />
         </FormField>
       </DataForm>
     );
