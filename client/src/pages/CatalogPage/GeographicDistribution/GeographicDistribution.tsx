@@ -17,8 +17,7 @@ import {
   RangePickerValue,
   RangePickerPresetRange,
 } from 'antd/lib/date-picker/interface';
-import LoadingSpin from 'components/LoadingSpin/LoadingSpin';
-import { Spin, Icon } from 'antd';
+import LoadingOverlay from 'components/LoadingOverlay/LoadingOverlay';
 
 interface Coordinate {
   LATITUDE: number;
@@ -92,7 +91,13 @@ class GeographicDistribution extends React.Component<
           Disclaimer: Some data is missing from the years 2013 and 2018. See{' '}
           <Link to={PageEnum.ABOUT.url}>the about page</Link> for more info.
         </p>
-        <section style={{ display: 'flex', marginTop: '2.5rem' }}>
+        <section
+          style={{
+            display: 'flex',
+            marginTop: '2.5rem',
+            marginBottom: '2.5rem',
+          }}
+        >
           <h4>Select a date range to explore:</h4>
           <DateRangePicker
             disabled={this.state.waitingForData}
@@ -106,35 +111,13 @@ class GeographicDistribution extends React.Component<
             style={{ marginLeft: '10px' }}
           />
         </section>
-        <div style={{ position: 'relative' }}>
-          {this.state.waitingForData ? (
-            <div
-              style={{
-                width: '100%',
-                height: '100%',
-                position: 'absolute',
-                zIndex: '10',
-                backgroundColor: 'silver',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                opacity: '0.8',
-              }}
-            >
-              <Spin
-                indicator={
-                  <Icon type="loading" style={{ fontSize: 50 }} spin={true} />
-                }
-              />
-            </div>
-          ) : null}
 
+        <LoadingOverlay loading={this.state.waitingForData}>
           <ComposableMap
             projectionConfig={{ scale: 1000 }}
             width={980}
             height={551}
             style={{
-              marginTop: '2.5rem',
               width: '100%',
               height: '100%',
             }}
@@ -185,7 +168,7 @@ class GeographicDistribution extends React.Component<
               </Markers>
             </ZoomableGroup>
           </ComposableMap>
-        </div>
+        </LoadingOverlay>
       </Page>
     );
   }
