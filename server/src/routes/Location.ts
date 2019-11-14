@@ -2,7 +2,7 @@ import { logger } from '@shared';
 import { Request, Response, Router } from 'express';
 import { BAD_REQUEST, OK } from 'http-status-codes';
 import query from 'src/query/query';
-import { Location } from 'src/table';
+import { Location, Incident } from 'src/table';
 
 // Init shared
 const router = Router();
@@ -118,6 +118,34 @@ router.get('/senateDistricts', async (req: Request, res: Response) => {
       `SELECT DISTINCT state_senate_district FROM ${Location} ORDER BY state_senate_district`
     );
     return res.status(OK).json(senateDistricts);
+  } catch (err) {
+    logger.error(err.message, err);
+    return res.status(BAD_REQUEST).json({
+      error: err.message,
+    });
+  }
+});
+
+interface DateRange {
+  start: string;
+  end: string;
+}
+
+/**
+ * Returns the coordinates (latitude/longitude) of all crimes that occurred in the given time range.
+ */
+router.post('/coordinates', async (req: Request, res: Response) => {
+  const args: DateRange = req.body;
+  logger.info(args);
+
+  try {
+    const coordinates = await query(
+      `SELECT DISTINCT loc.latitude, loc.longitude
+      FROM ${Location} loc INNER JOIN ${Incident} inc 
+      ON loc.latitude = inc.latitude AND loc.longitude = inc.longitude
+      WHERE i_date BETWEEN TO_DATE('${args.start}', 'MM/DD/YYYY') AND TO_DATE('${args.end}', 'MM/DD/YYYY')`
+    );
+    return res.status(OK).json(coordinates);
   } catch (err) {
     logger.error(err.message, err);
     return res.status(BAD_REQUEST).json({

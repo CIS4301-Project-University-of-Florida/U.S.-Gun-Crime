@@ -28,6 +28,10 @@ const App = () => {
         path={PageEnum.DEEP_DIVE.url}
         component={PageEnum.DEEP_DIVE.component}
       />
+      <Route
+        path={PageEnum.GEOGRAPHIC_DISTRIBUTION.url}
+        component={PageEnum.GEOGRAPHIC_DISTRIBUTION.component}
+      />
     </Switch>
   );
 };

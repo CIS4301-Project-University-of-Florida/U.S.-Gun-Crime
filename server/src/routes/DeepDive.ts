@@ -152,12 +152,14 @@ router.post('', async (req: Request, res: Response) => {
     ))) onlyParticipants INNER JOIN ${Participant} ON onlyParticipants.incident_id = Participant.incident_id`;
   }
 
+  // NOTE: Left outer join with IncidentCharacteristic because not every Incident had characteristics associated with it.
+  // Left outer join with Gun because, paradoxically, some incidents did not have any associated gun information 🤷
   const queryString = `
     SELECT DISTINCT inc.id AS incident_id, n_participants, i_date AS incident_date, n_killed, n_injured, notes, source_url,
     n_guns_involved, loc.latitude, loc.longitude, state, city_or_county, state_house_district, state_senate_district
     FROM ${Incident} inc INNER JOIN (${participantQuery}) p ON inc.id = p.incident_id 
     LEFT OUTER JOIN ${IncidentCharacteristic} ic ON inc.id = ic.incident_id
-    LEFT OUTER JOIN ${Location} loc ON inc.latitude = loc.latitude AND inc.longitude = loc.longitude
+    INNER JOIN ${Location} loc ON inc.latitude = loc.latitude AND inc.longitude = loc.longitude
     LEFT OUTER JOIN ${Gun} ON inc.id = Gun.incident_id
     INNER JOIN (
       SELECT incident_id, COUNT(DISTINCT id) AS n_participants
@@ -191,8 +193,14 @@ router.post('', async (req: Request, res: Response) => {
     }
     ${data.usState ? `AND state='${data.usState}'` : ''}
     ${data.cityOrCounty ? `AND city_or_county='${data.cityOrCounty}'` : ''}
-    ${data.houseDistrict ? `AND house_district=${data.houseDistrict}` : ''}
-    ${data.senateDistrict ? `AND senate_district=${data.senateDistrict}` : ''}
+    ${
+      data.houseDistrict ? `AND state_house_district=${data.houseDistrict}` : ''
+    }
+    ${
+      data.senateDistrict
+        ? `AND state_senate_district=${data.senateDistrict}`
+        : ''
+    }
     ORDER BY incident_date
   `;
 

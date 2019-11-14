@@ -25,7 +25,7 @@ class CatalogPage extends React.Component {
                   </span>
                 }
                 description={`How has gun crime changed with time? How do different states compare?
-                What is the geographic distribution of gun crime in the U.S.?`}
+                What are the typical age ranges of victims or suspects?`}
               />
             </Card>
           </Link>
@@ -40,6 +40,20 @@ class CatalogPage extends React.Component {
                 }
                 description={`What types of guns account for the most fatalities and injuries? 
                 What were the deadliest gun crimes in this time period?`}
+              />
+            </Card>
+          </Link>
+          <Link to={PageEnum.GEOGRAPHIC_DISTRIBUTION.url}>
+            <Card hoverable={true} className={styles.card}>
+              <Meta
+                title={
+                  <span>
+                    <Icon type="environment" theme="twoTone" />{' '}
+                    {PageEnum.GEOGRAPHIC_DISTRIBUTION.title}
+                  </span>
+                }
+                description={`How are gun crimes geographically distributed in the U.S.? In which
+                areas of the U.S. are gun crimes more concentrated?`}
               />
             </Card>
           </Link>
