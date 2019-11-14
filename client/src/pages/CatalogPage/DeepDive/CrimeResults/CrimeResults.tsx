@@ -114,17 +114,23 @@ class CrimeResults extends React.Component<
             <LoadingSpin tip="Loading details..." />
           ) : (
             <>
-              <section>
+              <section style={{ marginBottom: '20px' }}>
                 <h4>Characteristics</h4>
-                <ul>
-                  {this.state.detailsModalCharacteristics.map(
-                    (c: IncidentCharacteristic) => (
-                      <li key={`${c.INCIDENT_ID}${c.INCIDENT_CHARACTERISTIC}`}>
-                        {c.INCIDENT_CHARACTERISTIC}
-                      </li>
-                    )
-                  )}
-                </ul>
+                {this.state.detailsModalCharacteristics.length ? (
+                  <ul>
+                    {this.state.detailsModalCharacteristics.map(
+                      (c: IncidentCharacteristic) => (
+                        <li
+                          key={`${c.INCIDENT_ID}${c.INCIDENT_CHARACTERISTIC}`}
+                        >
+                          {c.INCIDENT_CHARACTERISTIC}
+                        </li>
+                      )
+                    )}
+                  </ul>
+                ) : (
+                  'Characteristic data unavailable for this incident.'
+                )}
               </section>
               <section>
                 <h4>Participants involved:</h4>

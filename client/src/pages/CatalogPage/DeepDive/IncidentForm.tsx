@@ -13,7 +13,7 @@ import { DATE_FORMAT } from './DateFormat';
 const { RangePicker } = DatePicker;
 
 export const earliestDate = '01/01/2013';
-export const latestDate = '12/31/2018';
+export const latestDate = '03/31/2018';
 
 const forbiddenDates = (current: moment.Moment | undefined) => {
   return (
