@@ -9,7 +9,7 @@ import LoadingSpin from 'components/LoadingSpin/LoadingSpin';
 interface GunFormProps {
   onGunTypeChange: (gunTypes: string[]) => void;
   onGunCountEqualityChange: (equality: string) => void;
-  onGunCountChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onGunCountChange: (count: number) => void;
 }
 
 interface GunFormState {

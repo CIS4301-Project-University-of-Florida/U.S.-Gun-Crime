@@ -42,7 +42,7 @@ const initialState: SearchToolState = {
   gunTypes: [],
   participant: {
     qualifier: 'any',
-    gender: ANY_OPTION,
+    gender: '',
     age: { equality: equalityDefault, count: 0 },
     type: '',
     status: '',
@@ -79,12 +79,12 @@ class SearchTool extends React.Component<{}, SearchToolState> {
     });
   };
 
-  public onKillCountChange = (event: ChangeEvent<HTMLInputElement>) => {
+  public onKillCountChange = (count: number) => {
     this.setState({
       ...this.state,
       numKilled: {
         equality: this.state.numKilled.equality,
-        count: Number(event.target.value),
+        count,
       },
     });
   };
@@ -96,12 +96,12 @@ class SearchTool extends React.Component<{}, SearchToolState> {
     });
   };
 
-  public onInjuredCountChange = (event: ChangeEvent<HTMLInputElement>) => {
+  public onInjuredCountChange = (count: number) => {
     this.setState({
       ...this.state,
       numInjured: {
         equality: this.state.numInjured.equality,
-        count: Number(event.target.value),
+        count,
       },
     });
   };
@@ -123,12 +123,12 @@ class SearchTool extends React.Component<{}, SearchToolState> {
     });
   };
 
-  public onGunCountChange = (event: ChangeEvent<HTMLInputElement>) => {
+  public onGunCountChange = (count: number) => {
     this.setState({
       ...this.state,
       numGuns: {
         equality: this.state.numGuns.equality,
-        count: Number(event.target.value),
+        count,
       },
     });
   };

@@ -142,8 +142,8 @@ class ParticipantForm extends React.Component<
     this.props.onParticipantAgeEqualityChange(value);
   };
 
-  private onAgeValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-    this.props.onParticipantAgeValueChange(Number(event.target.value));
+  private onAgeValueChange = (age: number) => {
+    this.props.onParticipantAgeValueChange(age);
   };
 
   private onTypeChange = (event: RadioChangeEvent) => {
@@ -214,6 +214,7 @@ class ParticipantForm extends React.Component<
           <FormField label="Status" style={{ width: '100%' }}>
             <SelectSearch
               style={{ minWidth: '300px', width: '100%' }}
+              dropdownMatchSelectWidth={false}
               data={this.state.participantStatuses}
               disabled={this.state.waitingForParticipantStatusData}
               onChange={this.onStatusChange}
@@ -230,6 +231,7 @@ class ParticipantForm extends React.Component<
           <FormField label="Relationship" style={{ width: '100%' }}>
             <SelectSearch
               style={{ minWidth: '300px', width: '100%' }}
+              dropdownMatchSelectWidth={false}
               data={this.state.participantRelationships}
               disabled={this.state.waitingForParticipantRelationshipData}
               onChange={this.onRelationshipChange}

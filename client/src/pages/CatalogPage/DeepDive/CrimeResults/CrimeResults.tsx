@@ -140,7 +140,7 @@ class CrimeResults extends React.Component<
                       <p key={`participant${p.ID}`}>
                         Name: {interpret(p.NAME)}
                         <br />
-                        Age: {interpret(p.AGE)}
+                        Age: {p.AGE !== null ? p.AGE : 'Unknown'}
                         <br />
                         Gender:{' '}
                         {p.GENDER === 'M'

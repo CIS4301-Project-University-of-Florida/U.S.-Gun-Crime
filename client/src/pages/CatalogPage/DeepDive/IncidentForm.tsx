@@ -11,9 +11,9 @@ import DateRangePicker from 'components/DateRangePicker/DateRangePicker';
 interface IncidentFormProps {
   onCharacteristicChange: (characteristics: string[]) => void;
   onKilledEqualityChange: (value: string) => void;
-  onKillCountChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onKillCountChange: (count: number) => void;
   onInjuredEqualityChange: (value: string) => void;
-  onInjuredCountChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onInjuredCountChange: (count: number) => void;
   onDateRangeChange: (
     dates: RangePickerValue,
     dateStrings: [string, string]
