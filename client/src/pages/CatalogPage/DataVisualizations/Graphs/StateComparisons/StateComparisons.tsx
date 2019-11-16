@@ -1,13 +1,20 @@
 import React from 'react';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
-import { Card, Row, Col, List } from 'antd';
+import { Card } from 'antd';
 import StatesList from './StatesList';
 import { Select } from 'antd';
-import LineGraph from '../LineGraphs';
 
 // tslint:disable-next-line: no-empty-interface
 interface LineGraphProps {}
+
+interface LineGraphState {
+  states: string[];
+  stateOne: string;
+  stateTwo: string;
+  waitingForLineGraphData: boolean;
+  data: DataObj;
+}
 
 interface DataSetObj {
   label: string;
@@ -20,21 +27,13 @@ interface DataObj {
   datasets: DataSetObj[];
 }
 
-interface LineGraphState {
-  states: string[];
-  stateOne: string;
-  stateTwo: string;
-  waitingForLineGraphData: boolean;
-  data: DataObj;
-}
-
 class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
   public constructor(props: LineGraphProps) {
     super(props);
     this.state = {
       states: StatesList.states,
-      stateOne: StatesList.states[5],
-      stateTwo: StatesList.states[1],
+      stateOne: StatesList.states[0],
+      stateTwo: StatesList.states[2],
       waitingForLineGraphData: true,
       data: {
         labels: [],

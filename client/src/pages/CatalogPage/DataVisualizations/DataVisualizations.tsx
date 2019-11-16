@@ -6,25 +6,34 @@ import DonutGraph from './Graphs/DonutGraphs';
 import PolarGraph from './Graphs/PolarGraphs';
 import BarGraph from './Graphs/BarGraphs';
 import StateComparisons from './Graphs/StateComparisons/StateComparisons';
-import { Row, Col, Button, Collapse } from 'antd';
+import { Row, Col, Button, Collapse, Switch } from 'antd';
 
 const { Panel } = Collapse;
 
-class DataVisualizations extends React.Component {
+interface DataVisualizationsProps {}
+
+interface DataVisualizationsState {
+  showing: boolean;
+}
+
+class DataVisualizations extends React.Component<
+  DataVisualizationsProps,
+  DataVisualizationsState
+> {
+  public constructor(props: DataVisualizationsProps) {
+    super(props);
+    this.state = { showing: true };
+  }
+
   public render() {
     return (
       <div>
         <Page title={PageEnum.DATA_VISUALIZATIONS.title}>
-          <Collapse defaultActiveKey={['1']}>
-            <Panel header="Customize Dashboard" key="1">
-              <p>(to do)</p>
-            </Panel>
-            <Panel header="Disclaimers" key="2">
+          <Collapse defaultActiveKey={['2']}>
+            <Panel header="Disclaimers" key="1">
               <ul>
                 <li>
-                  The list of incidents from 2013 is not exhaustive; only 279
-                  incidents from that year were catalogued. The list of
-                  incidents only go uptil March of 2018.
+                  The list of incidents from 2013 and 2018 are incomplete.
                 </li>
                 <li>
                   2 incidents (includes the Las Vegas shooting) were manually
@@ -33,13 +42,22 @@ class DataVisualizations extends React.Component {
                 </li>
               </ul>
             </Panel>
+            <Panel header="Customize Dashboard" key="2">
+              <Switch
+                defaultChecked
+                // tslint:disable-next-line: jsx-no-lambda
+                onClick={() => this.setState({ showing: !this.state.showing })}
+              />
+            </Panel>
           </Collapse>
           <br />
-          <Row gutter={24}>
-            <Col span={24}>
-              <StateComparisons />
-            </Col>
-          </Row>
+          {this.state.showing ? (
+            <Row gutter={24}>
+              <Col span={24}>
+                <StateComparisons />
+              </Col>
+            </Row>
+          ) : null}
           <br />
           <Row gutter={24}>
             <Col span={12}>
