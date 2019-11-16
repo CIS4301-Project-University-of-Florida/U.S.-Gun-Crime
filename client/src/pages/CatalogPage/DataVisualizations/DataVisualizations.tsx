@@ -5,6 +5,7 @@ import LineGraph from './Graphs/LineGraphs';
 import DonutGraph from './Graphs/DonutGraphs';
 import PolarGraph from './Graphs/PolarGraphs';
 import BarGraph from './Graphs/BarGraphs';
+import StateComparisons from './Graphs/StateComparisons/StateComparisons';
 import { Row, Col, Button, Collapse } from 'antd';
 
 const { Panel } = Collapse;
@@ -33,6 +34,12 @@ class DataVisualizations extends React.Component {
               </ul>
             </Panel>
           </Collapse>
+          <br />
+          <Row gutter={24}>
+            <Col span={24}>
+              <StateComparisons />
+            </Col>
+          </Row>
           <br />
           <Row gutter={24}>
             <Col span={12}>
