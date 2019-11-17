@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Line, Polar, Bar } from 'react-chartjs-2';
+import { Line, Polar, Bar, HorizontalBar } from 'react-chartjs-2';
 import { Card } from 'antd';
 
 // tslint:disable-next-line: no-empty-interface
@@ -61,6 +61,20 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
           BarGraphData.push(p.N_KILLED)
         );
         response.data.forEach((p: { TYPE: string }) => someLabels.push(p.TYPE));
+      } else if (this.props.graphSettings === 'mostlethalincidents') {
+        response.data.forEach((p: { N_KILLED: number }) =>
+          BarGraphData.push(p.N_KILLED)
+        );
+        response.data.forEach((p: { INCIDENT_DETAILS: string }) =>
+          someLabels.push(p.INCIDENT_DETAILS)
+        );
+      } else if (this.props.graphSettings === 'mostdangerousstates') {
+        response.data.forEach((p: { N_KILLED: number }) =>
+          BarGraphData.push(p.N_KILLED)
+        );
+        response.data.forEach((p: { STATE: string }) =>
+          someLabels.push(p.STATE)
+        );
       } else {
         response.data.forEach((p: { INCIDENTCOUNT: number }) =>
           BarGraphData.push(p.INCIDENTCOUNT)
@@ -92,13 +106,16 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
 
   public render() {
     return (
-      <Card title="Gun Deaths Per Year">
-        <Bar
-          options={{
-            responsive: true,
-          }}
-          data={this.state.data}
-        />
+      <Card title="Rankings">
+        <div style={{ height: 1000 }}>
+          <HorizontalBar
+            options={{
+              responsive: true,
+              maintainAspectRatio: false,
+            }}
+            data={this.state.data}
+          />
+        </div>
       </Card>
     );
   }
