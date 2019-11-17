@@ -16,7 +16,6 @@ router.get('/bygender', async (req: Request, res: Response) => {
       `SELECT gender, SUM(n_killed) AS n_killed
         FROM ${Incident}, ${Participant}
         WHERE ${Incident}.id = ${Participant}.incident_id
-        AND ${Participant}.gender IS NOT NULL
         GROUP BY gender`
     );
     return res.status(OK).json(bygender);
@@ -36,7 +35,6 @@ router.get('/isstolen', async (req: Request, res: Response) => {
     const bygender = await query(
       `SELECT stolen, COUNT(id) AS numincidents
         FROM ${Gun}
-        WHERE stolen IS NOT NULL
         GROUP BY stolen`
     );
     return res.status(OK).json(bygender);

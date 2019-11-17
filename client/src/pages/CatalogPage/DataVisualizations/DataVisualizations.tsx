@@ -4,16 +4,15 @@ import { PageEnum } from 'pages/PageEnum';
 import LineGraph from './Graphs/LineGraphs';
 import DonutGraph from './Graphs/DonutGraphs';
 import PolarGraph from './Graphs/PolarGraphs';
-import BarGraph from './Graphs/BarGraphs';
 import StateComparisons from './Graphs/StateComparisons/StateComparisons';
-import { Row, Col, Button, Collapse, Switch } from 'antd';
+import { Collapse, Switch } from 'antd';
 
 const { Panel } = Collapse;
 
 interface DataVisualizationsProps {}
 
 interface DataVisualizationsState {
-  showing: boolean;
+  stateComparisonsShowing: boolean;
 }
 
 class DataVisualizations extends React.Component<
@@ -22,7 +21,9 @@ class DataVisualizations extends React.Component<
 > {
   public constructor(props: DataVisualizationsProps) {
     super(props);
-    this.state = { showing: true };
+    this.state = {
+      stateComparisonsShowing: true,
+    };
   }
 
   public render() {
@@ -44,53 +45,31 @@ class DataVisualizations extends React.Component<
             </Panel>
             <Panel header="Customize Dashboard" key="2">
               <Switch
-                defaultChecked
+                checkedChildren={'State Comparisons'}
+                unCheckedChildren={'State Comparisons'}
+                defaultChecked={true}
                 // tslint:disable-next-line: jsx-no-lambda
-                onClick={() => this.setState({ showing: !this.state.showing })}
+                onClick={() =>
+                  this.setState({
+                    stateComparisonsShowing: !this.state
+                      .stateComparisonsShowing,
+                  })
+                }
               />
             </Panel>
           </Collapse>
           <br />
-          {this.state.showing ? (
-            <Row gutter={24}>
-              <Col span={24}>
-                <StateComparisons />
-              </Col>
-            </Row>
-          ) : null}
+          {this.state.stateComparisonsShowing ? <StateComparisons /> : null}
           <br />
-          <Row gutter={24}>
-            <Col span={12}>
-              <LineGraph />
-            </Col>
-            <Col span={12}>
-              <DonutGraph graphSettings="Victims" />
-            </Col>
-          </Row>
+          <LineGraph />
           <br />
-          <Row gutter={24}>
-            <Col span={12}>
-              <DonutGraph graphSettings="Suspects" />
-            </Col>
-            <Col span={12}>
-              <PolarGraph graphSettings="bygender" />
-            </Col>
-          </Row>
+          <DonutGraph graphSettings="Victims" />
           <br />
-          <Row gutter={24}>
-            <Col span={12}>
-              <PolarGraph graphSettings="isstolen" />
-            </Col>
-            <Col span={12}>
-              <BarGraph graphSettings="byrelationship" />
-            </Col>
-          </Row>
+          <DonutGraph graphSettings="Suspects" />
           <br />
-          <Row gutter={24}>
-            <Col span={12}>
-              <BarGraph graphSettings="byguntype" />
-            </Col>
-          </Row>
+          <PolarGraph graphSettings="bygender" />
+          <br />
+          <PolarGraph graphSettings="isstolen" />
         </Page>
       </div>
     );

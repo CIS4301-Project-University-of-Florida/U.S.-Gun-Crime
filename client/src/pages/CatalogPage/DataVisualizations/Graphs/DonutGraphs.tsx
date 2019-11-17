@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Doughnut, Pie } from 'react-chartjs-2';
+import { Doughnut, Pie, Polar } from 'react-chartjs-2';
 import { Card } from 'antd';
 
 // tslint:disable-next-line: no-empty-interface
@@ -85,32 +85,32 @@ class DonutGraph extends React.Component<DonutGraphProps, DonutGraphState> {
         DonutGraphrData,
         data: {
           labels: [
-            '0-9',
-            '10-19',
-            '20-29',
-            '30-39',
-            '40-49',
-            '50-59',
-            '60-69',
-            '70-79',
-            '80-89',
-            '90-99',
-            '100-109',
+            'ages 0-9',
+            'ages 10-19',
+            'ages 20-29',
+            'ages 30-39',
+            'ages 40-49',
+            'ages 50-59',
+            'ages 60-69',
+            'ages 70-79',
+            'ages 80-89',
+            'ages 90-99',
+            'ages 100-109',
           ],
           datasets: [
             {
               backgroundColor: [
-                'rgba(74,35,90, 0.8)',
-                'rgba(89,44,95, 0.8)',
-                'rgba(108,52,131, 0.8)',
-                'rgba(112,60,152, 0.8)',
-                'rgba(21,67,96, 0.8)',
-                'rgba(26,82,118, 0.8)',
-                'rgba(21,97,189, 0.8)',
-                'rgba(36,113,163, 0.8)',
-                'rgba(33,97,188, 1, 0.8)',
-                'rgba(40,116,166, 0.8)',
-                'rgba(46,182,193, 0.8)',
+                'rgba(79, 23, 107, 1)',
+                'rgba(215, 219, 213, 1)',
+                'rgba(29, 0, 97, 1)',
+                'rgba(58, 152, 145, 1)',
+                'rgba(45, 124, 237, 1)',
+                'rgba(79, 23, 72, 0.88)',
+                'rgba(79, 23, 89, 1)',
+                'rgba(79, 23, 107, 1)',
+                'rgba(79, 23, 107, 1)',
+                'rgba(79, 23, 107, 1)',
+                'rgba(79, 23, 107, 1)',
               ],
               data: DonutGraphrData,
             },
@@ -126,7 +126,7 @@ class DonutGraph extends React.Component<DonutGraphProps, DonutGraphState> {
     if (this.props.graphSettings === 'Victims') {
       return (
         <Card title="Age Ranges of Victims">
-          <Pie
+          <Doughnut
             options={{
               responsive: true,
             }}
@@ -137,7 +137,7 @@ class DonutGraph extends React.Component<DonutGraphProps, DonutGraphState> {
     } else {
       return (
         <Card title="Age Ranges of Suspects">
-          <Pie
+          <Doughnut
             options={{
               responsive: true,
             }}
