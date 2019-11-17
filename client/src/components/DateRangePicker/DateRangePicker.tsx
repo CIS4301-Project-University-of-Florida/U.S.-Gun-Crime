@@ -15,17 +15,15 @@ const forbiddenDates = (current: moment.Moment | undefined) => {
   );
 };
 
-class DateRangePicker extends React.Component<RangePickerProps> {
-  public render() {
-    return (
-      <RangePicker
-        format={DATE_FORMAT}
-        defaultPickerValue={[moment(earliestDate), moment(latestDate)]}
-        disabledDate={forbiddenDates}
-        {...this.props}
-      />
-    );
-  }
-}
+const DateRangePicker = (props: RangePickerProps) => {
+  return (
+    <RangePicker
+      format={DATE_FORMAT}
+      defaultPickerValue={[moment(earliestDate), moment(latestDate)]}
+      disabledDate={forbiddenDates}
+      {...props}
+    />
+  );
+};
 
 export default DateRangePicker;

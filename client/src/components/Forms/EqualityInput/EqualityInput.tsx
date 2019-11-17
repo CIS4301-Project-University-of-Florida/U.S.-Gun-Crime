@@ -12,42 +12,36 @@ interface EqualityInputProps {
   numericalMinimum: number;
 }
 
-class EqualityInput extends React.Component<EqualityInputProps> {
-  public constructor(props: EqualityInputProps) {
-    super(props);
-  }
-
-  private onNumberChange = (value: number | undefined) => {
-    if (!value || value < this.props.numericalMinimum) {
-      this.props.onNumberChange(this.props.numericalMinimum);
+const EqualityInput = (props: EqualityInputProps) => {
+  const onNumberChange = (value: number | undefined) => {
+    if (!value || value < props.numericalMinimum) {
+      props.onNumberChange(props.numericalMinimum);
     } else {
-      this.props.onNumberChange(value);
+      props.onNumberChange(value);
     }
   };
 
-  public render() {
-    return (
-      <div className={styles.equalityInput}>
-        <Select
-          onChange={this.props.onEqualityChange}
-          defaultValue={equalityDefault}
-          className={styles.select}
-        >
-          {equalityOptions.map((option: string) => (
-            <Option key={option} value={option}>
-              {option}
-            </Option>
-          ))}
-        </Select>
-        <InputNumber
-          min={this.props.numericalMinimum}
-          onChange={this.onNumberChange}
-          defaultValue={this.props.numericalMinimum}
-          className={styles.inputNumber}
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div className={styles.equalityInput}>
+      <Select
+        onChange={props.onEqualityChange}
+        defaultValue={equalityDefault}
+        className={styles.select}
+      >
+        {equalityOptions.map((option: string) => (
+          <Option key={option} value={option}>
+            {option}
+          </Option>
+        ))}
+      </Select>
+      <InputNumber
+        min={props.numericalMinimum}
+        onChange={onNumberChange}
+        defaultValue={props.numericalMinimum}
+        className={styles.inputNumber}
+      />
+    </div>
+  );
+};
 
 export default EqualityInput;

@@ -7,18 +7,16 @@ interface ISelectSearch extends SelectProps {
   data: any[];
 }
 
-class SelectSearch extends React.Component<ISelectSearch> {
-  public render() {
-    return (
-      <Select showSearch={true} allowClear={true} {...this.props}>
-        {this.props.data.map(element => (
-          <Option key={element} value={element} title={element}>
-            {element}
-          </Option>
-        ))}
-      </Select>
-    );
-  }
-}
+const SelectSearch = (props: ISelectSearch) => {
+  return (
+    <Select showSearch={true} allowClear={true} {...props}>
+      {props.data.map(element => (
+        <Option key={element} value={element} title={element}>
+          {element}
+        </Option>
+      ))}
+    </Select>
+  );
+};
 
 export default SelectSearch;
