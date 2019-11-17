@@ -52,7 +52,9 @@ class GeographicDistribution extends React.Component<
       waitingForData: true,
       locations: [],
     };
+  }
 
+  public componentDidMount() {
     this.fetchLocationsFor(this.state.dateRange);
   }
 
@@ -74,7 +76,11 @@ class GeographicDistribution extends React.Component<
         waitingForData: false,
         locations: locations.data,
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log(
+        `GeographicDistribution's fetchLocationsFor(${dateRange}): ${error}`
+      );
+    }
   };
 
   private onYearChange = (
