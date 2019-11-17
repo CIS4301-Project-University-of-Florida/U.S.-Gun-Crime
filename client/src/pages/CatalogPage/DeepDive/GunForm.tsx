@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import DataForm from 'components/Forms/DataForm/DataForm';
 import EqualityInput from 'components/Forms/EqualityInput/EqualityInput';
 import FormField from 'components/Forms/FormField/FormField';
@@ -17,8 +17,6 @@ interface GunFormState {
   gunTypes: string[];
 }
 
-// TODO: prevent users from entering more tags than the number of guns specified if equality is < or <=
-
 class GunForm extends React.Component<GunFormProps, GunFormState> {
   public constructor(props: GunFormProps) {
     super(props);
@@ -26,6 +24,9 @@ class GunForm extends React.Component<GunFormProps, GunFormState> {
       waitingForGunTypeData: true,
       gunTypes: [],
     };
+  }
+
+  public componentDidMount() {
     this.fetchGunTypeData();
   }
 
@@ -41,7 +42,9 @@ class GunForm extends React.Component<GunFormProps, GunFormState> {
         waitingForGunTypeData: false,
         gunTypes,
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log(`GunForm's fetchGunTypeData: ${error}`);
+    }
   };
 
   public render() {

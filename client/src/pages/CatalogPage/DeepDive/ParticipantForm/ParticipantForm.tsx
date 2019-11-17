@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import DataForm from 'components/Forms/DataForm/DataForm';
 import axios from 'axios';
 import { ANY_OPTION } from '../AnyOption';
@@ -47,6 +47,9 @@ class ParticipantForm extends React.Component<
       waitingForParticipantRelationshipData: true,
       participantRelationships: [],
     };
+  }
+
+  public componentDidMount() {
     this.fetchParticipantGenderData();
     this.fetchParticipantTypeData();
     this.fetchParticipantStatusData();
@@ -166,7 +169,7 @@ class ParticipantForm extends React.Component<
       <DataForm>
         <h2>Participants</h2>
 
-        <p>
+        <div>
           Gun crimes involving{' '}
           <SelectSearch
             data={['any', 'only']}
@@ -176,7 +179,7 @@ class ParticipantForm extends React.Component<
             onChange={this.onQualifierChange}
           />{' '}
           participants with these characteristics:
-        </p>
+        </div>
 
         <div>
           <FormField label="Gender">

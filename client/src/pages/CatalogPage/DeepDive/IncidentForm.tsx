@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import DataForm from 'components/Forms/DataForm/DataForm';
 import EqualityInput from 'components/Forms/EqualityInput/EqualityInput';
 import { RangePickerValue } from 'antd/lib/date-picker/interface';
@@ -35,6 +35,9 @@ class IncidentForm extends React.Component<
       waitingForIncidentData: true,
       incidentCharacteristics: [],
     };
+  }
+
+  public componentDidMount() {
     this.getIncidentCharacteristics();
   }
 
@@ -51,7 +54,9 @@ class IncidentForm extends React.Component<
         waitingForIncidentData: false,
         incidentCharacteristics: characteristics,
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log(`IncidentForm's getIncidentCharacteristics: ${error}`);
+    }
   };
 
   public render() {

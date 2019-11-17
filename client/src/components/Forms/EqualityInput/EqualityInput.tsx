@@ -1,5 +1,5 @@
-import React, { ChangeEvent } from 'react';
-import { Select, Input, InputNumber } from 'antd';
+import React from 'react';
+import { Select, InputNumber } from 'antd';
 import styles from './EqualityInput.module.less';
 const { Option } = Select;
 

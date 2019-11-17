@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import IncidentForm from '../IncidentForm';
 import GunForm from '../GunForm';
 import LocationForm from '../LocationForm';
@@ -9,7 +9,6 @@ import { equalityDefault } from 'components/Forms/EqualityInput/EqualityInput';
 import { RangePickerValue } from 'antd/lib/date-picker/interface';
 import ParticipantForm from '../ParticipantForm/ParticipantForm';
 import Participant from 'pages/CatalogPage/DeepDive/ParticipantForm/Participant';
-import { ANY_OPTION } from '../AnyOption';
 import { GunCrime } from 'pages/CatalogPage/GunCrime';
 import styles from './SearchTool.module.less';
 import CrimeResults from '../CrimeResults/CrimeResults';
@@ -60,8 +59,8 @@ const initialState: SearchToolState = {
 };
 
 class SearchTool extends React.Component<{}, SearchToolState> {
-  public constructor({}) {
-    super({});
+  public constructor(props: {}) {
+    super(props);
     this.state = initialState;
   }
 
