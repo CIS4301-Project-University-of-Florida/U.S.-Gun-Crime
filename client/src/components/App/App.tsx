@@ -11,10 +11,6 @@ const App = () => {
         path={PageEnum.HOME.url}
         component={PageEnum.HOME.component}
       />
-      <Route
-        path={PageEnum.DATA_CATALOG.url}
-        component={PageEnum.DATA_CATALOG.component}
-      />
       <Route path={PageEnum.ABOUT.url} component={PageEnum.ABOUT.component} />
       <Route
         path={PageEnum.DATA_VISUALIZATIONS.url}
