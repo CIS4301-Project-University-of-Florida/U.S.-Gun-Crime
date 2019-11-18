@@ -1,8 +1,9 @@
 import React from 'react';
-import { Card, Icon } from 'antd';
+import { Icon } from 'antd';
 import { CardProps } from 'antd/lib/card';
 import styles from './CrimeCard.module.less';
 import { GunCrime } from 'pages/CatalogPage/GunCrime';
+import MaterialCard from 'components/MaterialCard/MaterialCard';
 
 interface CrimeCardProps extends CardProps, GunCrime {
   launchDetailsModal: (id: number) => void;
@@ -21,7 +22,7 @@ const CrimeCard = (props: CrimeCardProps) => {
   };
 
   return (
-    <Card
+    <MaterialCard
       title={
         <div>
           <Icon type="calendar" /> {props.title}
@@ -76,7 +77,7 @@ const CrimeCard = (props: CrimeCardProps) => {
           <Icon type="notification" /> In the news
         </a>
       </section>
-    </Card>
+    </MaterialCard>
   );
 };
 

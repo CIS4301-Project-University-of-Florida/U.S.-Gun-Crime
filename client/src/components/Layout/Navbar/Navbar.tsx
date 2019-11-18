@@ -10,8 +10,8 @@ const Navbar = () => {
   return (
     <Header className={styles.navbar}>
       <Container className={styles.container}>
-        <Link to={PageEnum.HOME.url}>
-          <div className={styles.logo} />
+        <Link to={PageEnum.HOME.url} className={styles.logo}>
+          U.S. Gun Crimes
         </Link>
         <Menu theme="dark" mode="horizontal" className={styles.menu}>
           <Menu.Item key="1">
