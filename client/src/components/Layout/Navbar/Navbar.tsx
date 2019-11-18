@@ -4,7 +4,7 @@ import styles from './Navbar.module.less';
 import Container from 'components/Layout/Container/Container';
 import { Link } from 'react-router-dom';
 import { PageEnum } from 'pages/PageEnum';
-import { Menu } from 'antd';
+import NavMenu from './NavMenu';
 
 const Navbar = () => {
   return (
@@ -13,22 +13,7 @@ const Navbar = () => {
         <Link to={PageEnum.HOME.url} className={styles.logo}>
           U.S. Gun Crimes
         </Link>
-        <Menu theme="dark" mode="horizontal" className={styles.menu}>
-          <Menu.Item key="1">
-            <Link to={PageEnum.DATA_VISUALIZATIONS.url}>Visualizations</Link>
-          </Menu.Item>
-          <Menu.Item key="2">
-            <Link to={PageEnum.RANKINGS.url}>Rankings</Link>
-          </Menu.Item>
-          <Menu.Item key="3">
-            <Link to={PageEnum.GEOGRAPHIC_DISTRIBUTION.url}>
-              Geographic Distribution
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="4">
-            <Link to={PageEnum.DEEP_DIVE.url}>Database Search</Link>
-          </Menu.Item>
-        </Menu>
+        <NavMenu />
       </Container>
     </Header>
   );
