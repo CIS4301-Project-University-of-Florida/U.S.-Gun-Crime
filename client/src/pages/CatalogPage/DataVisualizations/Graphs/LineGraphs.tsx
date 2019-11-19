@@ -30,11 +30,11 @@ class LineGraph extends React.Component<LineGraphProps, LineGraphState> {
       waitingForLineGraphData: true,
       LineGraphData: [],
       data: {
-        labels: ['2013', '2014', '2015', '2016', '2017', '2018'],
+        labels: [],
         datasets: [
           {
-            label: 'number of people killed',
-            backgroundColor: 'rgba(51,0,102, 0.7)',
+            label: '',
+            backgroundColor: '',
             data: [],
           },
         ],
@@ -60,8 +60,8 @@ class LineGraph extends React.Component<LineGraphProps, LineGraphState> {
           labels: ['2013', '2014', '2015', '2016', '2017', '2018'],
           datasets: [
             {
-              label: 'number of people killed',
-              backgroundColor: 'rgba(74,35,90, 0.6)',
+              label: 'national gun deaths by year',
+              backgroundColor: 'rgba(29, 0, 97, 0.85)',
               data: LineGraphData,
             },
           ],
@@ -74,7 +74,7 @@ class LineGraph extends React.Component<LineGraphProps, LineGraphState> {
 
   public render() {
     return (
-      <Card title="Gun Deaths Per Year">
+      <Card title="National Gun Crime Trends">
         <Line
           options={{
             responsive: true,

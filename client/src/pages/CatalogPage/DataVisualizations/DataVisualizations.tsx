@@ -4,52 +4,72 @@ import { PageEnum } from 'pages/PageEnum';
 import LineGraph from './Graphs/LineGraphs';
 import DonutGraph from './Graphs/DonutGraphs';
 import PolarGraph from './Graphs/PolarGraphs';
-import BarGraph from './Graphs/BarGraphs';
-import { Row, Col, Button } from 'antd';
+import StateComparisons from './Graphs/StateComparisons/StateComparisons';
+import { Collapse, Switch } from 'antd';
 
-class DataVisualizations extends React.Component {
+const { Panel } = Collapse;
+
+interface DataVisualizationsProps {}
+
+interface DataVisualizationsState {
+  stateComparisonsShowing: boolean;
+}
+
+class DataVisualizations extends React.Component<
+  DataVisualizationsProps,
+  DataVisualizationsState
+> {
+  public constructor(props: DataVisualizationsProps) {
+    super(props);
+    this.state = {
+      stateComparisonsShowing: true,
+    };
+  }
+
   public render() {
     return (
       <div>
         <Page title={PageEnum.DATA_VISUALIZATIONS.title}>
-          <Row gutter={24}>
-            <Button type="primary" shape="round">
-              Gun Deaths Per Year
-            </Button>
-          </Row>
+          <Collapse defaultActiveKey={['2']}>
+            <Panel header="Disclaimers" key="1">
+              <ul>
+                <li>
+                  The list of incidents from 2013 and 2018 are incomplete.
+                </li>
+                <li>
+                  2 incidents (includes the Las Vegas shooting) were manually
+                  removed from the original dataset due to issues while data
+                  gathering.
+                </li>
+              </ul>
+            </Panel>
+            <Panel header="Customize Dashboard" key="2">
+              <Switch
+                checkedChildren={'State Comparisons'}
+                unCheckedChildren={'State Comparisons'}
+                defaultChecked={true}
+                // tslint:disable-next-line: jsx-no-lambda
+                onClick={() =>
+                  this.setState({
+                    stateComparisonsShowing: !this.state
+                      .stateComparisonsShowing,
+                  })
+                }
+              />
+            </Panel>
+          </Collapse>
           <br />
-          <Row gutter={24}>
-            <Col span={12}>
-              <LineGraph />
-            </Col>
-            <Col span={12}>
-              <DonutGraph graphSettings="Victims" />
-            </Col>
-          </Row>
+          {this.state.stateComparisonsShowing ? <StateComparisons /> : null}
           <br />
-          <Row gutter={24}>
-            <Col span={12}>
-              <DonutGraph graphSettings="Suspects" />
-            </Col>
-            <Col span={12}>
-              <PolarGraph graphSettings="bygender" />
-            </Col>
-          </Row>
+          <LineGraph />
           <br />
-          <Row gutter={24}>
-            <Col span={12}>
-              <PolarGraph graphSettings="isstolen" />
-            </Col>
-            <Col span={12}>
-              <BarGraph graphSettings="byrelationship" />
-            </Col>
-          </Row>
+          <DonutGraph graphSettings="Victims" />
           <br />
-          <Row gutter={24}>
-            <Col span={12}>
-              <BarGraph graphSettings="byguntype" />
-            </Col>
-          </Row>
+          <DonutGraph graphSettings="Suspects" />
+          <br />
+          <PolarGraph graphSettings="bygender" />
+          <br />
+          <PolarGraph graphSettings="isstolen" />
         </Page>
       </div>
     );

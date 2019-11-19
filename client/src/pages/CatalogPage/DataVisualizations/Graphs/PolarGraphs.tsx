@@ -9,7 +9,6 @@ interface PolarGraphProps {
 }
 
 interface DataSetObj {
-  label: string;
   backgroundColor: string[];
   data: number[];
 }
@@ -35,7 +34,6 @@ class PolarGraph extends React.Component<PolarGraphProps, PolarGraphState> {
         labels: [],
         datasets: [
           {
-            label: '',
             backgroundColor: [],
             data: [],
           },
@@ -63,24 +61,45 @@ class PolarGraph extends React.Component<PolarGraphProps, PolarGraphState> {
         );
       }
 
-      this.setState({
-        ...this.state,
-        waitingForPolarGraphData: false,
-        PolarGraphData,
-        data: {
-          labels: ['Male', 'Female'],
-          datasets: [
-            {
-              label: 'gun deaths caused by gender',
-              backgroundColor: [
-                'rgba(40,116,166, 0.8)',
-                'rgba(46,182,193, 0.8)',
-              ],
-              data: PolarGraphData,
-            },
-          ],
-        },
-      });
+      if (this.props.graphSettings === 'bygender') {
+        this.setState({
+          ...this.state,
+          waitingForPolarGraphData: false,
+          PolarGraphData,
+          data: {
+            labels: ['Male', 'Female', 'Unknown'],
+            datasets: [
+              {
+                backgroundColor: [
+                  'rgba(29, 0, 97, 1)',
+                  'rgba(58, 152, 145, 1)',
+                  'rgba(45, 124, 237, 1)',
+                ],
+                data: PolarGraphData,
+              },
+            ],
+          },
+        });
+      } else {
+        this.setState({
+          ...this.state,
+          waitingForPolarGraphData: false,
+          PolarGraphData,
+          data: {
+            labels: ['Stolen', 'Unknown', 'Legal'],
+            datasets: [
+              {
+                backgroundColor: [
+                  'rgba(29, 0, 97, 1)',
+                  'rgba(58, 152, 145, 1)',
+                  'rgba(45, 124, 237, 1)',
+                ],
+                data: PolarGraphData,
+              },
+            ],
+          },
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -89,7 +108,7 @@ class PolarGraph extends React.Component<PolarGraphProps, PolarGraphState> {
   public render() {
     if (this.props.graphSettings === 'bygender') {
       return (
-        <Card title="Gun Deaths Caused By Gender">
+        <Card title="Gun Deaths By Gender">
           <Polar
             options={{
               responsive: true,
@@ -100,7 +119,7 @@ class PolarGraph extends React.Component<PolarGraphProps, PolarGraphState> {
       );
     } else {
       return (
-        <Card title="Incident counts for Stolen vs. Legal Guns">
+        <Card title="Stolen vs. Legal Guns in Incidents">
           <Polar
             options={{
               responsive: true,
