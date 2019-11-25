@@ -2,7 +2,6 @@ import React from 'react';
 import Page from 'components/Layout/Page/Page';
 import { PageEnum } from 'pages/PageEnum';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import {
   ComposableMap,
   ZoomableGroup,
@@ -52,7 +51,9 @@ class GeographicDistribution extends React.Component<
       waitingForData: true,
       locations: [],
     };
+  }
 
+  public componentDidMount() {
     this.fetchLocationsFor(this.state.dateRange);
   }
 
@@ -74,7 +75,11 @@ class GeographicDistribution extends React.Component<
         waitingForData: false,
         locations: locations.data,
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log(
+        `GeographicDistribution's fetchLocationsFor(${dateRange}): ${error}`
+      );
+    }
   };
 
   private onYearChange = (
@@ -87,10 +92,7 @@ class GeographicDistribution extends React.Component<
   public render() {
     return (
       <Page title={PageEnum.GEOGRAPHIC_DISTRIBUTION.title}>
-        <p>
-          Disclaimer: Some data is missing from the years 2013 and 2018. See{' '}
-          <Link to={PageEnum.ABOUT.url}>the about page</Link> for more info.
-        </p>
+        <p>Disclaimer: Some data is missing from the years 2013 and 2018.</p>
         <section
           style={{
             display: 'flex',

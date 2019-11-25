@@ -23,7 +23,7 @@ interface FormData {
   gunTypes: string[];
   participant: {
     qualifier: 'any' | 'only';
-    gender: 'Any' | 'M' | 'F';
+    gender: '' | 'M' | 'F';
     age: { equality: string; count: number };
     type: string;
     status: string;
@@ -93,11 +93,7 @@ router.post('', async (req: Request, res: Response) => {
           ? `(age IS NULL OR age${ageEquality}${participant.age.count})`
           : `age${ageEquality}${participant.age.count}`
       }
-      ${
-        participant.gender !== 'Any'
-          ? ` AND gender='${participant.gender}'`
-          : ''
-      }
+      ${participant.gender ? ` AND gender='${participant.gender}'` : ''}
       ${participant.type ? ` AND type='${participant.type}'` : ''}
       ${participant.status ? ` AND status='${participant.status}'` : ''}
       ${
@@ -130,7 +126,7 @@ router.post('', async (req: Request, res: Response) => {
       participant.age.count
     }${!ageCanBeNull ? `)` : ''}
       ${
-        participant.gender !== 'Any'
+        participant.gender
           ? ` OR gender IS NULL OR gender<>'${participant.gender}'`
           : ''
       }

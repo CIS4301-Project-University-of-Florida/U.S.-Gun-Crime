@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import IncidentForm from '../IncidentForm';
 import GunForm from '../GunForm';
 import LocationForm from '../LocationForm';
@@ -9,7 +9,6 @@ import { equalityDefault } from 'components/Forms/EqualityInput/EqualityInput';
 import { RangePickerValue } from 'antd/lib/date-picker/interface';
 import ParticipantForm from '../ParticipantForm/ParticipantForm';
 import Participant from 'pages/CatalogPage/DeepDive/ParticipantForm/Participant';
-import { ANY_OPTION } from '../AnyOption';
 import { GunCrime } from 'pages/CatalogPage/GunCrime';
 import styles from './SearchTool.module.less';
 import CrimeResults from '../CrimeResults/CrimeResults';
@@ -42,7 +41,7 @@ const initialState: SearchToolState = {
   gunTypes: [],
   participant: {
     qualifier: 'any',
-    gender: ANY_OPTION,
+    gender: '',
     age: { equality: equalityDefault, count: 0 },
     type: '',
     status: '',
@@ -60,8 +59,8 @@ const initialState: SearchToolState = {
 };
 
 class SearchTool extends React.Component<{}, SearchToolState> {
-  public constructor({}) {
-    super({});
+  public constructor(props: {}) {
+    super(props);
     this.state = initialState;
   }
 
@@ -79,12 +78,12 @@ class SearchTool extends React.Component<{}, SearchToolState> {
     });
   };
 
-  public onKillCountChange = (event: ChangeEvent<HTMLInputElement>) => {
+  public onKillCountChange = (count: number) => {
     this.setState({
       ...this.state,
       numKilled: {
         equality: this.state.numKilled.equality,
-        count: Number(event.target.value),
+        count,
       },
     });
   };
@@ -96,12 +95,12 @@ class SearchTool extends React.Component<{}, SearchToolState> {
     });
   };
 
-  public onInjuredCountChange = (event: ChangeEvent<HTMLInputElement>) => {
+  public onInjuredCountChange = (count: number) => {
     this.setState({
       ...this.state,
       numInjured: {
         equality: this.state.numInjured.equality,
-        count: Number(event.target.value),
+        count,
       },
     });
   };
@@ -123,12 +122,12 @@ class SearchTool extends React.Component<{}, SearchToolState> {
     });
   };
 
-  public onGunCountChange = (event: ChangeEvent<HTMLInputElement>) => {
+  public onGunCountChange = (count: number) => {
     this.setState({
       ...this.state,
       numGuns: {
         equality: this.state.numGuns.equality,
-        count: Number(event.target.value),
+        count,
       },
     });
   };

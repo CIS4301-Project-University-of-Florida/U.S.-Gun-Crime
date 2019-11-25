@@ -1,78 +1,62 @@
-import React, { ChangeEvent } from 'react';
+import React, { useState } from 'react';
 import DataForm from 'components/Forms/DataForm/DataForm';
 import EqualityInput from 'components/Forms/EqualityInput/EqualityInput';
 import FormField from 'components/Forms/FormField/FormField';
 import MultiSelect from 'components/Forms/MultiSelect/MultiSelect';
 import axios from 'axios';
 import LoadingSpin from 'components/LoadingSpin/LoadingSpin';
+import { useEffect } from 'react';
 
 interface GunFormProps {
   onGunTypeChange: (gunTypes: string[]) => void;
   onGunCountEqualityChange: (equality: string) => void;
-  onGunCountChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onGunCountChange: (count: number) => void;
 }
 
-interface GunFormState {
-  waitingForGunTypeData: boolean;
-  gunTypes: string[];
-}
+const GunForm = (props: GunFormProps) => {
+  const [waitingForTypeData, setWaitingForTypeData] = useState<boolean>(true);
+  const [gunTypes, setGunTypes] = useState<string[]>([]);
 
-// TODO: prevent users from entering more tags than the number of guns specified if equality is < or <=
+  useEffect(() => {
+    async function fetchGunTypes() {
+      try {
+        const response = await axios.get('/api/gun/types');
 
-class GunForm extends React.Component<GunFormProps, GunFormState> {
-  public constructor(props: GunFormProps) {
-    super(props);
-    this.state = {
-      waitingForGunTypeData: true,
-      gunTypes: [],
-    };
-    this.fetchGunTypeData();
-  }
+        const types: string[] = [];
+        response.data.forEach((g: { TYPE: string }) => types.push(g.TYPE));
 
-  private fetchGunTypeData = async () => {
-    try {
-      const response = await axios.get('/api/gun/types');
+        setWaitingForTypeData(false);
+        setGunTypes(types);
+      } catch (error) {
+        console.log(`GunForm's fetchGunTypeData: ${error}`);
+      }
+    }
+    fetchGunTypes();
+  }, []);
 
-      const gunTypes: string[] = [];
-      response.data.forEach((g: { TYPE: string }) => gunTypes.push(g.TYPE));
-
-      this.setState({
-        ...this.state,
-        waitingForGunTypeData: false,
-        gunTypes,
-      });
-    } catch (error) {}
-  };
-
-  public render() {
-    return (
-      <DataForm>
-        <h2>Guns Involved</h2>
-        <FormField label="Number">
-          <EqualityInput
-            onEqualityChange={this.props.onGunCountEqualityChange}
-            onNumberChange={this.props.onGunCountChange}
-            numericalMinimum={1}
-          />
-        </FormField>
-        <FormField label="Gun types">
-          <MultiSelect
-            style={{ minWidth: '200px' }}
-            disabled={this.state.waitingForGunTypeData}
-            placeholder={
-              this.state.waitingForGunTypeData ? (
-                <LoadingSpin />
-              ) : (
-                'Select gun types...'
-              )
-            }
-            onChange={this.props.onGunTypeChange}
-            data={this.state.gunTypes}
-          />
-        </FormField>
-      </DataForm>
-    );
-  }
-}
+  return (
+    <DataForm>
+      <h2>Guns Involved</h2>
+      <FormField label="Number">
+        <EqualityInput
+          onEqualityChange={props.onGunCountEqualityChange}
+          onNumberChange={props.onGunCountChange}
+          numericalMinimum={1}
+        />
+      </FormField>
+      <FormField label="Gun types">
+        <MultiSelect
+          style={{ minWidth: '200px' }}
+          disabled={waitingForTypeData}
+          placeholder={
+            waitingForTypeData ? <LoadingSpin /> : 'Select gun types...'
+          }
+          onChange={props.onGunTypeChange}
+          data={gunTypes}
+        />
+      </FormField>
+    </DataForm>
+  );
+};
 
 export default GunForm;

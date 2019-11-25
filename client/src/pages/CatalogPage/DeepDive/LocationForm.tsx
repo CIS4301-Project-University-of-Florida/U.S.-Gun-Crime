@@ -40,7 +40,9 @@ class LocationForm extends React.Component<
       waitingForSenateDistrictData: true,
       senateDistricts: [],
     };
+  }
 
+  public componentDidMount() {
     this.fetchStateData();
     this.fetchCityAndCountyData();
     this.fetchHouseDistrictData();

@@ -1,6 +1,4 @@
 import HomePage from 'pages/HomePage/HomePage';
-import CatalogPage from './CatalogPage/CatalogPage';
-import AboutPage from './AboutPage/AboutPage';
 import DataVisualization from './CatalogPage/DataVisualizations/DataVisualizations';
 import Rankings from './CatalogPage/Rankings/Rankings';
 import DeepDive from './CatalogPage/DeepDive/DeepDive';
@@ -20,23 +18,7 @@ export class PageEnum {
     public readonly component: React.ComponentType
   ) {}
 
-  public static readonly HOME = new PageEnum(
-    '/',
-    'U.S. Gun Crime Data',
-    HomePage
-  );
-
-  public static readonly DATA_CATALOG = new PageEnum(
-    '/data-catalog',
-    'Data Catalog',
-    CatalogPage
-  );
-
-  public static readonly ABOUT = new PageEnum(
-    '/about',
-    'About the Data',
-    AboutPage
-  );
+  public static readonly HOME = new PageEnum('/', 'U.S. Gun Crimes', HomePage);
 
   public static readonly DATA_VISUALIZATIONS = new PageEnum(
     '/data-visualizations',

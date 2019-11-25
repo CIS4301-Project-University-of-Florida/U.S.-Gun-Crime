@@ -8,25 +8,23 @@ interface MultiSelectProps extends SelectProps<string[]> {
   data: string[];
 }
 
-class MultiSelect extends React.Component<MultiSelectProps> {
-  public render() {
-    return (
-      <Select
-        {...this.props}
-        mode="multiple"
-        dropdownMatchSelectWidth={false}
-        className={`${styles.multiSelect} ${
-          this.props.className ? this.props.className : ''
-        }`}
-      >
-        {this.props.data.map(option => (
-          <Option key={option} value={option}>
-            {option}
-          </Option>
-        ))}
-      </Select>
-    );
-  }
-}
+const MultiSelect = (props: MultiSelectProps) => {
+  return (
+    <Select
+      {...props}
+      mode="multiple"
+      dropdownMatchSelectWidth={false}
+      className={`${styles.multiSelect} ${
+        props.className ? props.className : ''
+      }`}
+    >
+      {props.data.map(option => (
+        <Option key={option} value={option}>
+          {option}
+        </Option>
+      ))}
+    </Select>
+  );
+};
 
 export default MultiSelect;
