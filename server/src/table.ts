@@ -10,6 +10,7 @@ const table = (
     | 'Location'
     | 'Gun'
     | 'Participant'
+    | 'StatePopulation'
 ) => {
   return `${process.env.OWNER}.${name}`;
 };
@@ -19,3 +20,4 @@ export const IncidentCharacteristic = table('IncidentCharacteristic');
 export const Location = table('Location');
 export const Gun = table('Gun');
 export const Participant = table('Participant');
+export const StatePopulation = table('StatePopulation');
