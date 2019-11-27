@@ -4,7 +4,7 @@ import { Doughnut, Pie, Polar, Bar, Scatter } from 'react-chartjs-2';
 import { Card } from 'antd';
 
 // tslint:disable-next-line: no-empty-interface
-interface DonutGraphProps {
+interface BarGraphProps {
   graphSettings: string;
 }
 
@@ -19,18 +19,18 @@ interface DataObj {
   datasets: DataSetObj[];
 }
 
-interface DonutGraphState {
-  waitingForDonutGraphData: boolean;
-  DonutGraphrData: number[];
+interface BarGraphState {
+  waitingForBarGraphData: boolean;
+  BarGraphrData: number[];
   data: DataObj;
 }
 
-class DonutGraph extends React.Component<DonutGraphProps, DonutGraphState> {
-  public constructor(props: DonutGraphProps) {
+class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
+  public constructor(props: BarGraphProps) {
     super(props);
     this.state = {
-      waitingForDonutGraphData: true,
-      DonutGraphrData: [],
+      waitingForBarGraphData: true,
+      BarGraphrData: [],
       data: {
         labels: [],
         datasets: [
@@ -42,16 +42,16 @@ class DonutGraph extends React.Component<DonutGraphProps, DonutGraphState> {
         ],
       },
     };
-    this.fetchDonutGraphData();
+    this.fetchBarGraphData();
   }
 
-  private fetchDonutGraphData = async () => {
+  private fetchBarGraphData = async () => {
     try {
       const response = await axios.get(
-        '/api/donutgraphs/' + this.props.graphSettings
+        '/api/verticalbargraphs/' + this.props.graphSettings
       );
 
-      const DonutGraphrData: number[] = [];
+      const BarGraphrData: number[] = [];
       response.data.forEach(
         (p: {
           GROUP1: number;
@@ -66,7 +66,7 @@ class DonutGraph extends React.Component<DonutGraphProps, DonutGraphState> {
           GROUP10: number;
           GROUP11: number;
         }) =>
-          DonutGraphrData.push(
+          BarGraphrData.push(
             p.GROUP1,
             p.GROUP2,
             p.GROUP3,
@@ -83,8 +83,8 @@ class DonutGraph extends React.Component<DonutGraphProps, DonutGraphState> {
 
       this.setState({
         ...this.state,
-        waitingForDonutGraphData: false,
-        DonutGraphrData,
+        waitingForBarGraphData: false,
+        BarGraphrData,
         data: {
           labels: [
             'Ages 0-9',
@@ -104,7 +104,7 @@ class DonutGraph extends React.Component<DonutGraphProps, DonutGraphState> {
                 'rgba(172, 74, 78, 1)',
                 'rgba(238, 146, 64, 1)',
               ],
-              data: DonutGraphrData,
+              data: BarGraphrData,
             },
           ],
         },
@@ -147,4 +147,4 @@ class DonutGraph extends React.Component<DonutGraphProps, DonutGraphState> {
   }
 }
 
-export default DonutGraph;
+export default BarGraph;

@@ -141,33 +141,33 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
     const { stateOne, stateTwo } = this.state;
     return (
       <Card title="State Comparisons">
+        <Select
+          defaultValue={stateOne}
+          onChange={this.stateOneChange}
+          showSearch={true}
+          style={{ width: 150 }}
+        >
+          {this.state.states.map((item, index) => (
+            <Select.Option value={item} key={index}>
+              {item}
+            </Select.Option>
+          ))}
+        </Select>
+        &#160;
+        <Select
+          defaultValue={stateTwo}
+          onChange={this.stateTwoChange}
+          showSearch={true}
+          style={{ width: 150 }}
+        >
+          {this.state.states.map((item, index) => (
+            <Select.Option value={item} key={index}>
+              {item}
+            </Select.Option>
+          ))}
+        </Select>
         {!this.state.isLoading ? (
           <div>
-            <Select
-              defaultValue={stateOne}
-              onChange={this.stateOneChange}
-              showSearch={true}
-              style={{ width: 150 }}
-            >
-              {this.state.states.map((item, index) => (
-                <Select.Option value={item} key={index}>
-                  {item}
-                </Select.Option>
-              ))}
-            </Select>
-            &#160;
-            <Select
-              defaultValue={stateTwo}
-              onChange={this.stateTwoChange}
-              showSearch={true}
-              style={{ width: 150 }}
-            >
-              {this.state.states.map((item, index) => (
-                <Select.Option value={item} key={index}>
-                  {item}
-                </Select.Option>
-              ))}
-            </Select>
             <Line
               options={{
                 responsive: true,

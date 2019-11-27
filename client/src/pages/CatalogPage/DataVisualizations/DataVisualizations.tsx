@@ -2,8 +2,8 @@ import React from 'react';
 import Page from 'components/Layout/Page/Page';
 import { PageEnum } from 'pages/PageEnum';
 import LineGraph from './Graphs/LineGraphs';
-import DonutGraph from './Graphs/DonutGraphs';
-import PolarGraph from './Graphs/PolarGraphs';
+import BarGraph from './Graphs/VerticalBarGraphs';
+import PieGraph from './Graphs/PieGraphs';
 import StateComparisons from './Graphs/StateComparisons/StateComparisons';
 import { Collapse, Switch, Card, Row, Col, Alert } from 'antd';
 
@@ -114,16 +114,16 @@ class DataVisualizations extends React.Component<
                   <Card />
                 </Col>
                 <Col span={16}>
-                  <PolarGraph graphSettings="bygender" />
+                  <PieGraph graphSettings="bygender" />
                 </Col>
               </Row>
               <br />
               <Row gutter={16}>
                 <Col span={12}>
-                  <DonutGraph graphSettings="Victims" />
+                  <BarGraph graphSettings="Victims" />
                 </Col>
                 <Col span={12}>
-                  <DonutGraph graphSettings="Suspects" />
+                  <BarGraph graphSettings="Suspects" />
                 </Col>
               </Row>
               <br />
@@ -137,7 +137,7 @@ class DataVisualizations extends React.Component<
                   <Card />
                 </Col>
                 <Col span={16}>
-                  <PolarGraph graphSettings="isstolen" />
+                  <PieGraph graphSettings="isstolen" />
                 </Col>
               </Row>
               <br />
@@ -148,7 +148,7 @@ class DataVisualizations extends React.Component<
           !this.state.showingguninfo ? (
             <Alert
               message="Customize your dashboard above to view gun crime visualizations!"
-              type="warning"
+              type="info"
             />
           ) : null}
         </Page>

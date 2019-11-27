@@ -1,10 +1,10 @@
 import React from 'react';
 import axios from 'axios';
-import { Bar, Polar, Pie, Doughnut } from 'react-chartjs-2';
+import { Pie, Doughnut } from 'react-chartjs-2';
 import { Card } from 'antd';
 
 // tslint:disable-next-line: no-empty-interface
-interface PolarGraphProps {
+interface PieGraphProps {
   graphSettings: string;
 }
 
@@ -18,18 +18,18 @@ interface DataObj {
   datasets: DataSetObj[];
 }
 
-interface PolarGraphState {
-  waitingForPolarGraphData: boolean;
-  PolarGraphData: number[];
+interface PieGraphState {
+  waitingForPieGraphData: boolean;
+  PieGraphData: number[];
   data: DataObj;
 }
 
-class PolarGraph extends React.Component<PolarGraphProps, PolarGraphState> {
-  public constructor(props: PolarGraphProps) {
+class PieGraph extends React.Component<PieGraphProps, PieGraphState> {
+  public constructor(props: PieGraphProps) {
     super(props);
     this.state = {
-      waitingForPolarGraphData: true,
-      PolarGraphData: [],
+      waitingForPieGraphData: true,
+      PieGraphData: [],
       data: {
         labels: [],
         datasets: [
@@ -46,26 +46,26 @@ class PolarGraph extends React.Component<PolarGraphProps, PolarGraphState> {
   private fetchParticipantRelationshipData = async () => {
     try {
       const response = await axios.get(
-        '/api/polargraphs/' + this.props.graphSettings
+        '/api/piegraphs/' + this.props.graphSettings
       );
 
-      const PolarGraphData: number[] = [];
+      const PieGraphData: number[] = [];
 
       if (this.props.graphSettings === 'bygender') {
         response.data.forEach((p: { N_KILLED: number }) =>
-          PolarGraphData.push(p.N_KILLED)
+          PieGraphData.push(p.N_KILLED)
         );
       } else {
         response.data.forEach((p: { NUMINCIDENTS: number }) =>
-          PolarGraphData.push(p.NUMINCIDENTS)
+          PieGraphData.push(p.NUMINCIDENTS)
         );
       }
 
       if (this.props.graphSettings === 'bygender') {
         this.setState({
           ...this.state,
-          waitingForPolarGraphData: false,
-          PolarGraphData,
+          waitingForPieGraphData: false,
+          PieGraphData,
           data: {
             labels: ['Male', 'Female', 'Unknown'],
             datasets: [
@@ -75,7 +75,7 @@ class PolarGraph extends React.Component<PolarGraphProps, PolarGraphState> {
                   'rgba(172, 74, 78, 1)',
                   'rgba(238, 146, 64, 1)',
                 ],
-                data: PolarGraphData,
+                data: PieGraphData,
               },
             ],
           },
@@ -83,8 +83,8 @@ class PolarGraph extends React.Component<PolarGraphProps, PolarGraphState> {
       } else {
         this.setState({
           ...this.state,
-          waitingForPolarGraphData: false,
-          PolarGraphData,
+          waitingForPieGraphData: false,
+          PieGraphData,
           data: {
             labels: ['Stolen Guns', 'Unknown', 'Legal Guns'],
             datasets: [
@@ -95,7 +95,7 @@ class PolarGraph extends React.Component<PolarGraphProps, PolarGraphState> {
                   'rgba(172, 74, 78, 1)',
                   'rgba(112, 31, 71, 1)',
                 ],
-                data: PolarGraphData,
+                data: PieGraphData,
               },
             ],
           },
@@ -133,4 +133,4 @@ class PolarGraph extends React.Component<PolarGraphProps, PolarGraphState> {
   }
 }
 
-export default PolarGraph;
+export default PieGraph;
