@@ -100,7 +100,14 @@ class DataVisualizations extends React.Component<
                   <LineGraph />
                 </Col>
                 <Col span={8}>
-                  <Card />
+                  <Card>
+                    <h2>Notes</h2>
+                    According to the US Census Bureau, the national population
+                    has increased approximately 2.12 percent from 318.39 million
+                    in 2014 to 325.15 million in 2017. However, the number of
+                    gun deaths has increased by over 20 percent during the same
+                    period.
+                  </Card>
                 </Col>
               </Row>
               <br />
@@ -110,10 +117,19 @@ class DataVisualizations extends React.Component<
             <div>
               <h3>Demographic Information</h3>
               <Row gutter={16}>
-                <Col span={8}>
-                  <Card />
+                <Col span={10}>
+                  <Card>
+                    <h2>Notes</h2>
+                    Even though the female population has been approximately 3
+                    percent higher than the male population for the last couple
+                    of years, the number of gun death caused by males is
+                    unproportionally higher with men accounting for over 90
+                    percent of the total gun deaths in the United States.
+                    According to the gun crime data, males aged between 19-25
+                    are most likely to commit gun related crime.
+                  </Card>
                 </Col>
-                <Col span={16}>
+                <Col span={14}>
                   <PieGraph graphSettings="bygender" />
                 </Col>
               </Row>
@@ -134,7 +150,12 @@ class DataVisualizations extends React.Component<
               <h3>Gun Information</h3>
               <Row gutter={16}>
                 <Col span={8}>
-                  <Card />
+                  <Card>
+                    <h2>Notes</h2>
+                    Stolen guns are almost ten times more likely to be involved
+                    in gun crime than legal guns which usually require mandatory
+                    background checks before purchase.
+                  </Card>
                 </Col>
                 <Col span={16}>
                   <PieGraph graphSettings="isstolen" />
@@ -147,7 +168,7 @@ class DataVisualizations extends React.Component<
           !this.state.showingdemoinfo &&
           !this.state.showingguninfo ? (
             <Alert
-              message="Customize your dashboard above to view gun crime visualizations!"
+              message="Customize your dashboard to view gun crime visualizations."
               type="info"
             />
           ) : null}

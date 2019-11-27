@@ -90,10 +90,9 @@ class PieGraph extends React.Component<PieGraphProps, PieGraphState> {
             datasets: [
               {
                 backgroundColor: [
-                  'rgba(238, 146, 64, 1)',
-
                   'rgba(172, 74, 78, 1)',
                   'rgba(112, 31, 71, 1)',
+                  'rgba(238, 146, 64, 1)',
                 ],
                 data: PieGraphData,
               },

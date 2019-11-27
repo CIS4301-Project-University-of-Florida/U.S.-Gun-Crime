@@ -101,7 +101,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
             datasets: [
               {
                 label: 'Number of people killed in incident',
-                backgroundColor: 'rgba(80, 17, 68, 1)',
+                backgroundColor: 'rgba(112, 31, 71, 1)',
                 data: BarGraphData,
               },
             ],
@@ -116,7 +116,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
             labels: someLabels,
             datasets: [
               {
-                label: 'Deadliest states by year',
+                label: 'Deadliest states',
                 backgroundColor: 'rgba(80, 17, 68, 1)',
                 data: BarGraphData,
               },
@@ -133,7 +133,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
             datasets: [
               {
                 label: 'Deaths caused by gun',
-                backgroundColor: 'rgba(80, 17, 68, 1)',
+                backgroundColor: 'rgba(172, 74, 78, 1)',
                 data: BarGraphData,
               },
             ],
@@ -149,7 +149,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
             datasets: [
               {
                 label: 'Number of gun incidents',
-                backgroundColor: 'rgba(80, 17, 68, 1)',
+                backgroundColor: 'rgba(238, 146, 64, 1)',
                 data: BarGraphData,
               },
             ],
