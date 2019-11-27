@@ -2,7 +2,13 @@ import { logger } from '@shared';
 import { Request, Response, Router } from 'express';
 import { BAD_REQUEST, OK } from 'http-status-codes';
 import query from 'src/query/query';
-import { Incident, Gun, Participant, Location } from 'src/table';
+import {
+  Incident,
+  Gun,
+  Participant,
+  Location,
+  StatePopulation,
+} from 'src/table';
 
 // Init shared
 const router = Router();
@@ -10,7 +16,7 @@ const router = Router();
 /**
  * Returns number of gun deaths caused by different gun types
  */
-router.get('/byguntype', async (req: Request, res: Response) => {
+router.get('/byguntype/:var', async (req: Request, res: Response) => {
   try {
     const bygender = await query(
       `SELECT type, SUM(n_killed) AS n_killed
@@ -32,7 +38,7 @@ router.get('/byguntype', async (req: Request, res: Response) => {
 /**
  * Returns correlation between gun crime and relationship type
  */
-router.get('/byrelationship', async (req: Request, res: Response) => {
+router.get('/byrelationship/:var', async (req: Request, res: Response) => {
   try {
     const bygender = await query(
       `SELECT relationship, COUNT(incident_id) AS incidentcount
@@ -54,7 +60,7 @@ router.get('/byrelationship', async (req: Request, res: Response) => {
 /**
  * Returns 100 most lethal incidents
  */
-router.get('/mostlethalincidents', async (req: Request, res: Response) => {
+router.get('/mostlethalincidents/:var', async (req: Request, res: Response) => {
   try {
     const bygender = await query(
       `SELECT * FROM
@@ -77,14 +83,20 @@ router.get('/mostlethalincidents', async (req: Request, res: Response) => {
 /**
  * Ranks states by most dangerous
  */
-router.get('/mostdangerousstates', async (req: Request, res: Response) => {
+router.get('/mostdangerousstates/:var', async (req: Request, res: Response) => {
   try {
     const bygender = await query(
-      `SELECT state, SUM(N_KILLED) AS N_KILLED
-      FROM ${Incident}, ${Location}
+      `SELECT ${Location}.state, 
+      (SUM(N_KILLED)/${StatePopulation}.population)*100000000000 AS N_KILLED,
+      SUM(N_KILLED) AS GUNDEATHS,
+      ${StatePopulation}.population AS STATEPOP
+      FROM ${Incident}, ${Location}, ${StatePopulation}
       WHERE ${Incident}.latitude = ${Location}.latitude
       AND ${Incident}.longitude = ${Location}.longitude
-      GROUP BY state
+      AND ${StatePopulation}.state = ${Location}.state
+      AND EXTRACT(YEAR FROM i_date) = '${req.params.var}'
+      AND ${StatePopulation}.year = '${req.params.var}'
+      GROUP BY ${Location}.state, ${StatePopulation}.population
       ORDER BY N_KILLED DESC`
     );
     return res.status(OK).json(bygender);

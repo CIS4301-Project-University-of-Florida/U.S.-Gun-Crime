@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Line, Polar, Bar, HorizontalBar } from 'react-chartjs-2';
-import { Card } from 'antd';
+import { Card, Select, Alert } from 'antd';
 
 // tslint:disable-next-line: no-empty-interface
 interface BarGraphProps {
@@ -20,6 +20,8 @@ interface DataObj {
 }
 
 interface BarGraphState {
+  years: string[];
+  currentYear: string;
   waitingForBarGraphData: boolean;
   someLabels: string[];
   BarGraphData: number[];
@@ -30,6 +32,8 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
   public constructor(props: BarGraphProps) {
     super(props);
     this.state = {
+      years: ['2013', '2014', '2015', '2016', '2017', '2018'],
+      currentYear: '2013',
       waitingForBarGraphData: true,
       someLabels: [],
       BarGraphData: [],
@@ -50,7 +54,10 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
   private fetchBarGraphData = async () => {
     try {
       const response = await axios.get(
-        '/api/bargraphs/' + this.props.graphSettings
+        '/api/bargraphs/' +
+          this.props.graphSettings +
+          '/' +
+          this.state.currentYear
       );
 
       const BarGraphData: number[] = [];
@@ -93,7 +100,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
             labels: someLabels,
             datasets: [
               {
-                label: 'Number of people killed in each incident',
+                label: 'Number of people killed in incident',
                 backgroundColor: 'rgba(80, 17, 68, 1)',
                 data: BarGraphData,
               },
@@ -109,7 +116,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
             labels: someLabels,
             datasets: [
               {
-                label: 'Number of people killed in each state',
+                label: 'Deadliest states by year',
                 backgroundColor: 'rgba(80, 17, 68, 1)',
                 data: BarGraphData,
               },
@@ -125,7 +132,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
             labels: someLabels,
             datasets: [
               {
-                label: 'Gun deaths caused by each gun type',
+                label: 'Gun deaths caused by gun',
                 backgroundColor: 'rgba(80, 17, 68, 1)',
                 data: BarGraphData,
               },
@@ -154,20 +161,81 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
     }
   };
 
-  public render() {
-    return (
-      <Card>
-        <div style={{ height: 1000 }}>
-          <HorizontalBar
-            options={{
-              responsive: true,
-              maintainAspectRatio: false,
-            }}
-            data={this.state.data}
-          />
-        </div>
-      </Card>
+  public yearChange = (value: string) => {
+    this.setState(
+      {
+        currentYear: value,
+        data: {
+          labels: [],
+          datasets: [
+            {
+              label: '',
+              backgroundColor: '',
+              data: [],
+            },
+          ],
+        },
+      },
+      () => {
+        this.fetchBarGraphData();
+      }
     );
+  };
+
+  public render() {
+    if (this.props.graphSettings === 'mostdangerousstates') {
+      const { currentYear } = this.state;
+      return (
+        <Card>
+          <div style={{ height: 1200 }}>
+            <Select
+              defaultValue={currentYear}
+              onChange={this.yearChange}
+              showSearch={false}
+              style={{ width: 150 }}
+            >
+              {this.state.years.map((item, index) => (
+                <Select.Option value={item} key={index}>
+                  {item}
+                </Select.Option>
+              ))}
+            </Select>
+            <HorizontalBar
+              options={{
+                responsive: true,
+                maintainAspectRatio: false,
+                tooltips: { enabled: false },
+                hover: { mode: null },
+                scales: {
+                  xAxes: [
+                    {
+                      ticks: {
+                        display: false,
+                      },
+                    },
+                  ],
+                },
+              }}
+              data={this.state.data}
+            />
+          </div>
+        </Card>
+      );
+    } else {
+      return (
+        <Card>
+          <div style={{ height: 800 }}>
+            <HorizontalBar
+              options={{
+                responsive: true,
+                maintainAspectRatio: false,
+              }}
+              data={this.state.data}
+            />
+          </div>
+        </Card>
+      );
+    }
   }
 }
 

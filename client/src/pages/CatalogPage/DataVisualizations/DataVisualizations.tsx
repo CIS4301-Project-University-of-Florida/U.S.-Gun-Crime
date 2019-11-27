@@ -5,7 +5,7 @@ import LineGraph from './Graphs/LineGraphs';
 import DonutGraph from './Graphs/DonutGraphs';
 import PolarGraph from './Graphs/PolarGraphs';
 import StateComparisons from './Graphs/StateComparisons/StateComparisons';
-import { Collapse, Switch, Card, Row, Col } from 'antd';
+import { Collapse, Switch, Card, Row, Col, Alert } from 'antd';
 
 const { Panel } = Collapse;
 
@@ -140,7 +140,16 @@ class DataVisualizations extends React.Component<
                   <PolarGraph graphSettings="isstolen" />
                 </Col>
               </Row>
+              <br />
             </div>
+          ) : null}
+          {!this.state.showingtrends &&
+          !this.state.showingdemoinfo &&
+          !this.state.showingguninfo ? (
+            <Alert
+              message="Customize your dashboard above to view gun crime visualizations!"
+              type="warning"
+            />
           ) : null}
         </Page>
       </div>
