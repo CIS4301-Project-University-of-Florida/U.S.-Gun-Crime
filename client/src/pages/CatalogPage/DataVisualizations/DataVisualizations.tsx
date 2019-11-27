@@ -92,7 +92,7 @@ class DataVisualizations extends React.Component<
           <br />
           {this.state.showingtrends ? (
             <div>
-              <h3>Gun Crime Trends</h3>
+              <h2>Gun Crime Trends</h2>
               <StateComparisons />
               <br />
               <Row gutter={16}>
@@ -101,7 +101,7 @@ class DataVisualizations extends React.Component<
                 </Col>
                 <Col span={8}>
                   <Card>
-                    <h2>Notes</h2>
+                    <h3>Notes</h3>
                     According to the US Census Bureau, the national population
                     has increased approximately 2.12 percent from 318.39 million
                     in 2014 to 325.15 million in 2017. However, the number of
@@ -115,11 +115,11 @@ class DataVisualizations extends React.Component<
           ) : null}
           {this.state.showingdemoinfo ? (
             <div>
-              <h3>Demographic Information</h3>
+              <h2>Demographic Information</h2>
               <Row gutter={16}>
                 <Col span={10}>
                   <Card>
-                    <h2>Notes</h2>
+                    <h3>Notes</h3>
                     Even though the female population has been approximately 3
                     percent higher than the male population for the last couple
                     of years, the number of gun death caused by males is
@@ -147,11 +147,11 @@ class DataVisualizations extends React.Component<
           ) : null}
           {this.state.showingguninfo ? (
             <div>
-              <h3>Gun Information</h3>
+              <h2>Gun Information</h2>
               <Row gutter={16}>
                 <Col span={8}>
                   <Card>
-                    <h2>Notes</h2>
+                    <h3>Notes</h3>
                     Stolen guns are almost ten times more likely to be involved
                     in gun crime than legal guns which usually require mandatory
                     background checks before purchase.

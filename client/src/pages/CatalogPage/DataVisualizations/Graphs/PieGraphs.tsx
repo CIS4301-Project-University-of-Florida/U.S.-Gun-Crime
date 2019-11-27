@@ -108,7 +108,7 @@ class PieGraph extends React.Component<PieGraphProps, PieGraphState> {
   public render() {
     if (this.props.graphSettings === 'bygender') {
       return (
-        <Card title="Gun Deaths Caused By Gender">
+        <Card title="Number of Gun Crimes Committed by Gender">
           {!this.state.isLoading ? (
             <Doughnut
               options={{
