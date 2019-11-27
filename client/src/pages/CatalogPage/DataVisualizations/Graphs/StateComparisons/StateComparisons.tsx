@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
-import { Card } from 'antd';
+import { Card, Spin, Alert } from 'antd';
 import StatesList from './StatesList';
 import { Select } from 'antd';
 
@@ -12,7 +12,7 @@ interface LineGraphState {
   states: string[];
   stateOne: string;
   stateTwo: string;
-  waitingForLineGraphData: boolean;
+  isLoading: boolean;
   data: DataObj;
 }
 
@@ -34,7 +34,7 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
       states: StatesList.states,
       stateOne: StatesList.states[0],
       stateTwo: StatesList.states[2],
-      waitingForLineGraphData: true,
+      isLoading: true,
       data: {
         labels: [],
         datasets: [
@@ -71,18 +71,18 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
 
       this.setState({
         ...this.state,
-        waitingForLineGraphData: false,
+        isLoading: false,
         data: {
           labels: ['2013', '2014', '2015', '2016', '2017', '2018'],
           datasets: [
             {
-              label: 'gun deaths by year in ' + this.state.stateOne,
-              backgroundColor: 'rgba(29, 0, 97, 0.7)',
+              label: 'Gun deaths by year in ' + this.state.stateOne,
+              backgroundColor: 'rgba(52, 8, 52, 0.8)',
               data: LineGraphData,
             },
             {
-              label: 'gun deaths by year in ' + this.state.stateTwo,
-              backgroundColor: 'rgba(29, 0, 97, 0.7)',
+              label: 'Gun deaths by year in ' + this.state.stateTwo,
+              backgroundColor: 'rgba(52, 8, 52, 0.8)',
               data: LineGraphData2,
             },
           ],
@@ -94,15 +94,47 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
   };
 
   public stateOneChange = (value: string) => {
-    this.setState({ stateOne: value }, () => {
-      this.fetchLineGraphData();
-    });
+    this.setState(
+      {
+        stateOne: value,
+        isLoading: true,
+        data: {
+          labels: [],
+          datasets: [
+            {
+              label: '',
+              backgroundColor: '',
+              data: [],
+            },
+          ],
+        },
+      },
+      () => {
+        this.fetchLineGraphData();
+      }
+    );
   };
 
   public stateTwoChange = (value: string) => {
-    this.setState({ stateTwo: value }, () => {
-      this.fetchLineGraphData();
-    });
+    this.setState(
+      {
+        stateTwo: value,
+        isLoading: true,
+        data: {
+          labels: [],
+          datasets: [
+            {
+              label: '',
+              backgroundColor: '',
+              data: [],
+            },
+          ],
+        },
+      },
+      () => {
+        this.fetchLineGraphData();
+      }
+    );
   };
 
   public render() {
@@ -134,13 +166,25 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
             </Select.Option>
           ))}
         </Select>
-        <Line
-          options={{
-            responsive: true,
-          }}
-          data={this.state.data}
-          redraw={true}
-        />
+        {!this.state.isLoading ? (
+          <Line
+            options={{
+              responsive: true,
+            }}
+            data={this.state.data}
+            redraw={true}
+          />
+        ) : (
+          <Spin tip="Loading...">
+            <Line
+              options={{
+                responsive: true,
+              }}
+              data={this.state.data}
+              redraw={true}
+            />
+          </Spin>
+        )}
       </Card>
     );
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
-import { Card } from 'antd';
+import { Card, Spin } from 'antd';
 
 // tslint:disable-next-line: no-empty-interface
 interface LineGraphProps {}
@@ -18,7 +18,7 @@ interface DataObj {
 }
 
 interface LineGraphState {
-  waitingForLineGraphData: boolean;
+  isLoading: boolean;
   LineGraphData: number[];
   data: DataObj;
 }
@@ -27,7 +27,7 @@ class LineGraph extends React.Component<LineGraphProps, LineGraphState> {
   public constructor(props: LineGraphProps) {
     super(props);
     this.state = {
-      waitingForLineGraphData: true,
+      isLoading: true,
       LineGraphData: [],
       data: {
         labels: [],
@@ -54,14 +54,14 @@ class LineGraph extends React.Component<LineGraphProps, LineGraphState> {
 
       this.setState({
         ...this.state,
-        waitingForLineGraphData: false,
+        isLoading: false,
         LineGraphData,
         data: {
           labels: ['2013', '2014', '2015', '2016', '2017', '2018'],
           datasets: [
             {
-              label: 'national gun deaths by year',
-              backgroundColor: 'rgba(29, 0, 97, 0.85)',
+              label: 'National gun deaths by year',
+              backgroundColor: 'rgba(80, 17, 68, 1)',
               data: LineGraphData,
             },
           ],
@@ -75,12 +75,23 @@ class LineGraph extends React.Component<LineGraphProps, LineGraphState> {
   public render() {
     return (
       <Card title="National Gun Crime Trends">
-        <Line
-          options={{
-            responsive: true,
-          }}
-          data={this.state.data}
-        />
+        {!this.state.isLoading ? (
+          <Line
+            options={{
+              responsive: true,
+            }}
+            data={this.state.data}
+          />
+        ) : (
+          <Spin tip="Loading...">
+            <Line
+              options={{
+                responsive: true,
+              }}
+              data={this.state.data}
+            />
+          </Spin>
+        )}
       </Card>
     );
   }

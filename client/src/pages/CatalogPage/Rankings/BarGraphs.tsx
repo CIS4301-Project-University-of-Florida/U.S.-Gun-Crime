@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Line, Polar, Bar, HorizontalBar } from 'react-chartjs-2';
-import { Card } from 'antd';
+import { Card, Select, Alert, Spin } from 'antd';
 
 // tslint:disable-next-line: no-empty-interface
 interface BarGraphProps {
@@ -20,7 +20,9 @@ interface DataObj {
 }
 
 interface BarGraphState {
-  waitingForBarGraphData: boolean;
+  years: string[];
+  currentYear: string;
+  isLoading: boolean;
   someLabels: string[];
   BarGraphData: number[];
   data: DataObj;
@@ -30,15 +32,17 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
   public constructor(props: BarGraphProps) {
     super(props);
     this.state = {
-      waitingForBarGraphData: true,
+      years: ['2013', '2014', '2015', '2016', '2017', '2018'],
+      currentYear: '2013',
+      isLoading: true,
       someLabels: [],
       BarGraphData: [],
       data: {
         labels: [],
         datasets: [
           {
-            label: 'number of people killed',
-            backgroundColor: 'rgba(52, 125, 234, 0.8)',
+            label: '',
+            backgroundColor: '',
             data: [],
           },
         ],
@@ -50,7 +54,10 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
   private fetchBarGraphData = async () => {
     try {
       const response = await axios.get(
-        '/api/bargraphs/' + this.props.graphSettings
+        '/api/bargraphs/' +
+          this.props.graphSettings +
+          '/' +
+          this.state.currentYear
       );
 
       const BarGraphData: number[] = [];
@@ -84,40 +91,191 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
         );
       }
 
-      this.setState({
-        ...this.state,
-        waitingForBarGraphData: false,
-        BarGraphData,
-        data: {
-          labels: someLabels,
-          datasets: [
-            {
-              label: 'number of people killed',
-              backgroundColor: 'rgba(52, 125, 234, 0.6)',
-              data: BarGraphData,
-            },
-          ],
-        },
-      });
+      if (this.props.graphSettings === 'mostlethalincidents') {
+        this.setState({
+          ...this.state,
+          isLoading: false,
+          BarGraphData,
+          data: {
+            labels: someLabels,
+            datasets: [
+              {
+                label: 'Number of people killed in incident',
+                backgroundColor: 'rgba(112, 31, 71, 1)',
+                data: BarGraphData,
+              },
+            ],
+          },
+        });
+      } else if (this.props.graphSettings === 'mostdangerousstates') {
+        this.setState({
+          ...this.state,
+          isLoading: false,
+          BarGraphData,
+          data: {
+            labels: someLabels,
+            datasets: [
+              {
+                label: 'Deadliest states',
+                backgroundColor: 'rgba(80, 17, 68, 1)',
+                data: BarGraphData,
+              },
+            ],
+          },
+        });
+      } else if (this.props.graphSettings === 'byguntype') {
+        this.setState({
+          ...this.state,
+          isLoading: false,
+          BarGraphData,
+          data: {
+            labels: someLabels,
+            datasets: [
+              {
+                label: 'Deaths caused by gun',
+                backgroundColor: 'rgba(172, 74, 78, 1)',
+                data: BarGraphData,
+              },
+            ],
+          },
+        });
+      } else {
+        this.setState({
+          ...this.state,
+          isLoading: false,
+          BarGraphData,
+          data: {
+            labels: someLabels,
+            datasets: [
+              {
+                label: 'Number of gun incidents',
+                backgroundColor: 'rgba(238, 146, 64, 1)',
+                data: BarGraphData,
+              },
+            ],
+          },
+        });
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
-  public render() {
-    return (
-      <Card title="Rankings">
-        <div style={{ height: 1000 }}>
-          <HorizontalBar
-            options={{
-              responsive: true,
-              maintainAspectRatio: false,
-            }}
-            data={this.state.data}
-          />
-        </div>
-      </Card>
+  public yearChange = (value: string) => {
+    this.setState(
+      {
+        isLoading: true,
+        currentYear: value,
+        data: {
+          labels: [],
+          datasets: [
+            {
+              label: '',
+              backgroundColor: '',
+              data: [],
+            },
+          ],
+        },
+      },
+      () => {
+        this.fetchBarGraphData();
+      }
     );
+  };
+
+  public render() {
+    if (this.props.graphSettings === 'mostdangerousstates') {
+      const { currentYear } = this.state;
+      return (
+        <Card>
+          <Select
+            defaultValue={currentYear}
+            onChange={this.yearChange}
+            showSearch={false}
+            style={{ width: 150 }}
+          >
+            {this.state.years.map((item, index) => (
+              <Select.Option value={item} key={index}>
+                {item}
+              </Select.Option>
+            ))}
+          </Select>
+          {!this.state.isLoading ? (
+            <div style={{ height: 1200 }}>
+              <HorizontalBar
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  tooltips: { enabled: false },
+                  hover: { mode: null },
+                  scales: {
+                    xAxes: [
+                      {
+                        ticks: {
+                          display: false,
+                        },
+                      },
+                    ],
+                  },
+                }}
+                data={this.state.data}
+              />
+            </div>
+          ) : (
+            <Spin tip="Loading...">
+              <div style={{ height: 1200 }}>
+                <HorizontalBar
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    tooltips: { enabled: false },
+                    hover: { mode: null },
+                    scales: {
+                      xAxes: [
+                        {
+                          ticks: {
+                            display: false,
+                          },
+                        },
+                      ],
+                    },
+                  }}
+                  data={this.state.data}
+                />
+              </div>
+            </Spin>
+          )}
+        </Card>
+      );
+    } else {
+      return (
+        <Card>
+          {!this.state.isLoading ? (
+            <div style={{ height: 800 }}>
+              <HorizontalBar
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                }}
+                data={this.state.data}
+              />
+            </div>
+          ) : (
+            <Spin tip="Loading...">
+              <div style={{ height: 800 }}>
+                <HorizontalBar
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                  }}
+                  data={this.state.data}
+                />
+              </div>
+            </Spin>
+          )}
+        </Card>
+      );
+    }
   }
 }
 

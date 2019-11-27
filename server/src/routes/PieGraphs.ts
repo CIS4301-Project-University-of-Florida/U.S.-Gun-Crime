@@ -13,9 +13,9 @@ const router = Router();
 router.get('/bygender', async (req: Request, res: Response) => {
   try {
     const bygender = await query(
-      `SELECT gender, SUM(n_killed) AS n_killed
-        FROM ${Incident}, ${Participant}
-        WHERE ${Incident}.id = ${Participant}.incident_id
+      `SELECT gender, COUNT(id) AS n_killed
+        FROM ${Participant}
+        WHERE ${Participant}.type = 'Subject-Suspect'
         GROUP BY gender`
     );
     return res.status(OK).json(bygender);
@@ -32,12 +32,12 @@ router.get('/bygender', async (req: Request, res: Response) => {
  */
 router.get('/isstolen', async (req: Request, res: Response) => {
   try {
-    const bygender = await query(
+    const isstolen = await query(
       `SELECT stolen, COUNT(id) AS numincidents
         FROM ${Gun}
         GROUP BY stolen`
     );
-    return res.status(OK).json(bygender);
+    return res.status(OK).json(isstolen);
   } catch (err) {
     logger.error(err.message, err);
     return res.status(BAD_REQUEST).json({
