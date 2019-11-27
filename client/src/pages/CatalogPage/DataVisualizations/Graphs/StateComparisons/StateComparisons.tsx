@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
-import { Card } from 'antd';
+import { Card, Spin, Alert } from 'antd';
 import StatesList from './StatesList';
 import { Select } from 'antd';
 
@@ -12,7 +12,7 @@ interface LineGraphState {
   states: string[];
   stateOne: string;
   stateTwo: string;
-  waitingForLineGraphData: boolean;
+  isLoading: boolean;
   data: DataObj;
 }
 
@@ -34,13 +34,13 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
       states: StatesList.states,
       stateOne: StatesList.states[0],
       stateTwo: StatesList.states[2],
-      waitingForLineGraphData: true,
+      isLoading: true,
       data: {
         labels: [],
         datasets: [
           {
             label: '',
-            backgroundColor: '',
+            backgroundColor: 'rgba(52, 8, 52, 0.8)',
             data: [],
           },
         ],
@@ -71,7 +71,7 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
 
       this.setState({
         ...this.state,
-        waitingForLineGraphData: false,
+        isLoading: false,
         data: {
           labels: ['2013', '2014', '2015', '2016', '2017', '2018'],
           datasets: [
@@ -97,6 +97,7 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
     this.setState(
       {
         stateOne: value,
+        isLoading: true,
         data: {
           labels: [],
           datasets: [
@@ -118,6 +119,7 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
     this.setState(
       {
         stateTwo: value,
+        isLoading: true,
         data: {
           labels: [],
           datasets: [
@@ -139,38 +141,52 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
     const { stateOne, stateTwo } = this.state;
     return (
       <Card title="State Comparisons">
-        <Select
-          defaultValue={stateOne}
-          onChange={this.stateOneChange}
-          showSearch={true}
-          style={{ width: 150 }}
-        >
-          {this.state.states.map((item, index) => (
-            <Select.Option value={item} key={index}>
-              {item}
-            </Select.Option>
-          ))}
-        </Select>
-        &#160;
-        <Select
-          defaultValue={stateTwo}
-          onChange={this.stateTwoChange}
-          showSearch={true}
-          style={{ width: 150 }}
-        >
-          {this.state.states.map((item, index) => (
-            <Select.Option value={item} key={index}>
-              {item}
-            </Select.Option>
-          ))}
-        </Select>
-        <Line
-          options={{
-            responsive: true,
-          }}
-          data={this.state.data}
-          redraw={true}
-        />
+        {!this.state.isLoading ? (
+          <div>
+            <Select
+              defaultValue={stateOne}
+              onChange={this.stateOneChange}
+              showSearch={true}
+              style={{ width: 150 }}
+            >
+              {this.state.states.map((item, index) => (
+                <Select.Option value={item} key={index}>
+                  {item}
+                </Select.Option>
+              ))}
+            </Select>
+            &#160;
+            <Select
+              defaultValue={stateTwo}
+              onChange={this.stateTwoChange}
+              showSearch={true}
+              style={{ width: 150 }}
+            >
+              {this.state.states.map((item, index) => (
+                <Select.Option value={item} key={index}>
+                  {item}
+                </Select.Option>
+              ))}
+            </Select>
+            <Line
+              options={{
+                responsive: true,
+              }}
+              data={this.state.data}
+              redraw={true}
+            />
+          </div>
+        ) : (
+          <Spin tip="Loading...">
+            <Line
+              options={{
+                responsive: true,
+              }}
+              data={this.state.data}
+              redraw={true}
+            />
+          </Spin>
+        )}
       </Card>
     );
   }
