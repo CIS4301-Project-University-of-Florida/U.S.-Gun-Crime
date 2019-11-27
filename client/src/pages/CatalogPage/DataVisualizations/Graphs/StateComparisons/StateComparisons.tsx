@@ -76,13 +76,13 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
           labels: ['2013', '2014', '2015', '2016', '2017', '2018'],
           datasets: [
             {
-              label: 'gun deaths by year in ' + this.state.stateOne,
-              backgroundColor: 'rgba(29, 0, 97, 0.7)',
+              label: 'Gun deaths by year in ' + this.state.stateOne,
+              backgroundColor: 'rgba(52, 8, 52, 0.8)',
               data: LineGraphData,
             },
             {
-              label: 'gun deaths by year in ' + this.state.stateTwo,
-              backgroundColor: 'rgba(29, 0, 97, 0.7)',
+              label: 'Gun deaths by year in ' + this.state.stateTwo,
+              backgroundColor: 'rgba(52, 8, 52, 0.8)',
               data: LineGraphData2,
             },
           ],
@@ -94,15 +94,45 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
   };
 
   public stateOneChange = (value: string) => {
-    this.setState({ stateOne: value }, () => {
-      this.fetchLineGraphData();
-    });
+    this.setState(
+      {
+        stateOne: value,
+        data: {
+          labels: [],
+          datasets: [
+            {
+              label: '',
+              backgroundColor: '',
+              data: [],
+            },
+          ],
+        },
+      },
+      () => {
+        this.fetchLineGraphData();
+      }
+    );
   };
 
   public stateTwoChange = (value: string) => {
-    this.setState({ stateTwo: value }, () => {
-      this.fetchLineGraphData();
-    });
+    this.setState(
+      {
+        stateTwo: value,
+        data: {
+          labels: [],
+          datasets: [
+            {
+              label: '',
+              backgroundColor: '',
+              data: [],
+            },
+          ],
+        },
+      },
+      () => {
+        this.fetchLineGraphData();
+      }
+    );
   };
 
   public render() {

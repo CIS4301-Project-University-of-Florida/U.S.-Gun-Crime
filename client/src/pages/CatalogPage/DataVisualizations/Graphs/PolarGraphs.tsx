@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Bar, Polar } from 'react-chartjs-2';
+import { Bar, Polar, Pie, Doughnut } from 'react-chartjs-2';
 import { Card } from 'antd';
 
 // tslint:disable-next-line: no-empty-interface
@@ -71,9 +71,9 @@ class PolarGraph extends React.Component<PolarGraphProps, PolarGraphState> {
             datasets: [
               {
                 backgroundColor: [
-                  'rgba(29, 0, 97, 1)',
-                  'rgba(58, 152, 145, 1)',
-                  'rgba(45, 124, 237, 1)',
+                  'rgba(112, 31, 71, 1)',
+                  'rgba(172, 74, 78, 1)',
+                  'rgba(238, 146, 64, 1)',
                 ],
                 data: PolarGraphData,
               },
@@ -86,13 +86,14 @@ class PolarGraph extends React.Component<PolarGraphProps, PolarGraphState> {
           waitingForPolarGraphData: false,
           PolarGraphData,
           data: {
-            labels: ['Stolen', 'Unknown', 'Legal'],
+            labels: ['Stolen Guns', 'Unknown', 'Legal Guns'],
             datasets: [
               {
                 backgroundColor: [
-                  'rgba(29, 0, 97, 1)',
-                  'rgba(58, 152, 145, 1)',
-                  'rgba(45, 124, 237, 1)',
+                  'rgba(238, 146, 64, 1)',
+
+                  'rgba(172, 74, 78, 1)',
+                  'rgba(112, 31, 71, 1)',
                 ],
                 data: PolarGraphData,
               },
@@ -108,8 +109,8 @@ class PolarGraph extends React.Component<PolarGraphProps, PolarGraphState> {
   public render() {
     if (this.props.graphSettings === 'bygender') {
       return (
-        <Card title="Gun Deaths By Gender">
-          <Polar
+        <Card title="Gun Deaths Caused By Gender">
+          <Doughnut
             options={{
               responsive: true,
             }}
@@ -119,8 +120,8 @@ class PolarGraph extends React.Component<PolarGraphProps, PolarGraphState> {
       );
     } else {
       return (
-        <Card title="Stolen vs. Legal Guns in Incidents">
-          <Polar
+        <Card title="Incidents Caused By Stolen vs. Legal Guns">
+          <Pie
             options={{
               responsive: true,
             }}

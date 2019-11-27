@@ -1,8 +1,10 @@
 import React from 'react';
 import Page from 'components/Layout/Page/Page';
 import { PageEnum } from 'pages/PageEnum';
-import { Tabs } from 'antd';
+import { Collapse, Tabs } from 'antd';
 import BarGraph from './BarGraphs';
+
+const { Panel } = Collapse;
 
 const { TabPane } = Tabs;
 
@@ -11,6 +13,21 @@ class Rankings extends React.Component {
     return (
       <div>
         <Page title={PageEnum.RANKINGS.title}>
+          <Collapse>
+            <Panel header="Disclaimers" key="1">
+              <ul>
+                <li>
+                  2 incidents (includes the Las Vegas shooting) were manually
+                  removed from the original dataset due to issues while data
+                  gathering.
+                </li>
+                <li>
+                  The list of incidents from 2013 and 2018 are incomplete.
+                </li>
+              </ul>
+            </Panel>
+          </Collapse>
+          <br />
           <Tabs defaultActiveKey="1">
             <TabPane tab="Most Lethal Incidents" key="1">
               <BarGraph graphSettings="mostlethalincidents" />

@@ -57,12 +57,13 @@ router.get('/byrelationship', async (req: Request, res: Response) => {
 router.get('/mostlethalincidents', async (req: Request, res: Response) => {
   try {
     const bygender = await query(
-      `SELECT ${Location}.city_or_county||','||state||' '||i_date AS incident_details, N_KILLED
+      `SELECT * FROM
+      (SELECT ${Location}.city_or_county||','||state||' '||i_date AS incident_details, N_KILLED
       FROM ${Incident}, ${Location}
-      WHERE ROWNUM <= 30
-      AND ${Incident}.latitude = ${Location}.latitude
+      WHERE ${Incident}.latitude = ${Location}.latitude
       AND ${Incident}.longitude = ${Location}.longitude
-      ORDER BY N_KILLED DESC`
+      ORDER BY N_KILLED DESC)
+      WHERE ROWNUM <= 30`
     );
     return res.status(OK).json(bygender);
   } catch (err) {

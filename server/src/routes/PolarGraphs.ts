@@ -13,9 +13,9 @@ const router = Router();
 router.get('/bygender', async (req: Request, res: Response) => {
   try {
     const bygender = await query(
-      `SELECT gender, SUM(n_killed) AS n_killed
-        FROM ${Incident}, ${Participant}
-        WHERE ${Incident}.id = ${Participant}.incident_id
+      `SELECT gender, COUNT(id) AS n_killed
+        FROM ${Participant}
+        WHERE ${Participant}.type = 'Subject-Suspect'
         GROUP BY gender`
     );
     return res.status(OK).json(bygender);

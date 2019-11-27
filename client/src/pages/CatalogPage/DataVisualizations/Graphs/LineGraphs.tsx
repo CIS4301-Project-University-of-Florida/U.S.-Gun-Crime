@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { Ref } from 'react';
+import { render } from 'react-dom';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
 import { Card } from 'antd';
+import { RefObject } from 'react';
 
 // tslint:disable-next-line: no-empty-interface
 interface LineGraphProps {}
@@ -60,8 +62,8 @@ class LineGraph extends React.Component<LineGraphProps, LineGraphState> {
           labels: ['2013', '2014', '2015', '2016', '2017', '2018'],
           datasets: [
             {
-              label: 'national gun deaths by year',
-              backgroundColor: 'rgba(29, 0, 97, 0.85)',
+              label: 'National gun deaths by year',
+              backgroundColor: 'rgba(52, 8, 52, 0.8)',
               data: LineGraphData,
             },
           ],

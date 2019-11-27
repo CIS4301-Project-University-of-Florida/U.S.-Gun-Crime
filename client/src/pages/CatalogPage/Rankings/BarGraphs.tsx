@@ -37,8 +37,8 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
         labels: [],
         datasets: [
           {
-            label: 'number of people killed',
-            backgroundColor: 'rgba(52, 125, 234, 0.8)',
+            label: '',
+            backgroundColor: '',
             data: [],
           },
         ],
@@ -84,21 +84,71 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
         );
       }
 
-      this.setState({
-        ...this.state,
-        waitingForBarGraphData: false,
-        BarGraphData,
-        data: {
-          labels: someLabels,
-          datasets: [
-            {
-              label: 'number of people killed',
-              backgroundColor: 'rgba(52, 125, 234, 0.6)',
-              data: BarGraphData,
-            },
-          ],
-        },
-      });
+      if (this.props.graphSettings === 'mostlethalincidents') {
+        this.setState({
+          ...this.state,
+          waitingForBarGraphData: false,
+          BarGraphData,
+          data: {
+            labels: someLabels,
+            datasets: [
+              {
+                label: 'Number of people killed in each incident',
+                backgroundColor: 'rgba(80, 17, 68, 1)',
+                data: BarGraphData,
+              },
+            ],
+          },
+        });
+      } else if (this.props.graphSettings === 'mostdangerousstates') {
+        this.setState({
+          ...this.state,
+          waitingForBarGraphData: false,
+          BarGraphData,
+          data: {
+            labels: someLabels,
+            datasets: [
+              {
+                label: 'Number of people killed in each state',
+                backgroundColor: 'rgba(80, 17, 68, 1)',
+                data: BarGraphData,
+              },
+            ],
+          },
+        });
+      } else if (this.props.graphSettings === 'byguntype') {
+        this.setState({
+          ...this.state,
+          waitingForBarGraphData: false,
+          BarGraphData,
+          data: {
+            labels: someLabels,
+            datasets: [
+              {
+                label: 'Gun deaths caused by each gun type',
+                backgroundColor: 'rgba(80, 17, 68, 1)',
+                data: BarGraphData,
+              },
+            ],
+          },
+        });
+      } else {
+        this.setState({
+          ...this.state,
+          waitingForBarGraphData: false,
+          BarGraphData,
+          data: {
+            labels: someLabels,
+            datasets: [
+              {
+                label: 'Number of gun incidents',
+                backgroundColor: 'rgba(80, 17, 68, 1)',
+                data: BarGraphData,
+              },
+            ],
+          },
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -106,7 +156,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
 
   public render() {
     return (
-      <Card title="Rankings">
+      <Card>
         <div style={{ height: 1000 }}>
           <HorizontalBar
             options={{
