@@ -40,7 +40,7 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
         datasets: [
           {
             label: '',
-            backgroundColor: 'rgba(52, 8, 52, 0.8)',
+            backgroundColor: '',
             data: [],
           },
         ],
@@ -167,15 +167,13 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
           ))}
         </Select>
         {!this.state.isLoading ? (
-          <div>
-            <Line
-              options={{
-                responsive: true,
-              }}
-              data={this.state.data}
-              redraw={true}
-            />
-          </div>
+          <Line
+            options={{
+              responsive: true,
+            }}
+            data={this.state.data}
+            redraw={true}
+          />
         ) : (
           <Spin tip="Loading...">
             <Line

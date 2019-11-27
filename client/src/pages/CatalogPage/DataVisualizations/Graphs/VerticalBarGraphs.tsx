@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import { Doughnut, Pie, Polar, Bar, Scatter } from 'react-chartjs-2';
-import { Card } from 'antd';
+import { Bar } from 'react-chartjs-2';
+import { Card, Spin } from 'antd';
 
 // tslint:disable-next-line: no-empty-interface
 interface BarGraphProps {
@@ -20,7 +20,7 @@ interface DataObj {
 }
 
 interface BarGraphState {
-  waitingForBarGraphData: boolean;
+  isLoading: boolean;
   BarGraphrData: number[];
   data: DataObj;
 }
@@ -29,7 +29,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
   public constructor(props: BarGraphProps) {
     super(props);
     this.state = {
-      waitingForBarGraphData: true,
+      isLoading: true,
       BarGraphrData: [],
       data: {
         labels: [],
@@ -83,7 +83,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
 
       this.setState({
         ...this.state,
-        waitingForBarGraphData: false,
+        isLoading: false,
         BarGraphrData,
         data: {
           labels: [
@@ -118,29 +118,57 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
     if (this.props.graphSettings === 'Victims') {
       return (
         <Card title="Age Ranges of Victims">
-          <div style={{ height: 300 }}>
-            <Bar
-              options={{
-                responsive: true,
-                maintainAspectRatio: false,
-              }}
-              data={this.state.data}
-            />
-          </div>
+          {!this.state.isLoading ? (
+            <div style={{ height: 300 }}>
+              <Bar
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                }}
+                data={this.state.data}
+              />
+            </div>
+          ) : (
+            <Spin tip="Loading...">
+              <div style={{ height: 300 }}>
+                <Bar
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                  }}
+                  data={this.state.data}
+                />
+              </div>
+            </Spin>
+          )}
         </Card>
       );
     } else {
       return (
         <Card title="Age Ranges of Suspects">
-          <div style={{ height: 300 }}>
-            <Bar
-              options={{
-                responsive: true,
-                maintainAspectRatio: false,
-              }}
-              data={this.state.data}
-            />
-          </div>
+          {!this.state.isLoading ? (
+            <div style={{ height: 300 }}>
+              <Bar
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                }}
+                data={this.state.data}
+              />
+            </div>
+          ) : (
+            <Spin tip="Loading...">
+              <div style={{ height: 300 }}>
+                <Bar
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                  }}
+                  data={this.state.data}
+                />
+              </div>
+            </Spin>
+          )}
         </Card>
       );
     }

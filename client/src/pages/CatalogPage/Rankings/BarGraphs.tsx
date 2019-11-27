@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Line, Polar, Bar, HorizontalBar } from 'react-chartjs-2';
-import { Card, Select, Alert } from 'antd';
+import { Card, Select, Alert, Spin } from 'antd';
 
 // tslint:disable-next-line: no-empty-interface
 interface BarGraphProps {
@@ -22,7 +22,7 @@ interface DataObj {
 interface BarGraphState {
   years: string[];
   currentYear: string;
-  waitingForBarGraphData: boolean;
+  isLoading: boolean;
   someLabels: string[];
   BarGraphData: number[];
   data: DataObj;
@@ -34,7 +34,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
     this.state = {
       years: ['2013', '2014', '2015', '2016', '2017', '2018'],
       currentYear: '2013',
-      waitingForBarGraphData: true,
+      isLoading: true,
       someLabels: [],
       BarGraphData: [],
       data: {
@@ -94,7 +94,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
       if (this.props.graphSettings === 'mostlethalincidents') {
         this.setState({
           ...this.state,
-          waitingForBarGraphData: false,
+          isLoading: false,
           BarGraphData,
           data: {
             labels: someLabels,
@@ -110,7 +110,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
       } else if (this.props.graphSettings === 'mostdangerousstates') {
         this.setState({
           ...this.state,
-          waitingForBarGraphData: false,
+          isLoading: false,
           BarGraphData,
           data: {
             labels: someLabels,
@@ -126,13 +126,13 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
       } else if (this.props.graphSettings === 'byguntype') {
         this.setState({
           ...this.state,
-          waitingForBarGraphData: false,
+          isLoading: false,
           BarGraphData,
           data: {
             labels: someLabels,
             datasets: [
               {
-                label: 'Gun deaths caused by gun',
+                label: 'Deaths caused by gun',
                 backgroundColor: 'rgba(80, 17, 68, 1)',
                 data: BarGraphData,
               },
@@ -142,7 +142,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
       } else {
         this.setState({
           ...this.state,
-          waitingForBarGraphData: false,
+          isLoading: false,
           BarGraphData,
           data: {
             labels: someLabels,
@@ -164,6 +164,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
   public yearChange = (value: string) => {
     this.setState(
       {
+        isLoading: true,
         currentYear: value,
         data: {
           labels: [],
@@ -187,52 +188,91 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
       const { currentYear } = this.state;
       return (
         <Card>
-          <div style={{ height: 1200 }}>
-            <Select
-              defaultValue={currentYear}
-              onChange={this.yearChange}
-              showSearch={false}
-              style={{ width: 150 }}
-            >
-              {this.state.years.map((item, index) => (
-                <Select.Option value={item} key={index}>
-                  {item}
-                </Select.Option>
-              ))}
-            </Select>
-            <HorizontalBar
-              options={{
-                responsive: true,
-                maintainAspectRatio: false,
-                tooltips: { enabled: false },
-                hover: { mode: null },
-                scales: {
-                  xAxes: [
-                    {
-                      ticks: {
-                        display: false,
+          <Select
+            defaultValue={currentYear}
+            onChange={this.yearChange}
+            showSearch={false}
+            style={{ width: 150 }}
+          >
+            {this.state.years.map((item, index) => (
+              <Select.Option value={item} key={index}>
+                {item}
+              </Select.Option>
+            ))}
+          </Select>
+          {!this.state.isLoading ? (
+            <div style={{ height: 1200 }}>
+              <HorizontalBar
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  tooltips: { enabled: false },
+                  hover: { mode: null },
+                  scales: {
+                    xAxes: [
+                      {
+                        ticks: {
+                          display: false,
+                        },
                       },
+                    ],
+                  },
+                }}
+                data={this.state.data}
+              />
+            </div>
+          ) : (
+            <Spin tip="Loading...">
+              <div style={{ height: 1200 }}>
+                <HorizontalBar
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    tooltips: { enabled: false },
+                    hover: { mode: null },
+                    scales: {
+                      xAxes: [
+                        {
+                          ticks: {
+                            display: false,
+                          },
+                        },
+                      ],
                     },
-                  ],
-                },
-              }}
-              data={this.state.data}
-            />
-          </div>
+                  }}
+                  data={this.state.data}
+                />
+              </div>
+            </Spin>
+          )}
         </Card>
       );
     } else {
       return (
         <Card>
-          <div style={{ height: 800 }}>
-            <HorizontalBar
-              options={{
-                responsive: true,
-                maintainAspectRatio: false,
-              }}
-              data={this.state.data}
-            />
-          </div>
+          {!this.state.isLoading ? (
+            <div style={{ height: 800 }}>
+              <HorizontalBar
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                }}
+                data={this.state.data}
+              />
+            </div>
+          ) : (
+            <Spin tip="Loading...">
+              <div style={{ height: 800 }}>
+                <HorizontalBar
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                  }}
+                  data={this.state.data}
+                />
+              </div>
+            </Spin>
+          )}
         </Card>
       );
     }

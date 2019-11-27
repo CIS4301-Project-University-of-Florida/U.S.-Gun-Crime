@@ -32,12 +32,12 @@ router.get('/bygender', async (req: Request, res: Response) => {
  */
 router.get('/isstolen', async (req: Request, res: Response) => {
   try {
-    const bygender = await query(
+    const isstolen = await query(
       `SELECT stolen, COUNT(id) AS numincidents
         FROM ${Gun}
         GROUP BY stolen`
     );
-    return res.status(OK).json(bygender);
+    return res.status(OK).json(isstolen);
   } catch (err) {
     logger.error(err.message, err);
     return res.status(BAD_REQUEST).json({
