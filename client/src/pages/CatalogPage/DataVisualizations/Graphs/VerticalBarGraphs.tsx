@@ -21,7 +21,7 @@ interface DataObj {
 
 interface BarGraphState {
   isLoading: boolean;
-  BarGraphrData: number[];
+  BarGraphData: number[];
   data: DataObj;
 }
 
@@ -30,7 +30,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
     super(props);
     this.state = {
       isLoading: true,
-      BarGraphrData: [],
+      BarGraphData: [],
       data: {
         labels: [],
         datasets: [
@@ -51,7 +51,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
         '/api/verticalbargraphs/' + this.props.graphSettings
       );
 
-      const BarGraphrData: number[] = [];
+      const BarGraphData: number[] = [];
       response.data.forEach(
         (p: {
           GROUP1: number;
@@ -66,7 +66,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
           GROUP10: number;
           GROUP11: number;
         }) =>
-          BarGraphrData.push(
+          BarGraphData.push(
             p.GROUP1,
             p.GROUP2,
             p.GROUP3,
@@ -84,7 +84,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
       this.setState({
         ...this.state,
         isLoading: false,
-        BarGraphrData,
+        BarGraphData,
         data: {
           labels: [
             'Ages 0-9',
@@ -103,7 +103,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
                 'rgba(172, 74, 78, 1)',
                 'rgba(238, 146, 64, 1)',
               ],
-              data: BarGraphrData,
+              data: BarGraphData,
             },
           ],
         },
