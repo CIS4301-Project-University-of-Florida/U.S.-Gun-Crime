@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Line } from 'react-chartjs-2';
 import { Spin } from 'antd';
 import { darkerPurple } from '../chartColors';
+import LoadingSpin from 'components/LoadingSpin/LoadingSpin';
 
 interface DataSetObj {
   label: string;
@@ -76,26 +77,14 @@ class NationalTrends extends React.Component<{}, NationalTrendsState> {
   public render() {
     return (
       <div>
-        {!this.state.isLoading ? (
+        <LoadingSpin spinning={this.state.isLoading}>
           <Line
             options={{
               responsive: true,
-              legend: {
-                display: false,
-              },
             }}
             data={this.state.data}
           />
-        ) : (
-          <Spin tip="Loading...">
-            <Line
-              options={{
-                responsive: true,
-              }}
-              data={this.state.data}
-            />
-          </Spin>
-        )}
+        </LoadingSpin>
       </div>
     );
   }

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Doughnut } from 'react-chartjs-2';
 import { Spin } from 'antd';
 import { orange, fadedRed, darkPink } from '../chartColors';
+import LoadingSpin from 'components/LoadingSpin/LoadingSpin';
 
 interface DataObject {
   labels: string[];
@@ -69,23 +70,14 @@ class CrimesByGunStolen extends React.Component<{}, CrimesByGunStolenState> {
   public render() {
     return (
       <div>
-        {!this.state.isLoading ? (
+        <LoadingSpin spinning={this.state.isLoading}>
           <Doughnut
             options={{
               responsive: true,
             }}
             data={this.state.data}
           />
-        ) : (
-          <Spin tip="Loading...">
-            <Doughnut
-              options={{
-                responsive: true,
-              }}
-              data={this.state.data}
-            />
-          </Spin>
-        )}
+        </LoadingSpin>
       </div>
     );
   }

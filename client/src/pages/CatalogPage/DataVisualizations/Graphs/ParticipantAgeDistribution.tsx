@@ -9,6 +9,7 @@ import {
   darkerPurple,
   darkPurple,
 } from '../chartColors';
+import LoadingSpin from 'components/LoadingSpin/LoadingSpin';
 
 interface ParticipantAgeDistributionProps {
   type: 'victim' | 'subject-suspect';
@@ -113,7 +114,7 @@ class ParticipantAgeDistribution extends React.Component<
   public render() {
     return (
       <div>
-        {!this.state.isLoading ? (
+        <LoadingSpin spinning={this.state.isLoading}>
           <div style={{ height: 300 }}>
             <Bar
               options={{
@@ -132,22 +133,7 @@ class ParticipantAgeDistribution extends React.Component<
               data={this.state.data}
             />
           </div>
-        ) : (
-          <Spin tip="Loading...">
-            <div style={{ height: 300 }}>
-              <Bar
-                options={{
-                  legend: {
-                    display: false,
-                  },
-                  responsive: true,
-                  maintainAspectRatio: false,
-                }}
-                data={this.state.data}
-              />
-            </div>
-          </Spin>
-        )}
+        </LoadingSpin>
       </div>
     );
   }

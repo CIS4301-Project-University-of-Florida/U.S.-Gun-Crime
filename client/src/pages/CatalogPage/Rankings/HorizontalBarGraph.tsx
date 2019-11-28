@@ -1,6 +1,7 @@
 import React from 'react';
-import { Card, Spin } from 'antd';
+import { Card } from 'antd';
 import { HorizontalBar } from 'react-chartjs-2';
+import LoadingSpin from 'components/LoadingSpin/LoadingSpin';
 
 interface HorizontalBarGraphProps {
   isLoading: boolean;
@@ -15,19 +16,19 @@ const HorizontalBarGraph = (
   return (
     <Card>
       {props.children}
-      {!props.isLoading ? (
+      <LoadingSpin spinning={props.isLoading}>
         <div style={{ height: 1200 }}>
           <HorizontalBar
             options={{
               responsive: true,
               maintainAspectRatio: false,
-              tooltips: { enabled: props.showTooltips },
+              tooltips: { enabled: props.showTooltips && !props.isLoading },
               hover: { mode: null },
               scales: {
                 xAxes: [
                   {
                     ticks: {
-                      display: props.showxAxisTicks,
+                      display: props.showxAxisTicks && !props.isLoading,
                     },
                   },
                 ],
@@ -36,30 +37,7 @@ const HorizontalBarGraph = (
             data={props.data}
           />
         </div>
-      ) : (
-        <Spin tip="Loading...">
-          <div style={{ height: 1200 }}>
-            <HorizontalBar
-              options={{
-                responsive: true,
-                maintainAspectRatio: false,
-                tooltips: { enabled: false },
-                hover: { mode: null },
-                scales: {
-                  xAxes: [
-                    {
-                      ticks: {
-                        display: false,
-                      },
-                    },
-                  ],
-                },
-              }}
-              data={props.data}
-            />
-          </div>
-        </Spin>
-      )}
+      </LoadingSpin>
     </Card>
   );
 };

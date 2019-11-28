@@ -4,6 +4,7 @@ import { Line } from 'react-chartjs-2';
 import { Card, Spin } from 'antd';
 import { Select } from 'antd';
 import states from './states';
+import LoadingSpin from 'components/LoadingSpin/LoadingSpin';
 
 interface StateComparisonProps {
   className: string;
@@ -174,7 +175,7 @@ class StateComparisons extends React.Component<
               ))}
             </Select>
           </div>
-          {!this.state.isLoading ? (
+          <LoadingSpin spinning={this.state.isLoading}>
             <Line
               options={{
                 responsive: true,
@@ -182,17 +183,7 @@ class StateComparisons extends React.Component<
               data={this.state.data}
               redraw={true}
             />
-          ) : (
-            <Spin tip="Loading...">
-              <Line
-                options={{
-                  responsive: true,
-                }}
-                data={this.state.data}
-                redraw={true}
-              />
-            </Spin>
-          )}
+          </LoadingSpin>
         </Card>
       </section>
     );
