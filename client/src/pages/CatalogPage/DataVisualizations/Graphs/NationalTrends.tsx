@@ -80,6 +80,9 @@ class NationalTrends extends React.Component<{}, NationalTrendsState> {
           <Line
             options={{
               responsive: true,
+              legend: {
+                display: false,
+              },
             }}
             data={this.state.data}
           />
