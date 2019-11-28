@@ -1,16 +1,15 @@
 import React from 'react';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
-import { Card, Spin, Alert } from 'antd';
-import StatesList from './StatesList';
+import { Card, Spin } from 'antd';
 import { Select } from 'antd';
+import states from './states';
 
 interface LineGraphProps {
   className: string;
 }
 
 interface LineGraphState {
-  states: string[];
   stateOne: string;
   stateTwo: string;
   isLoading: boolean;
@@ -32,9 +31,8 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
   public constructor(props: LineGraphProps) {
     super(props);
     this.state = {
-      states: StatesList.states,
-      stateOne: StatesList.states[0],
-      stateTwo: StatesList.states[2],
+      stateOne: states[0],
+      stateTwo: states[2],
       isLoading: true,
       data: {
         labels: [],
@@ -146,31 +144,33 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
     return (
       <section className={this.props.className}>
         <Card title="State Comparisons">
-          <Select
-            defaultValue={stateOne}
-            onChange={this.stateOneChange}
-            showSearch={true}
-            style={{ width: 150 }}
-          >
-            {this.state.states.map((item, index) => (
-              <Select.Option value={item} key={index}>
-                {item}
-              </Select.Option>
-            ))}
-          </Select>
-          &#160;
-          <Select
-            defaultValue={stateTwo}
-            onChange={this.stateTwoChange}
-            showSearch={true}
-            style={{ width: 150 }}
-          >
-            {this.state.states.map((item, index) => (
-              <Select.Option value={item} key={index}>
-                {item}
-              </Select.Option>
-            ))}
-          </Select>
+          <div style={{ marginBottom: '20px' }}>
+            <Select
+              defaultValue={stateOne}
+              onChange={this.stateOneChange}
+              showSearch={true}
+              style={{ width: 150 }}
+            >
+              {states.map((item, index) => (
+                <Select.Option value={item} key={`${index}1`}>
+                  {item}
+                </Select.Option>
+              ))}
+            </Select>
+            &#160;
+            <Select
+              defaultValue={stateTwo}
+              onChange={this.stateTwoChange}
+              showSearch={true}
+              style={{ width: 150 }}
+            >
+              {states.map((item, index) => (
+                <Select.Option value={item} key={`${index}2`}>
+                  {item}
+                </Select.Option>
+              ))}
+            </Select>
+          </div>
           {!this.state.isLoading ? (
             <Line
               options={{
