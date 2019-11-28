@@ -92,7 +92,7 @@ const DataVisualizations = () => {
                   years, the number of gun death caused by males is
                   unproportionally higher, with men accounting for roughly 85
                   percent of the total gun-related crimes in the United States.
-                  According to the gun crime data, males aged between 19–25 are
+                  According to the gun crime data, males aged 26-64 are
                   most likely to commit gun-related crimes.
                 </div>
                 <CrimesByGender />
