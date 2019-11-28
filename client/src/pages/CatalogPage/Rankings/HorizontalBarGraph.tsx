@@ -23,7 +23,7 @@ const HorizontalBarGraph = (
               responsive: true,
               maintainAspectRatio: false,
               tooltips: { enabled: props.showTooltips && !props.isLoading },
-              hover: { mode: null },
+              hover: { mode: undefined },
               scales: {
                 xAxes: [
                   {
