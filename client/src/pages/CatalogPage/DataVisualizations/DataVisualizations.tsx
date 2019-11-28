@@ -84,7 +84,7 @@ const DataVisualizations = () => {
         <>
           <section className={styles.dataVisualization}>
             <h2>Demographic Information</h2>
-            <Card title="Gun Grime Participants by Age and Gender">
+            <Card title="Gun Crime Participants by Age and Gender">
               <div className={styles.responsiveCard}>
                 <div>
                   Even though the female population has been approximately 3
