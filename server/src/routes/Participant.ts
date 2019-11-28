@@ -99,4 +99,31 @@ router.get('/numberOfCrimesByGender', async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * Returns number of participants matching the given type (Victim or Subject-Suspect) in different age ranges.
+ */
+router.get('/ageDistribution/:type', async (req: Request, res: Response) => {
+  try {
+    const participantType =
+      req.params.type === 'victim' ? 'Victim' : 'Subject-Suspect';
+
+    const Victims = await query(
+      `SELECT SUM(CASE WHEN A.age BETWEEN 0 AND 9 THEN 1 ELSE 0 END) AS group1,
+        SUM(CASE WHEN A.age BETWEEN 10 AND 18 THEN 1 ELSE 0 END) AS group2,
+        SUM(CASE WHEN A.age BETWEEN 19 AND 25 THEN 1 ELSE 0 END) AS group3,
+        SUM(CASE WHEN A.age BETWEEN 25 AND 26 THEN 1 ELSE 0 END) AS group4,
+        SUM(CASE WHEN A.age BETWEEN 65 AND 109 THEN 1 ELSE 0 END) AS group5
+        FROM (SELECT * FROM
+        ${Participant}
+        WHERE ${Participant}.type='${participantType}') A`
+    );
+    return res.status(OK).json(Victims);
+  } catch (err) {
+    logger.error(err.message, err);
+    return res.status(BAD_REQUEST).json({
+      error: err.message,
+    });
+  }
+});
+
 export default router;

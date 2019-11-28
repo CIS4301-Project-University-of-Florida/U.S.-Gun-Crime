@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import Page from 'components/Layout/Page/Page';
 import { PageEnum } from 'pages/PageEnum';
 import NationalTrends from './Graphs/NationalTrends';
-import BarGraph from './Graphs/VerticalBarGraphs';
 import StateComparisons from './Graphs/StateComparisons/StateComparisons';
 import { Collapse, Switch, Card, Alert } from 'antd';
 import styles from './DataVisualizations.module.less';
 import CrimesByGender from './Graphs/CrimesByGender';
 import CrimesByGunStolen from './Graphs/CrimesByGunStolen';
+import ParticipantAgeDistribution from './Graphs/ParticipantAgeDistribution';
 
 const { Panel } = Collapse;
 
@@ -96,8 +96,8 @@ const DataVisualizations = () => {
                   most likely to commit gun-related crimes.
                 </div>
                 <CrimesByGender />
-                <BarGraph graphSettings="Victims" />
-                <BarGraph graphSettings="Suspects" />
+                <ParticipantAgeDistribution type="victim" />
+                <ParticipantAgeDistribution type="subject-suspect" />
               </div>
             </Card>
           </section>
