@@ -61,7 +61,7 @@ class LineGraph extends React.Component<LineGraphProps, LineGraphState> {
           datasets: [
             {
               label: 'National gun deaths by year',
-              backgroundColor: 'rgba(80, 17, 68, 1)',
+              backgroundColor: 'rgba(52, 8, 52, 1)',
               data: LineGraphData,
             },
           ],

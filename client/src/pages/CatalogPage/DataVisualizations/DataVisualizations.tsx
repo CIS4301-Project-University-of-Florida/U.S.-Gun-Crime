@@ -26,8 +26,8 @@ class DataVisualizations extends React.Component<
     super(props);
     this.state = {
       showingtrends: true,
-      showingdemoinfo: false,
-      showingguninfo: false,
+      showingdemoinfo: true,
+      showingguninfo: true,
     };
   }
 

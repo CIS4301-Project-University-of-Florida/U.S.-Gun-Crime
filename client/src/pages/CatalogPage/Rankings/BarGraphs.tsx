@@ -212,7 +212,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
                     xAxes: [
                       {
                         ticks: {
-                          display: false,
+                          display: true,
                         },
                       },
                     ],

@@ -77,12 +77,12 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
           datasets: [
             {
               label: 'Gun deaths by year in ' + this.state.stateOne,
-              backgroundColor: 'rgba(52, 8, 52, 0.8)',
+              backgroundColor: 'rgba(80, 17, 68, 0.7)',
               data: LineGraphData,
             },
             {
               label: 'Gun deaths by year in ' + this.state.stateTwo,
-              backgroundColor: 'rgba(52, 8, 52, 0.8)',
+              backgroundColor: 'rgba(80, 17, 68, 0.8)',
               data: LineGraphData2,
             },
           ],
