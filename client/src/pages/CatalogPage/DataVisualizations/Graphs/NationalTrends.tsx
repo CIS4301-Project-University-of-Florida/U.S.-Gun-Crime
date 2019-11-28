@@ -74,7 +74,7 @@ class NationalTrends extends React.Component<{}, NationalTrendsState> {
 
   public render() {
     return (
-      <Card title="National Gun Deaths by Year">
+      <div>
         {!this.state.isLoading ? (
           <Line
             options={{
@@ -95,7 +95,7 @@ class NationalTrends extends React.Component<{}, NationalTrendsState> {
             />
           </Spin>
         )}
-      </Card>
+      </div>
     );
   }
 }

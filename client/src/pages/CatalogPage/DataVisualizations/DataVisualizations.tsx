@@ -37,7 +37,10 @@ const DataVisualizations = () => {
         </Panel>
         <Panel header="Customize Dashboard" key="2">
           <section
-            style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr' }}
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            }}
           >
             <div>
               Gun Crime Trends&nbsp;&nbsp;
@@ -63,43 +66,47 @@ const DataVisualizations = () => {
           <h2>Gun Crime Trends</h2>
           <StateComparisons className={styles.dataVisualization} />
 
-          <section style={{ display: 'grid', gridTemplateColumns: '2fr 1fr' }}>
-            <NationalTrends />
-            <Card>
-              <h3>Notes</h3>
-              According to the U.S. Census Bureau, the national population has
-              increased approximately 2.12 percent from 318.39 million in 2014
-              to 325.15 million in 2017. However, the number of gun deaths has
-              increased by over 20 percent during the same period.
-            </Card>
-          </section>
+          <Card title="National Gun Deaths by Year">
+            <div className={styles.responsiveCard}>
+              <NationalTrends />
+              <div>
+                According to the U.S. Census Bureau, the national population has
+                increased approximately 2.12 percent from 318.39 million in 2014
+                to 325.15 million in 2017. However, the number of gun deaths has
+                increased by over 20 percent during the same period.
+              </div>
+            </div>
+          </Card>
         </section>
       ) : null}
       {showingDemographics ? (
         <>
           <section className={styles.dataVisualization}>
             <h2>Demographic Information</h2>
-            <section
-              style={{ display: 'grid', gridTemplateColumns: '10fr 14fr' }}
-            >
-              <Card>
-                <h3>Notes</h3>
-                Even though the female population has been approximately 3
-                percent higher than the male population for the last couple of
-                years, the number of gun death caused by males is
-                unproportionally higher, with men accounting for over 90 percent
-                of the total gun deaths in the United States. According to the
-                gun crime data, males aged between 19–25 are most likely to
-                commit gun-related crimes.
-              </Card>
-              <PieGraph graphSettings="bygender" />
-            </section>
+            <Card title="Number of Gun Crimes Committed by Gender">
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+                }}
+              >
+                <div>
+                  Even though the female population has been approximately 3
+                  percent higher than the male population for the last couple of
+                  years, the number of gun death caused by males is
+                  unproportionally higher, with men accounting for over 90
+                  percent of the total gun deaths in the United States.
+                  According to the gun crime data, males aged between 19–25 are
+                  most likely to commit gun-related crimes.
+                </div>
+                <PieGraph graphSettings="bygender" />
+              </div>
+            </Card>
           </section>
           <section className={styles.dataVisualization}>
             <div
+              className={styles.responsiveCard}
               style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
                 columnGap: '25px',
               }}
             >
@@ -112,20 +119,16 @@ const DataVisualizations = () => {
       {showingGuns ? (
         <section className={styles.dataVisualization}>
           <h2>Gun Information</h2>
-          <section
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 2fr',
-            }}
-          >
-            <Card>
-              <h3>Notes</h3>
-              Stolen guns are almost 10 times more likely to be involved in gun
-              crimes than legally owned guns, which usually require background
-              checks before purchase.
-            </Card>
-            <PieGraph graphSettings="isstolen" />
-          </section>
+          <Card title="Incidents Caused by Stolen vs. Owned Guns">
+            <div className={styles.responsiveCard}>
+              <div>
+                Stolen guns are almost 10 times more likely to be involved in
+                gun crimes than legally owned guns, which usually require
+                background checks before purchase.
+              </div>
+              <PieGraph graphSettings="isstolen" />
+            </div>
+          </Card>
         </section>
       ) : null}
       {!showingTrends && !showingDemographics && !showingGuns ? (

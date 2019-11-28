@@ -110,7 +110,7 @@ class PieGraph extends React.Component<PieGraphProps, PieGraphState> {
   public render() {
     if (this.props.graphSettings === 'bygender') {
       return (
-        <Card title="Number of Gun Crimes Committed by Gender">
+        <div>
           {!this.state.isLoading ? (
             <Doughnut
               options={{
@@ -128,11 +128,11 @@ class PieGraph extends React.Component<PieGraphProps, PieGraphState> {
               />
             </Spin>
           )}
-        </Card>
+        </div>
       );
     } else {
       return (
-        <Card title="Incidents Caused by Stolen vs. Owned Guns">
+        <div>
           {!this.state.isLoading ? (
             <Pie
               options={{
@@ -150,7 +150,7 @@ class PieGraph extends React.Component<PieGraphProps, PieGraphState> {
               />
             </Spin>
           )}
-        </Card>
+        </div>
       );
     }
   }
