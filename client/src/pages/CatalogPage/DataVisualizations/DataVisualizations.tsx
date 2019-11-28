@@ -83,13 +83,8 @@ const DataVisualizations = () => {
         <>
           <section className={styles.dataVisualization}>
             <h2>Demographic Information</h2>
-            <Card title="Number of Gun Crimes Committed by Gender">
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
-                }}
-              >
+            <Card title="Gun Grime Participants by Age and Gender">
+              <div className={styles.responsiveCard}>
                 <div>
                   Even though the female population has been approximately 3
                   percent higher than the male population for the last couple of
@@ -100,19 +95,10 @@ const DataVisualizations = () => {
                   most likely to commit gun-related crimes.
                 </div>
                 <PieGraph graphSettings="bygender" />
+                <BarGraph graphSettings="Victims" />
+                <BarGraph graphSettings="Suspects" />
               </div>
             </Card>
-          </section>
-          <section className={styles.dataVisualization}>
-            <div
-              className={styles.responsiveCard}
-              style={{
-                columnGap: '25px',
-              }}
-            >
-              <BarGraph graphSettings="Victims" />
-              <BarGraph graphSettings="Suspects" />
-            </div>
           </section>
         </>
       ) : null}

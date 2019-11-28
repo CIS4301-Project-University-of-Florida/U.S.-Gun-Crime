@@ -123,13 +123,17 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
   public render() {
     if (this.props.graphSettings === 'Victims') {
       return (
-        <Card title="Age Ranges of Victims">
+        <div>
           {!this.state.isLoading ? (
             <div style={{ height: 300 }}>
               <Bar
                 options={{
                   legend: {
                     display: false,
+                  },
+                  title: {
+                    display: true,
+                    text: 'Age Ranges of Victims',
                   },
                   responsive: true,
                   maintainAspectRatio: false,
@@ -153,17 +157,21 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
               </div>
             </Spin>
           )}
-        </Card>
+        </div>
       );
     } else {
       return (
-        <Card title="Age Ranges of Suspects">
+        <div>
           {!this.state.isLoading ? (
             <div style={{ height: 300 }}>
               <Bar
                 options={{
                   legend: {
                     display: false,
+                  },
+                  title: {
+                    display: true,
+                    text: 'Age Ranges of Suspects',
                   },
                   responsive: true,
                   maintainAspectRatio: false,
@@ -187,7 +195,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
               </div>
             </Spin>
           )}
-        </Card>
+        </div>
       );
     }
   }

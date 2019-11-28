@@ -108,6 +108,10 @@ class PieGraph extends React.Component<PieGraphProps, PieGraphState> {
             <Doughnut
               options={{
                 responsive: true,
+                title: {
+                  display: true,
+                  text: 'Number of Crimes Committed by Gender',
+                },
               }}
               data={this.state.data}
             />
