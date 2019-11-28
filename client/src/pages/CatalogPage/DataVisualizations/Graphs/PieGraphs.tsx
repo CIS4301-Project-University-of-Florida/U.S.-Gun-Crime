@@ -130,7 +130,7 @@ class PieGraph extends React.Component<PieGraphProps, PieGraphState> {
       );
     } else {
       return (
-        <Card title="Incidents Caused By Stolen vs. Legal Guns">
+        <Card title="Incidents Caused by Stolen vs. Owned Guns">
           {!this.state.isLoading ? (
             <Pie
               options={{

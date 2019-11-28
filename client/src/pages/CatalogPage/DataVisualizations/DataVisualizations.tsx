@@ -102,7 +102,7 @@ class DataVisualizations extends React.Component<
                 <Col span={8}>
                   <Card>
                     <h3>Notes</h3>
-                    According to the US Census Bureau, the national population
+                    According to the U.S. Census Bureau, the national population
                     has increased approximately 2.12 percent from 318.39 million
                     in 2014 to 325.15 million in 2017. However, the number of
                     gun deaths has increased by over 20 percent during the same
@@ -123,10 +123,10 @@ class DataVisualizations extends React.Component<
                     Even though the female population has been approximately 3
                     percent higher than the male population for the last couple
                     of years, the number of gun death caused by males is
-                    unproportionally higher with men accounting for over 90
+                    unproportionally higher, with men accounting for over 90
                     percent of the total gun deaths in the United States.
-                    According to the gun crime data, males aged between 19-25
-                    are most likely to commit gun related crime.
+                    According to the gun crime data, males aged between 19–25
+                    are most likely to commit gun-related crimes.
                   </Card>
                 </Col>
                 <Col span={14}>
@@ -152,8 +152,8 @@ class DataVisualizations extends React.Component<
                 <Col span={8}>
                   <Card>
                     <h3>Notes</h3>
-                    Stolen guns are almost ten times more likely to be involved
-                    in gun crime than legal guns which usually require mandatory
+                    Stolen guns are almost 10 times more likely to be involved
+                    in gun crimes than legally owned guns, which usually require
                     background checks before purchase.
                   </Card>
                 </Col>
