@@ -6,6 +6,7 @@ import BarGraph from './Graphs/VerticalBarGraphs';
 import PieGraph from './Graphs/PieGraphs';
 import StateComparisons from './Graphs/StateComparisons/StateComparisons';
 import { Collapse, Switch, Card, Row, Col, Alert } from 'antd';
+import styles from './DataVisualizations.module.less';
 
 const { Panel } = Collapse;
 
@@ -13,9 +14,9 @@ const { Panel } = Collapse;
 interface DataVisualizationsProps {}
 
 interface DataVisualizationsState {
-  showingtrends: boolean;
-  showingdemoinfo: boolean;
-  showingguninfo: boolean;
+  showingTrends: boolean;
+  showingDemoInfo: boolean;
+  showingGunInfo: boolean;
 }
 
 class DataVisualizations extends React.Component<
@@ -25,96 +26,95 @@ class DataVisualizations extends React.Component<
   public constructor(props: DataVisualizationsProps) {
     super(props);
     this.state = {
-      showingtrends: true,
-      showingdemoinfo: true,
-      showingguninfo: true,
+      showingTrends: true,
+      showingDemoInfo: true,
+      showingGunInfo: true,
     };
   }
 
   public render() {
     return (
-      <div>
-        <Page title={PageEnum.DATA_VISUALIZATIONS.title}>
-          <Collapse defaultActiveKey={['2']}>
-            <Panel header="Disclaimers" key="1">
-              <ul>
-                <li>
-                  2 incidents (includes the Las Vegas shooting) were manually
-                  removed from the original dataset due to issues while data
-                  gathering.
-                </li>
-                <li>
-                  The list of incidents from 2013 and 2018 are incomplete.
-                </li>
-              </ul>
-            </Panel>
-            <Panel header="Customize Dashboard" key="2">
-              <Row gutter={16}>
-                <Col span={8}>
-                  Gun Crime Trends&nbsp;&nbsp;
-                  <Switch
-                    defaultChecked={this.state.showingtrends}
-                    // tslint:disable-next-line: jsx-no-lambda
-                    onClick={() =>
-                      this.setState({
-                        showingtrends: !this.state.showingtrends,
-                      })
-                    }
-                  />
-                </Col>
-                <Col span={8}>
-                  Demographic Information&nbsp;&nbsp;
-                  <Switch
-                    defaultChecked={this.state.showingdemoinfo}
-                    // tslint:disable-next-line: jsx-no-lambda
-                    onClick={() =>
-                      this.setState({
-                        showingdemoinfo: !this.state.showingdemoinfo,
-                      })
-                    }
-                  />
-                </Col>
-                <Col span={8}>
-                  Gun Information&nbsp;&nbsp;
-                  <Switch
-                    defaultChecked={this.state.showingguninfo}
-                    // tslint:disable-next-line: jsx-no-lambda
-                    onClick={() =>
-                      this.setState({
-                        showingguninfo: !this.state.showingguninfo,
-                      })
-                    }
-                  />
-                </Col>
-              </Row>
-            </Panel>
-          </Collapse>
-          <br />
-          {this.state.showingtrends ? (
-            <div>
-              <h2>Gun Crime Trends</h2>
-              <StateComparisons />
-              <br />
-              <Row gutter={16}>
-                <Col span={16}>
-                  <LineGraph />
-                </Col>
-                <Col span={8}>
-                  <Card>
-                    <h3>Notes</h3>
-                    According to the U.S. Census Bureau, the national population
-                    has increased approximately 2.12 percent from 318.39 million
-                    in 2014 to 325.15 million in 2017. However, the number of
-                    gun deaths has increased by over 20 percent during the same
-                    period.
-                  </Card>
-                </Col>
-              </Row>
-              <br />
-            </div>
-          ) : null}
-          {this.state.showingdemoinfo ? (
-            <div>
+      <Page title={PageEnum.DATA_VISUALIZATIONS.title}>
+        <Collapse defaultActiveKey={['2']} style={{ marginBottom: '50px' }}>
+          <Panel header="Disclaimers" key="1">
+            <ul>
+              <li>
+                2 incidents (includes the Las Vegas shooting) were manually
+                removed from the original dataset due to issues with data
+                scraping.
+              </li>
+              <li>
+                A number of incidents are missing from the years 2013 and 2018.
+              </li>
+            </ul>
+          </Panel>
+          <Panel header="Customize Dashboard" key="2">
+            <Row gutter={16}>
+              <Col span={8}>
+                Gun Crime Trends&nbsp;&nbsp;
+                <Switch
+                  defaultChecked={this.state.showingTrends}
+                  // tslint:disable-next-line: jsx-no-lambda
+                  onClick={() =>
+                    this.setState({
+                      showingTrends: !this.state.showingTrends,
+                    })
+                  }
+                />
+              </Col>
+              <Col span={8}>
+                Demographic Information&nbsp;&nbsp;
+                <Switch
+                  defaultChecked={this.state.showingDemoInfo}
+                  // tslint:disable-next-line: jsx-no-lambda
+                  onClick={() =>
+                    this.setState({
+                      showingDemoInfo: !this.state.showingDemoInfo,
+                    })
+                  }
+                />
+              </Col>
+              <Col span={8}>
+                Gun Information&nbsp;&nbsp;
+                <Switch
+                  defaultChecked={this.state.showingGunInfo}
+                  // tslint:disable-next-line: jsx-no-lambda
+                  onClick={() =>
+                    this.setState({
+                      showingGunInfo: !this.state.showingGunInfo,
+                    })
+                  }
+                />
+              </Col>
+            </Row>
+          </Panel>
+        </Collapse>
+
+        {this.state.showingTrends ? (
+          <section className={styles.dataVisualization}>
+            <h2>Gun Crime Trends</h2>
+            <StateComparisons className={styles.dataVisualization} />
+
+            <Row gutter={16}>
+              <Col span={16}>
+                <LineGraph />
+              </Col>
+              <Col span={8}>
+                <Card>
+                  <h3>Notes</h3>
+                  According to the U.S. Census Bureau, the national population
+                  has increased approximately 2.12 percent from 318.39 million
+                  in 2014 to 325.15 million in 2017. However, the number of gun
+                  deaths has increased by over 20 percent during the same
+                  period.
+                </Card>
+              </Col>
+            </Row>
+          </section>
+        ) : null}
+        {this.state.showingDemoInfo ? (
+          <>
+            <section className={styles.dataVisualization}>
               <h2>Demographic Information</h2>
               <Row gutter={16}>
                 <Col span={10}>
@@ -133,7 +133,8 @@ class DataVisualizations extends React.Component<
                   <PieGraph graphSettings="bygender" />
                 </Col>
               </Row>
-              <br />
+            </section>
+            <section className={styles.dataVisualization}>
               <Row gutter={16}>
                 <Col span={12}>
                   <BarGraph graphSettings="Victims" />
@@ -142,38 +143,36 @@ class DataVisualizations extends React.Component<
                   <BarGraph graphSettings="Suspects" />
                 </Col>
               </Row>
-              <br />
-            </div>
-          ) : null}
-          {this.state.showingguninfo ? (
-            <div>
-              <h2>Gun Information</h2>
-              <Row gutter={16}>
-                <Col span={8}>
-                  <Card>
-                    <h3>Notes</h3>
-                    Stolen guns are almost 10 times more likely to be involved
-                    in gun crimes than legally owned guns, which usually require
-                    background checks before purchase.
-                  </Card>
-                </Col>
-                <Col span={16}>
-                  <PieGraph graphSettings="isstolen" />
-                </Col>
-              </Row>
-              <br />
-            </div>
-          ) : null}
-          {!this.state.showingtrends &&
-          !this.state.showingdemoinfo &&
-          !this.state.showingguninfo ? (
-            <Alert
-              message="Customize your dashboard to view gun crime visualizations."
-              type="info"
-            />
-          ) : null}
-        </Page>
-      </div>
+            </section>
+          </>
+        ) : null}
+        {this.state.showingGunInfo ? (
+          <section className={styles.dataVisualization}>
+            <h2>Gun Information</h2>
+            <Row gutter={16}>
+              <Col span={8}>
+                <Card>
+                  <h3>Notes</h3>
+                  Stolen guns are almost 10 times more likely to be involved in
+                  gun crimes than legally owned guns, which usually require
+                  background checks before purchase.
+                </Card>
+              </Col>
+              <Col span={16}>
+                <PieGraph graphSettings="isstolen" />
+              </Col>
+            </Row>
+          </section>
+        ) : null}
+        {!this.state.showingTrends &&
+        !this.state.showingDemoInfo &&
+        !this.state.showingGunInfo ? (
+          <Alert
+            message="Customize your dashboard to view gun crime visualizations."
+            type="info"
+          />
+        ) : null}
+      </Page>
     );
   }
 }

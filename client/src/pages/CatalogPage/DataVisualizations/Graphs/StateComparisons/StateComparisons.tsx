@@ -5,8 +5,9 @@ import { Card, Spin, Alert } from 'antd';
 import StatesList from './StatesList';
 import { Select } from 'antd';
 
-// tslint:disable-next-line: no-empty-interface
-interface LineGraphProps {}
+interface LineGraphProps {
+  className: string;
+}
 
 interface LineGraphState {
   states: string[];
@@ -140,42 +141,34 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
   public render() {
     const { stateOne, stateTwo } = this.state;
     return (
-      <Card title="State Comparisons">
-        <Select
-          defaultValue={stateOne}
-          onChange={this.stateOneChange}
-          showSearch={true}
-          style={{ width: 150 }}
-        >
-          {this.state.states.map((item, index) => (
-            <Select.Option value={item} key={index}>
-              {item}
-            </Select.Option>
-          ))}
-        </Select>
-        &#160;
-        <Select
-          defaultValue={stateTwo}
-          onChange={this.stateTwoChange}
-          showSearch={true}
-          style={{ width: 150 }}
-        >
-          {this.state.states.map((item, index) => (
-            <Select.Option value={item} key={index}>
-              {item}
-            </Select.Option>
-          ))}
-        </Select>
-        {!this.state.isLoading ? (
-          <Line
-            options={{
-              responsive: true,
-            }}
-            data={this.state.data}
-            redraw={true}
-          />
-        ) : (
-          <Spin tip="Loading...">
+      <section className={this.props.className}>
+        <Card title="State Comparisons">
+          <Select
+            defaultValue={stateOne}
+            onChange={this.stateOneChange}
+            showSearch={true}
+            style={{ width: 150 }}
+          >
+            {this.state.states.map((item, index) => (
+              <Select.Option value={item} key={index}>
+                {item}
+              </Select.Option>
+            ))}
+          </Select>
+          &#160;
+          <Select
+            defaultValue={stateTwo}
+            onChange={this.stateTwoChange}
+            showSearch={true}
+            style={{ width: 150 }}
+          >
+            {this.state.states.map((item, index) => (
+              <Select.Option value={item} key={index}>
+                {item}
+              </Select.Option>
+            ))}
+          </Select>
+          {!this.state.isLoading ? (
             <Line
               options={{
                 responsive: true,
@@ -183,9 +176,19 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
               data={this.state.data}
               redraw={true}
             />
-          </Spin>
-        )}
-      </Card>
+          ) : (
+            <Spin tip="Loading...">
+              <Line
+                options={{
+                  responsive: true,
+                }}
+                data={this.state.data}
+                redraw={true}
+              />
+            </Spin>
+          )}
+        </Card>
+      </section>
     );
   }
 }
