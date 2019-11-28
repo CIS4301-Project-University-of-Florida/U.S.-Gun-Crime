@@ -41,12 +41,12 @@ class NationalTrends extends React.Component<{}, NationalTrendsState> {
   }
 
   public componentDidMount() {
-    this.fetchnationalTrendsData();
+    this.fetchNationalTrendsData();
   }
 
-  private fetchnationalTrendsData = async () => {
+  private fetchNationalTrendsData = async () => {
     try {
-      const response = await axios.get('/api/linegraphs/deathsperyear');
+      const response = await axios.get('/api/incident/deathsPerYear');
 
       const nationalTrendsData: number[] = [];
       response.data.forEach((p: { DEATHS: number }) =>

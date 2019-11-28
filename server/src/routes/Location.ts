@@ -42,6 +42,29 @@ router.get('/:state/citiesAndCounties', async (req: Request, res: Response) => {
 });
 
 /**
+ * Returns deaths per year in a state: 2013, 2014, 2015, 2016, 2017, 2018
+ */
+router.get('/:state/deathsPerYear', async (req: Request, res: Response) => {
+  try {
+    const deathsPerYear = await query(
+      `SELECT SUM(n_killed) AS deaths
+      FROM ${Incident}, ${Location}
+      WHERE ${Incident}.latitude = ${Location}.latitude
+      AND ${Incident}.longitude = ${Location}.longitude
+      AND State = '${req.params.state}'
+      GROUP BY extract(year FROM i_date)
+      ORDER BY extract(year FROM i_date) ASC`
+    );
+    return res.status(OK).json(deathsPerYear);
+  } catch (err) {
+    logger.error(err.message, err);
+    return res.status(BAD_REQUEST).json({
+      error: err.message,
+    });
+  }
+});
+
+/**
  * Returns all cities/counties in which gun crimes can occur.
  */
 router.get('/citiesAndCounties', async (req: Request, res: Response) => {

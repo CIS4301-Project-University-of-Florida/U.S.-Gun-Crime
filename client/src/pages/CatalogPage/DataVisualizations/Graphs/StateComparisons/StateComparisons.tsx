@@ -57,7 +57,7 @@ class StateComparisons extends React.Component<
   private fetchLineGraphData = async () => {
     try {
       const response1 = await axios.get(
-        '/api/statecomparisons/deathsperyear/' + this.state.stateOne
+        `/api/location/${this.state.stateOne}/deathsPerYear`
       );
 
       const deathsPerYear1: number[] = [];
@@ -66,7 +66,7 @@ class StateComparisons extends React.Component<
       );
 
       const response2 = await axios.get(
-        '/api/statecomparisons/deathsperyear/' + this.state.stateTwo
+        `/api/location/${this.state.stateTwo}/deathsPerYear/`
       );
 
       const deathsPerYear2: number[] = [];

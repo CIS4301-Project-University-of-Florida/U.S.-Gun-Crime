@@ -5,8 +5,6 @@ import LocationRouter from './Location';
 import GunRouter from './Gun';
 import ParticipantRouter from './Participant';
 import BarGraphsRouter from './BarGraphs';
-import LineGraphsRouter from './LineGraphs';
-import StateComparisonsRouter from './StateComparisons';
 
 // Init router and path
 const router = Router();
@@ -18,9 +16,7 @@ router.use('/location', LocationRouter);
 router.use('/gun', GunRouter);
 router.use('/participant', ParticipantRouter);
 
-router.use('/linegraphs', LineGraphsRouter);
 router.use('/bargraphs', BarGraphsRouter);
-router.use('/statecomparisons', StateComparisonsRouter);
 
 // Export the base-router
 export default router;
