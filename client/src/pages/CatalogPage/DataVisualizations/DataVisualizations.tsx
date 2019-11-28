@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Page from 'components/Layout/Page/Page';
 import { PageEnum } from 'pages/PageEnum';
-import LineGraph from './Graphs/LineGraphs';
+import NationalTrends from './Graphs/NationalTrends';
 import BarGraph from './Graphs/VerticalBarGraphs';
 import PieGraph from './Graphs/PieGraphs';
 import StateComparisons from './Graphs/StateComparisons/StateComparisons';
@@ -63,7 +63,7 @@ const DataVisualizations = () => {
 
           <Row gutter={16}>
             <Col span={16}>
-              <LineGraph />
+              <NationalTrends />
             </Col>
             <Col span={8}>
               <Card>

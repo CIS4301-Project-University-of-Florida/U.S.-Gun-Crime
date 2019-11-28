@@ -3,9 +3,6 @@ import axios from 'axios';
 import { Line } from 'react-chartjs-2';
 import { Card, Spin } from 'antd';
 
-// tslint:disable-next-line: no-empty-interface
-interface LineGraphProps {}
-
 interface DataSetObj {
   label: string;
   backgroundColor: string;
@@ -17,18 +14,18 @@ interface DataObj {
   datasets: DataSetObj[];
 }
 
-interface LineGraphState {
+interface NationalTrendsState {
   isLoading: boolean;
-  LineGraphData: number[];
+  nationalTrendsData: number[];
   data: DataObj;
 }
 
-class LineGraph extends React.Component<LineGraphProps, LineGraphState> {
-  public constructor(props: LineGraphProps) {
+class NationalTrends extends React.Component<{}, NationalTrendsState> {
+  public constructor(props: {}) {
     super(props);
     this.state = {
       isLoading: true,
-      LineGraphData: [],
+      nationalTrendsData: [],
       data: {
         labels: [],
         datasets: [
@@ -40,29 +37,29 @@ class LineGraph extends React.Component<LineGraphProps, LineGraphState> {
         ],
       },
     };
-    this.fetchLineGraphData();
+    this.fetchnationalTrendsData();
   }
 
-  private fetchLineGraphData = async () => {
+  private fetchnationalTrendsData = async () => {
     try {
       const response = await axios.get('/api/linegraphs/deathsperyear');
 
-      const LineGraphData: number[] = [];
+      const nationalTrendsData: number[] = [];
       response.data.forEach((p: { DEATHS: number }) =>
-        LineGraphData.push(p.DEATHS)
+        nationalTrendsData.push(p.DEATHS)
       );
 
       this.setState({
         ...this.state,
         isLoading: false,
-        LineGraphData,
+        nationalTrendsData,
         data: {
           labels: ['2013', '2014', '2015', '2016', '2017', '2018'],
           datasets: [
             {
               label: 'National gun deaths by year',
               backgroundColor: 'rgba(52, 8, 52, 1)',
-              data: LineGraphData,
+              data: nationalTrendsData,
             },
           ],
         },
@@ -97,4 +94,4 @@ class LineGraph extends React.Component<LineGraphProps, LineGraphState> {
   }
 }
 
-export default LineGraph;
+export default NationalTrends;
