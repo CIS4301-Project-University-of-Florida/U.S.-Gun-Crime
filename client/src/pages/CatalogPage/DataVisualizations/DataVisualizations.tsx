@@ -5,7 +5,7 @@ import NationalTrends from './Graphs/NationalTrends';
 import BarGraph from './Graphs/VerticalBarGraphs';
 import PieGraph from './Graphs/PieGraphs';
 import StateComparisons from './Graphs/StateComparisons/StateComparisons';
-import { Collapse, Switch, Card, Row, Col, Alert } from 'antd';
+import { Collapse, Switch, Card, Alert } from 'antd';
 import styles from './DataVisualizations.module.less';
 
 const { Panel } = Collapse;
@@ -89,8 +89,8 @@ const DataVisualizations = () => {
                   Even though the female population has been approximately 3
                   percent higher than the male population for the last couple of
                   years, the number of gun death caused by males is
-                  unproportionally higher, with men accounting for over 90
-                  percent of the total gun deaths in the United States.
+                  unproportionally higher, with men accounting for roughly 85
+                  percent of the total gun-related crimes in the United States.
                   According to the gun crime data, males aged between 19–25 are
                   most likely to commit gun-related crimes.
                 </div>
@@ -107,12 +107,12 @@ const DataVisualizations = () => {
           <h2>Gun Information</h2>
           <Card title="Incidents Caused by Stolen vs. Owned Guns">
             <div className={styles.responsiveCard}>
+              <PieGraph graphSettings="isstolen" />
               <div>
                 Stolen guns are almost 10 times more likely to be involved in
                 gun crimes than legally owned guns, which usually require
                 background checks before purchase.
               </div>
-              <PieGraph graphSettings="isstolen" />
             </div>
           </Card>
         </section>

@@ -5,11 +5,11 @@ import { Card, Spin } from 'antd';
 import { Select } from 'antd';
 import states from './states';
 
-interface LineGraphProps {
+interface StateComparisonProps {
   className: string;
 }
 
-interface LineGraphState {
+interface StateComparisonState {
   stateOne: string;
   stateTwo: string;
   isLoading: boolean;
@@ -27,8 +27,11 @@ interface DataObj {
   datasets: DataSetObj[];
 }
 
-class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
-  public constructor(props: LineGraphProps) {
+class StateComparisons extends React.Component<
+  StateComparisonProps,
+  StateComparisonState
+> {
+  public constructor(props: StateComparisonProps) {
     super(props);
     this.state = {
       stateOne: states[0],
@@ -53,22 +56,22 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
 
   private fetchLineGraphData = async () => {
     try {
-      const response = await axios.get(
+      const response1 = await axios.get(
         '/api/statecomparisons/deathsperyear/' + this.state.stateOne
       );
 
-      const LineGraphData: number[] = [];
-      response.data.forEach((p: { DEATHS: number }) =>
-        LineGraphData.push(p.DEATHS)
+      const deathsPerYear1: number[] = [];
+      response1.data.forEach((p: { DEATHS: number }) =>
+        deathsPerYear1.push(p.DEATHS)
       );
 
       const response2 = await axios.get(
         '/api/statecomparisons/deathsperyear/' + this.state.stateTwo
       );
 
-      const LineGraphData2: number[] = [];
+      const deathsPerYear2: number[] = [];
       response2.data.forEach((p: { DEATHS: number }) =>
-        LineGraphData2.push(p.DEATHS)
+        deathsPerYear2.push(p.DEATHS)
       );
 
       this.setState({
@@ -80,12 +83,12 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
             {
               label: 'Gun deaths by year in ' + this.state.stateOne,
               backgroundColor: 'rgba(80, 17, 68, 0.7)',
-              data: LineGraphData,
+              data: deathsPerYear1,
             },
             {
               label: 'Gun deaths by year in ' + this.state.stateTwo,
               backgroundColor: 'rgba(80, 17, 68, 0.8)',
-              data: LineGraphData2,
+              data: deathsPerYear2,
             },
           ],
         },
@@ -95,7 +98,7 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
     }
   };
 
-  public stateOneChange = (value: string) => {
+  public onStateOneChange = (value: string) => {
     this.setState(
       {
         stateOne: value,
@@ -117,7 +120,7 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
     );
   };
 
-  public stateTwoChange = (value: string) => {
+  public onStateTwoChange = (value: string) => {
     this.setState(
       {
         stateTwo: value,
@@ -147,7 +150,7 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
           <div style={{ marginBottom: '20px' }}>
             <Select
               defaultValue={stateOne}
-              onChange={this.stateOneChange}
+              onChange={this.onStateOneChange}
               showSearch={true}
               style={{ width: 150 }}
             >
@@ -160,7 +163,7 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
             &#160;
             <Select
               defaultValue={stateTwo}
-              onChange={this.stateTwoChange}
+              onChange={this.onStateTwoChange}
               showSearch={true}
               style={{ width: 150 }}
             >

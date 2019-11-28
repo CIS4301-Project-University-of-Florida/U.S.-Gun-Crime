@@ -55,12 +55,12 @@ class PieGraph extends React.Component<PieGraphProps, PieGraphState> {
       const PieGraphData: number[] = [];
 
       if (this.props.graphSettings === 'bygender') {
-        response.data.forEach((p: { N_KILLED: number }) =>
-          PieGraphData.push(p.N_KILLED)
+        response.data.forEach((p: { N_CRIMES: number }) =>
+          PieGraphData.push(p.N_CRIMES)
         );
       } else {
-        response.data.forEach((p: { NUMINCIDENTS: number }) =>
-          PieGraphData.push(p.NUMINCIDENTS)
+        response.data.forEach((p: { N_CRIMES: number }) =>
+          PieGraphData.push(p.N_CRIMES)
         );
       }
 

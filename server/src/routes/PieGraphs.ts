@@ -8,12 +8,12 @@ import { Incident, Participant, Gun } from 'src/table';
 const router = Router();
 
 /**
- * Returns number of gun deaths caused by each gender
+ * Returns number of gun crimes committed by each gender
  */
 router.get('/bygender', async (req: Request, res: Response) => {
   try {
     const bygender = await query(
-      `SELECT gender, COUNT(id) AS n_killed
+      `SELECT gender, COUNT(id) AS n_crimes
         FROM ${Participant}
         WHERE ${Participant}.type = 'Subject-Suspect'
         GROUP BY gender`
@@ -33,7 +33,7 @@ router.get('/bygender', async (req: Request, res: Response) => {
 router.get('/isstolen', async (req: Request, res: Response) => {
   try {
     const isstolen = await query(
-      `SELECT stolen, COUNT(id) AS numincidents
+      `SELECT stolen, COUNT(id) AS n_crimes
         FROM ${Gun}
         GROUP BY stolen`
     );
