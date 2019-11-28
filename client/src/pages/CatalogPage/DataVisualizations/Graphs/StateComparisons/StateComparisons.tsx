@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
-import { Card, Spin } from 'antd';
+import { Card } from 'antd';
 import { Select } from 'antd';
 import states from './states';
 import LoadingSpin from 'components/LoadingSpin/LoadingSpin';

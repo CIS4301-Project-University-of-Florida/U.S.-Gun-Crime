@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
-import { Spin } from 'antd';
 import {
   darkPink,
   fadedRed,

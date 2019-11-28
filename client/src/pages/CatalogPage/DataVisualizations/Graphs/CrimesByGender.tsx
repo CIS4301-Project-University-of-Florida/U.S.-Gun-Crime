@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { Doughnut } from 'react-chartjs-2';
-import { Spin } from 'antd';
 import { orange, fadedRed, darkPink } from '../chartColors';
 import LoadingSpin from 'components/LoadingSpin/LoadingSpin';
 
