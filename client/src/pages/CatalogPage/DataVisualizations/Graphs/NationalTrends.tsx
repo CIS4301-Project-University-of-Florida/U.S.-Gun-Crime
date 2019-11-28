@@ -1,24 +1,14 @@
 import React from 'react';
 import axios from 'axios';
-import { Line } from 'react-chartjs-2';
+import { Line, ChartData } from 'react-chartjs-2';
 import { darkerPurple } from '../chartColors';
 import LoadingSpin from 'components/LoadingSpin/LoadingSpin';
-
-interface DataSetObj {
-  label: string;
-  backgroundColor: string;
-  data: number[];
-}
-
-interface DataObj {
-  labels: string[];
-  datasets: DataSetObj[];
-}
+import * as chartjs from 'chart.js';
 
 interface NationalTrendsState {
   isLoading: boolean;
   nationalTrendsData: number[];
-  data: DataObj;
+  data: ChartData<chartjs.ChartData>;
 }
 
 class NationalTrends extends React.Component<{}, NationalTrendsState> {

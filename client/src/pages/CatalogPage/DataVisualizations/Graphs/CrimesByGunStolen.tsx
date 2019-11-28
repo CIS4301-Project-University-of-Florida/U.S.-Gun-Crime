@@ -1,18 +1,14 @@
 import React from 'react';
 import axios from 'axios';
-import { Doughnut } from 'react-chartjs-2';
+import { Doughnut, ChartData } from 'react-chartjs-2';
 import { orange, fadedRed, darkPink } from '../chartColors';
 import LoadingSpin from 'components/LoadingSpin/LoadingSpin';
-
-interface DataObject {
-  labels: string[];
-  datasets: [{ backgroundColor: string[]; data: number[] }];
-}
+import * as chartjs from 'chart.js';
 
 interface CrimesByGunStolenState {
   isLoading: boolean;
   numberOfCrimes: number[];
-  data: DataObject;
+  data: ChartData<chartjs.ChartData>;
 }
 
 class CrimesByGunStolen extends React.Component<{}, CrimesByGunStolenState> {

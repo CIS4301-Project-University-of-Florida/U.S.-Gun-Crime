@@ -3,17 +3,14 @@ import axios from 'axios';
 import { Select } from 'antd';
 import { darkPurple } from '../DataVisualizations/chartColors';
 import HorizontalBarGraph from './HorizontalBarGraph';
-
-interface DataObj {
-  labels: string[];
-  datasets: [{ label: string; backgroundColor: string; data: number[] }];
-}
+import * as chartjs from 'chart.js';
+import { ChartData } from 'react-chartjs-2';
 
 interface DeadliestStatesState {
   currentYear: string;
   isLoading: boolean;
   stateLabels: string[];
-  data: DataObj;
+  data: ChartData<chartjs.ChartData>;
 }
 
 const years = ['2013', '2014', '2015', '2016', '2017', '2018'];

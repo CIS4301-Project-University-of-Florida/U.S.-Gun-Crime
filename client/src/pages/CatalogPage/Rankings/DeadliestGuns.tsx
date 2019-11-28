@@ -2,16 +2,13 @@ import React from 'react';
 import axios from 'axios';
 import { fadedRed } from '../DataVisualizations/chartColors';
 import HorizontalBarGraph from './HorizontalBarGraph';
-
-interface DataObj {
-  labels: string[];
-  datasets: [{ label: string; backgroundColor: string; data: number[] }];
-}
+import * as chartjs from 'chart.js';
+import { ChartData } from 'react-chartjs-2';
 
 interface DeadliestGunsState {
   isLoading: boolean;
   gunLabels: string[];
-  data: DataObj;
+  data: ChartData<chartjs.ChartData>;
 }
 
 class DeadliestGuns extends React.Component<{}, DeadliestGunsState> {

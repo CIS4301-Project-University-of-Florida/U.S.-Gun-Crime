@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Bar } from 'react-chartjs-2';
+import { Bar, ChartData } from 'react-chartjs-2';
 import {
   darkPink,
   fadedRed,
@@ -9,20 +9,16 @@ import {
   darkPurple,
 } from '../chartColors';
 import LoadingSpin from 'components/LoadingSpin/LoadingSpin';
+import * as chartjs from 'chart.js';
 
 interface ParticipantAgeDistributionProps {
   type: 'victim' | 'subject-suspect';
 }
 
-interface DataObject {
-  labels: string[];
-  datasets: [{ label: string; backgroundColor: string[]; data: number[] }];
-}
-
 interface ParticipantAgeDistributionState {
   isLoading: boolean;
   participantAgeDistributionData: number[];
-  data: DataObject;
+  data: ChartData<chartjs.ChartData>;
 }
 
 class ParticipantAgeDistribution extends React.Component<

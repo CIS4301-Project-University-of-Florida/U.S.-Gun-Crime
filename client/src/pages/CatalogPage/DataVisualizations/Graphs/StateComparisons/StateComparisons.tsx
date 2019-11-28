@@ -1,10 +1,11 @@
 import React from 'react';
 import axios from 'axios';
-import { Line } from 'react-chartjs-2';
+import { Line, ChartData } from 'react-chartjs-2';
 import { Card } from 'antd';
 import { Select } from 'antd';
 import states from './states';
 import LoadingSpin from 'components/LoadingSpin/LoadingSpin';
+import * as chartjs from 'chart.js';
 
 interface StateComparisonProps {
   className: string;
@@ -14,18 +15,7 @@ interface StateComparisonState {
   stateOne: string;
   stateTwo: string;
   isLoading: boolean;
-  data: DataObj;
-}
-
-interface DataSetObj {
-  label: string;
-  backgroundColor: string;
-  data: number[];
-}
-
-interface DataObj {
-  labels: string[];
-  datasets: DataSetObj[];
+  data: ChartData<chartjs.ChartData>;
 }
 
 class StateComparisons extends React.Component<
