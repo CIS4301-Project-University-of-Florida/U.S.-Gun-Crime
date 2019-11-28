@@ -2,7 +2,7 @@ import { logger } from '@shared';
 import { Request, Response, Router } from 'express';
 import { BAD_REQUEST, OK } from 'http-status-codes';
 import query from 'src/query/query';
-import { Gun } from 'src/table';
+import { Gun, Incident } from 'src/table';
 
 // Init shared
 const router = Router();
@@ -43,5 +43,27 @@ router.get(
     }
   }
 );
+
+/**
+ * Returns number of gun deaths caused by different gun types
+ */
+router.get('/rankedByDeaths', async (req: Request, res: Response) => {
+  try {
+    const byguntype = await query(
+      `SELECT type, SUM(n_killed) AS n_killed
+        FROM ${Incident}, ${Gun}
+        WHERE ${Incident}.id = ${Gun}.incident_id
+        AND type IS NOT NULL
+        GROUP BY type
+        ORDER BY n_killed DESC`
+    );
+    return res.status(OK).json(byguntype);
+  } catch (err) {
+    logger.error(err.message, err);
+    return res.status(BAD_REQUEST).json({
+      error: err.message,
+    });
+  }
+});
 
 export default router;

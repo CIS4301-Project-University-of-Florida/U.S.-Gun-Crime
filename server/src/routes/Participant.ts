@@ -2,7 +2,7 @@ import { logger } from '@shared';
 import { Request, Response, Router } from 'express';
 import { BAD_REQUEST, OK } from 'http-status-codes';
 import query from 'src/query/query';
-import { Participant } from 'src/table';
+import { Participant, Incident } from 'src/table';
 
 // Init shared
 const router = Router();
@@ -118,6 +118,28 @@ router.get('/ageDistribution/:type', async (req: Request, res: Response) => {
         WHERE ${Participant}.type='${participantType}') A`
     );
     return res.status(OK).json(Victims);
+  } catch (err) {
+    logger.error(err.message, err);
+    return res.status(BAD_REQUEST).json({
+      error: err.message,
+    });
+  }
+});
+
+/**
+ * Returns correlation between gun crime and relationship type
+ */
+router.get('/atRiskRelationships', async (req: Request, res: Response) => {
+  try {
+    const byrelationship = await query(
+      `SELECT relationship, COUNT(incident_id) AS incident_count
+        FROM ${Incident}, ${Participant}
+        WHERE ${Incident}.id = ${Participant}.incident_id
+        AND relationship IS NOT NULL
+        GROUP BY relationship
+        ORDER BY incident_count DESC`
+    );
+    return res.status(OK).json(byrelationship);
   } catch (err) {
     logger.error(err.message, err);
     return res.status(BAD_REQUEST).json({
