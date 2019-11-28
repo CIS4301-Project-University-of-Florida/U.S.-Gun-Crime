@@ -2,6 +2,13 @@ import React from 'react';
 import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
 import { Card, Spin } from 'antd';
+import {
+  darkPink,
+  fadedRed,
+  orange,
+  darkerPurple,
+  darkPurple,
+} from '../chartColors';
 
 // tslint:disable-next-line: no-empty-interface
 interface BarGraphProps {
@@ -97,11 +104,11 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
             {
               label: this.props.graphSettings + ' ',
               backgroundColor: [
-                'rgba(52, 8, 52, 1)',
-                'rgba(80, 17, 68, 1)',
-                'rgba(112, 31, 71, 1)',
-                'rgba(172, 74, 78, 1)',
-                'rgba(238, 146, 64, 1)',
+                darkerPurple,
+                darkPurple,
+                darkPink,
+                fadedRed,
+                orange,
               ],
               data: BarGraphData,
             },

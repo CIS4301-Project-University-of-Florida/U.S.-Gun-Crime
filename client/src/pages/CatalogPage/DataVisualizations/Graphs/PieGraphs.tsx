@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Pie, Doughnut } from 'react-chartjs-2';
 import { Card, Spin } from 'antd';
+import { orange, fadedRed, darkPink } from '../chartColors';
 
 interface PieGraphProps {
   graphSettings: string;
@@ -72,11 +73,7 @@ class PieGraph extends React.Component<PieGraphProps, PieGraphState> {
             labels: ['Male', 'Female', 'Unknown'],
             datasets: [
               {
-                backgroundColor: [
-                  'rgba(112, 31, 71, 1)',
-                  'rgba(172, 74, 78, 1)',
-                  'rgba(238, 146, 64, 1)',
-                ],
+                backgroundColor: [darkPink, fadedRed, orange],
                 data: PieGraphData,
               },
             ],
@@ -91,11 +88,7 @@ class PieGraph extends React.Component<PieGraphProps, PieGraphState> {
             labels: ['Stolen Guns', 'Unknown', 'Legal Guns'],
             datasets: [
               {
-                backgroundColor: [
-                  'rgba(172, 74, 78, 1)',
-                  'rgba(112, 31, 71, 1)',
-                  'rgba(238, 146, 64, 1)',
-                ],
+                backgroundColor: [fadedRed, darkPink, orange],
                 data: PieGraphData,
               },
             ],

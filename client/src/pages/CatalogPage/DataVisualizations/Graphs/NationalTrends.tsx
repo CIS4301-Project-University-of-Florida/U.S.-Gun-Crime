@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
-import { Card, Spin } from 'antd';
+import { Spin } from 'antd';
+import { darkerPurple } from '../chartColors';
 
 interface DataSetObj {
   label: string;
@@ -61,7 +62,7 @@ class NationalTrends extends React.Component<{}, NationalTrendsState> {
           datasets: [
             {
               label: '',
-              backgroundColor: 'rgba(52, 8, 52, 1)',
+              backgroundColor: darkerPurple,
               data: nationalTrendsData,
             },
           ],

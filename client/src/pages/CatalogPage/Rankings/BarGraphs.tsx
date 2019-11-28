@@ -2,6 +2,12 @@ import React from 'react';
 import axios from 'axios';
 import { Line, Polar, Bar, HorizontalBar } from 'react-chartjs-2';
 import { Card, Select, Alert, Spin } from 'antd';
+import {
+  darkPink,
+  fadedRed,
+  orange,
+  darkPurple,
+} from '../DataVisualizations/chartColors';
 
 // tslint:disable-next-line: no-empty-interface
 interface BarGraphProps {
@@ -101,7 +107,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
             datasets: [
               {
                 label: 'Number of people killed in incident',
-                backgroundColor: 'rgba(112, 31, 71, 1)',
+                backgroundColor: darkPink,
                 data: BarGraphData,
               },
             ],
@@ -117,7 +123,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
             datasets: [
               {
                 label: 'Deadliest states',
-                backgroundColor: 'rgba(80, 17, 68, 1)',
+                backgroundColor: darkPurple,
                 data: BarGraphData,
               },
             ],
@@ -133,7 +139,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
             datasets: [
               {
                 label: 'Deaths caused by gun',
-                backgroundColor: 'rgba(172, 74, 78, 1)',
+                backgroundColor: fadedRed,
                 data: BarGraphData,
               },
             ],
@@ -149,7 +155,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
             datasets: [
               {
                 label: 'Number of gun incidents',
-                backgroundColor: 'rgba(238, 146, 64, 1)',
+                backgroundColor: orange,
                 data: BarGraphData,
               },
             ],
