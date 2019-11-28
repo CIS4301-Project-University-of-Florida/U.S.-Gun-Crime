@@ -6,7 +6,6 @@ import GunRouter from './Gun';
 import ParticipantRouter from './Participant';
 import BarGraphsRouter from './BarGraphs';
 import LineGraphsRouter from './LineGraphs';
-import PieGraphsRouter from './PieGraphs';
 import VerticalBarGraphsRouter from './VerticalBarGraphs';
 import StateComparisonsRouter from './StateComparisons';
 
@@ -23,7 +22,6 @@ router.use('/participant', ParticipantRouter);
 router.use('/linegraphs', LineGraphsRouter);
 router.use('/bargraphs', BarGraphsRouter);
 router.use('/verticalbargraphs', VerticalBarGraphsRouter);
-router.use('/piegraphs', PieGraphsRouter);
 router.use('/statecomparisons', StateComparisonsRouter);
 
 // Export the base-router

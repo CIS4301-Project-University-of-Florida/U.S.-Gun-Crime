@@ -79,4 +79,24 @@ router.get('/relationships', async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * Returns number of gun crimes committed by each gender
+ */
+router.get('/numberOfCrimesByGender', async (req: Request, res: Response) => {
+  try {
+    const bygender = await query(
+      `SELECT gender, COUNT(id) AS n_crimes
+        FROM ${Participant}
+        WHERE ${Participant}.type = 'Subject-Suspect'
+        GROUP BY gender`
+    );
+    return res.status(OK).json(bygender);
+  } catch (err) {
+    logger.error(err.message, err);
+    return res.status(BAD_REQUEST).json({
+      error: err.message,
+    });
+  }
+});
+
 export default router;

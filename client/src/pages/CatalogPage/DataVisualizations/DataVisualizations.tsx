@@ -3,10 +3,11 @@ import Page from 'components/Layout/Page/Page';
 import { PageEnum } from 'pages/PageEnum';
 import NationalTrends from './Graphs/NationalTrends';
 import BarGraph from './Graphs/VerticalBarGraphs';
-import PieGraph from './Graphs/PieGraphs';
 import StateComparisons from './Graphs/StateComparisons/StateComparisons';
 import { Collapse, Switch, Card, Alert } from 'antd';
 import styles from './DataVisualizations.module.less';
+import CrimesByGender from './Graphs/CrimesByGender';
+import CrimesByGunStolen from './Graphs/CrimesByGunStolen';
 
 const { Panel } = Collapse;
 
@@ -94,7 +95,7 @@ const DataVisualizations = () => {
                   According to the gun crime data, males aged between 19–25 are
                   most likely to commit gun-related crimes.
                 </div>
-                <PieGraph graphSettings="bygender" />
+                <CrimesByGender />
                 <BarGraph graphSettings="Victims" />
                 <BarGraph graphSettings="Suspects" />
               </div>
@@ -107,7 +108,7 @@ const DataVisualizations = () => {
           <h2>Gun Information</h2>
           <Card title="Incidents Caused by Stolen vs. Owned Guns">
             <div className={styles.responsiveCard}>
-              <PieGraph graphSettings="isstolen" />
+              <CrimesByGunStolen />
               <div>
                 Stolen guns are almost 10 times more likely to be involved in
                 gun crimes than legally owned guns, which usually require
