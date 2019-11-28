@@ -95,8 +95,7 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
           ],
           datasets: [
             {
-              label:
-                this.props.graphSettings + ' involved in gun crime incidents',
+              label: this.props.graphSettings + ' ',
               backgroundColor: [
                 'rgba(52, 8, 52, 1)',
                 'rgba(80, 17, 68, 1)',
@@ -122,6 +121,9 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
             <div style={{ height: 300 }}>
               <Bar
                 options={{
+                  legend: {
+                    display: false,
+                  },
                   responsive: true,
                   maintainAspectRatio: false,
                 }}
@@ -133,6 +135,9 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
               <div style={{ height: 300 }}>
                 <Bar
                   options={{
+                    legend: {
+                      display: false,
+                    },
                     responsive: true,
                     maintainAspectRatio: false,
                   }}
@@ -150,6 +155,9 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
             <div style={{ height: 300 }}>
               <Bar
                 options={{
+                  legend: {
+                    display: false,
+                  },
                   responsive: true,
                   maintainAspectRatio: false,
                 }}
@@ -161,6 +169,9 @@ class BarGraph extends React.Component<BarGraphProps, BarGraphState> {
               <div style={{ height: 300 }}>
                 <Bar
                   options={{
+                    legend: {
+                      display: false,
+                    },
                     responsive: true,
                     maintainAspectRatio: false,
                   }}
