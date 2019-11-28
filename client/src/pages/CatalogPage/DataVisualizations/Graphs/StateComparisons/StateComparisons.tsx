@@ -47,6 +47,9 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
         ],
       },
     };
+  }
+
+  public componentDidMount() {
     this.fetchLineGraphData();
   }
 

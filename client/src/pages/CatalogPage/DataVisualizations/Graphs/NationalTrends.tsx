@@ -37,6 +37,9 @@ class NationalTrends extends React.Component<{}, NationalTrendsState> {
         ],
       },
     };
+  }
+
+  public componentDidMount() {
     this.fetchnationalTrendsData();
   }
 
@@ -57,7 +60,7 @@ class NationalTrends extends React.Component<{}, NationalTrendsState> {
           labels: ['2013', '2014', '2015', '2016', '2017', '2018'],
           datasets: [
             {
-              label: 'National gun deaths by year',
+              label: '',
               backgroundColor: 'rgba(52, 8, 52, 1)',
               data: nationalTrendsData,
             },
@@ -71,11 +74,14 @@ class NationalTrends extends React.Component<{}, NationalTrendsState> {
 
   public render() {
     return (
-      <Card title="National Gun Crime Trends">
+      <Card title="National Gun Deaths by Year">
         {!this.state.isLoading ? (
           <Line
             options={{
               responsive: true,
+              legend: {
+                display: false,
+              },
             }}
             data={this.state.data}
           />

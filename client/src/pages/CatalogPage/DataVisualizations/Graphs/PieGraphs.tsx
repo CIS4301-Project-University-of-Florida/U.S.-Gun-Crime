@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Pie, Doughnut } from 'react-chartjs-2';
 import { Card, Spin } from 'antd';
 
-// tslint:disable-next-line: no-empty-interface
 interface PieGraphProps {
   graphSettings: string;
 }
@@ -40,10 +39,13 @@ class PieGraph extends React.Component<PieGraphProps, PieGraphState> {
         ],
       },
     };
-    this.fetchParticipantRelationshipData();
   }
 
-  private fetchParticipantRelationshipData = async () => {
+  public componentDidMount() {
+    this.fetchData();
+  }
+
+  private fetchData = async () => {
     try {
       const response = await axios.get(
         '/api/piegraphs/' + this.props.graphSettings
