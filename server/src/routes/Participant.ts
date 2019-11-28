@@ -111,8 +111,8 @@ router.get('/ageDistribution/:type', async (req: Request, res: Response) => {
       `SELECT SUM(CASE WHEN A.age BETWEEN 0 AND 9 THEN 1 ELSE 0 END) AS group1,
         SUM(CASE WHEN A.age BETWEEN 10 AND 18 THEN 1 ELSE 0 END) AS group2,
         SUM(CASE WHEN A.age BETWEEN 19 AND 25 THEN 1 ELSE 0 END) AS group3,
-        SUM(CASE WHEN A.age BETWEEN 25 AND 26 THEN 1 ELSE 0 END) AS group4,
-        SUM(CASE WHEN A.age BETWEEN 65 AND 109 THEN 1 ELSE 0 END) AS group5
+        SUM(CASE WHEN A.age BETWEEN 26 AND 64 THEN 1 ELSE 0 END) AS group4,
+        SUM(CASE WHEN A.age >= 65 THEN 1 ELSE 0 END) AS group5
         FROM (SELECT * FROM
         ${Participant}
         WHERE ${Participant}.type='${participantType}') A`

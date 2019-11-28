@@ -51,10 +51,10 @@ class StateComparisons extends React.Component<
   }
 
   public componentDidMount() {
-    this.fetchLineGraphData();
+    this.fetchStateComparisonData();
   }
 
-  private fetchLineGraphData = async () => {
+  private fetchStateComparisonData = async () => {
     try {
       const response1 = await axios.get(
         `/api/location/${this.state.stateOne}/deathsPerYear`
@@ -115,7 +115,7 @@ class StateComparisons extends React.Component<
         },
       },
       () => {
-        this.fetchLineGraphData();
+        this.fetchStateComparisonData();
       }
     );
   };
@@ -137,7 +137,7 @@ class StateComparisons extends React.Component<
         },
       },
       () => {
-        this.fetchLineGraphData();
+        this.fetchStateComparisonData();
       }
     );
   };

@@ -87,7 +87,7 @@ class ParticipantAgeDistribution extends React.Component<
             'Ages 0–9',
             'Ages 10–18',
             'Ages 19–25',
-            'Ages 25–65',
+            'Ages 26–64',
             'Ages 65+',
           ],
           datasets: [
