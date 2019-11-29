@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Line, ChartData } from 'react-chartjs-2';
-import { darkerPurple } from '../chartColors';
+import { primaryBlue } from '../chartColors';
 import LoadingSpin from 'components/LoadingSpin/LoadingSpin';
 import * as chartjs from 'chart.js';
 
@@ -52,7 +52,7 @@ class NationalTrends extends React.Component<{}, NationalTrendsState> {
           datasets: [
             {
               label: '',
-              backgroundColor: darkerPurple,
+              backgroundColor: primaryBlue,
               data: nationalTrendsData,
             },
           ],

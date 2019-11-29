@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Select } from 'antd';
-import { darkPurple } from '../DataVisualizations/chartColors';
+import { primaryBlue } from '../DataVisualizations/chartColors';
 import HorizontalBarGraph from './HorizontalBarGraph';
 import * as chartjs from 'chart.js';
 import { ChartData } from 'react-chartjs-2';
@@ -61,7 +61,7 @@ class DeadliestStates extends React.Component<{}, DeadliestStatesState> {
           datasets: [
             {
               label: 'Deaths per capita (scaled up)',
-              backgroundColor: darkPurple,
+              backgroundColor: primaryBlue,
               data: deathsPerCapita,
             },
           ],
@@ -103,11 +103,13 @@ class DeadliestStates extends React.Component<{}, DeadliestStatesState> {
         showxAxisTicks={false}
         showTooltips={false}
       >
+        Year:{' '}
         <Select
           defaultValue={currentYear}
           onChange={this.onYearChange}
           showSearch={false}
-          style={{ width: 150 }}
+          style={{ width: 100 }}
+          disabled={this.state.isLoading}
         >
           {years.map((item, index) => (
             <Select.Option value={item} key={index}>

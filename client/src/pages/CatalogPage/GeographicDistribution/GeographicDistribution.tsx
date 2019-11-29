@@ -17,6 +17,7 @@ import {
   RangePickerPresetRange,
 } from 'antd/lib/date-picker/interface';
 import LoadingOverlay from 'components/LoadingOverlay/LoadingOverlay';
+import { orange } from '../DataVisualizations/chartColors';
 
 interface Coordinate {
   LATITUDE: number;
@@ -151,7 +152,7 @@ class GeographicDistribution extends React.Component<
                       key={`${loc.LONGITUDE}${loc.LATITUDE}`}
                       marker={{ coordinates: [loc.LONGITUDE, loc.LATITUDE] }}
                       style={{
-                        default: { fill: '#FF5722' },
+                        default: { fill: orange },
                       }}
                     >
                       <circle
@@ -159,7 +160,7 @@ class GeographicDistribution extends React.Component<
                         cy={0}
                         r={2}
                         style={{
-                          stroke: '#FF5722',
+                          stroke: orange,
                           strokeWidth: 2,
                           opacity: 0.9,
                         }}

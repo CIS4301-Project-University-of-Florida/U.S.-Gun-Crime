@@ -73,12 +73,12 @@ class StateComparisons extends React.Component<
           datasets: [
             {
               label: 'Gun deaths by year in ' + this.state.stateOne,
-              backgroundColor: 'rgba(80, 17, 68, 0.7)',
+              backgroundColor: 'rgba(247, 143, 76, 0.2)',
               data: deathsPerYear1,
             },
             {
               label: 'Gun deaths by year in ' + this.state.stateTwo,
-              backgroundColor: 'rgba(80, 17, 68, 0.8)',
+              backgroundColor: 'rgba(60, 102, 163, 0.8)',
               data: deathsPerYear2,
             },
           ],
