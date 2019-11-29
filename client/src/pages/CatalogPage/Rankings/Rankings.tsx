@@ -1,8 +1,11 @@
 import React from 'react';
 import Page from 'components/Layout/Page/Page';
 import { PageEnum } from 'pages/PageEnum';
-import { Collapse, Tabs, Select } from 'antd';
-import BarGraph from './BarGraphs';
+import { Collapse, Tabs } from 'antd';
+import DeadliestStates from './DeadliestStates';
+import DeadliestIncidents from './DeadliestIncidents';
+import DeadliestGuns from './DeadliestGuns';
+import AtRiskRelationships from './AtRiskRelationships';
 
 const { Panel } = Collapse;
 
@@ -35,17 +38,17 @@ class Rankings extends React.Component {
           </Collapse>
           <br />
           <Tabs defaultActiveKey="1">
-            <TabPane tab="States Most Affected by Gun Crime" key="1">
-              <BarGraph graphSettings="mostdangerousstates" />
+            <TabPane tab="Deaths Per Capita by State" key="1">
+              <DeadliestStates />
             </TabPane>
-            <TabPane tab="Most Lethal Incidents" key="2">
-              <BarGraph graphSettings="mostlethalincidents" />
+            <TabPane tab="Deadliest Incidents" key="2">
+              <DeadliestIncidents />
             </TabPane>
             <TabPane tab="Deadliest Guns" key="3">
-              <BarGraph graphSettings="byguntype" />
+              <DeadliestGuns />
             </TabPane>
-            <TabPane tab="Highest At Risk Relationships" key="4">
-              <BarGraph graphSettings="byrelationship" />
+            <TabPane tab="Most At-Risk Relationships" key="4">
+              <AtRiskRelationships />
             </TabPane>
           </Tabs>
         </Page>

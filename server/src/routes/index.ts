@@ -4,11 +4,6 @@ import DeepDiveRouter from './DeepDive';
 import LocationRouter from './Location';
 import GunRouter from './Gun';
 import ParticipantRouter from './Participant';
-import BarGraphsRouter from './BarGraphs';
-import LineGraphsRouter from './LineGraphs';
-import PieGraphsRouter from './PieGraphs';
-import VerticalBarGraphsRouter from './VerticalBarGraphs';
-import StateComparisonsRouter from './StateComparisons';
 
 // Init router and path
 const router = Router();
@@ -19,12 +14,6 @@ router.use('/deepdive', DeepDiveRouter);
 router.use('/location', LocationRouter);
 router.use('/gun', GunRouter);
 router.use('/participant', ParticipantRouter);
-
-router.use('/linegraphs', LineGraphsRouter);
-router.use('/bargraphs', BarGraphsRouter);
-router.use('/verticalbargraphs', VerticalBarGraphsRouter);
-router.use('/piegraphs', PieGraphsRouter);
-router.use('/statecomparisons', StateComparisonsRouter);
 
 // Export the base-router
 export default router;

@@ -2,7 +2,7 @@ import { logger } from '@shared';
 import { Request, Response, Router } from 'express';
 import { BAD_REQUEST, OK } from 'http-status-codes';
 import query from 'src/query/query';
-import { Location, Incident } from 'src/table';
+import { Location, Incident, StatePopulation } from 'src/table';
 
 // Init shared
 const router = Router();
@@ -33,6 +33,57 @@ router.get('/:state/citiesAndCounties', async (req: Request, res: Response) => {
       `SELECT DISTINCT city_or_county FROM ${Location} WHERE state='${req.params.state}' ORDER BY city_or_county`
     );
     return res.status(OK).json(citiesOrCounties);
+  } catch (err) {
+    logger.error(err.message, err);
+    return res.status(BAD_REQUEST).json({
+      error: err.message,
+    });
+  }
+});
+
+/**
+ * Returns deaths per year in a state: 2013, 2014, 2015, 2016, 2017, 2018
+ */
+router.get('/:state/deathsPerYear', async (req: Request, res: Response) => {
+  try {
+    const deathsPerYear = await query(
+      `SELECT SUM(n_killed) AS deaths
+      FROM ${Incident}, ${Location}
+      WHERE ${Incident}.latitude = ${Location}.latitude
+      AND ${Incident}.longitude = ${Location}.longitude
+      AND State = '${req.params.state}'
+      GROUP BY extract(year FROM i_date)
+      ORDER BY extract(year FROM i_date) ASC`
+    );
+    return res.status(OK).json(deathsPerYear);
+  } catch (err) {
+    logger.error(err.message, err);
+    return res.status(BAD_REQUEST).json({
+      error: err.message,
+    });
+  }
+});
+
+/**
+ * Ranks the states by death per capita (scaled up).
+ */
+router.get('/deadliestStates/:year', async (req: Request, res: Response) => {
+  try {
+    const mostdangerousstates = await query(
+      `SELECT ${Location}.state, 
+      (SUM(N_KILLED)/${StatePopulation}.population)*100000000000 AS N_KILLED,
+      SUM(N_KILLED) AS GUNDEATHS,
+      ${StatePopulation}.population AS STATEPOP
+      FROM ${Incident}, ${Location}, ${StatePopulation}
+      WHERE ${Incident}.latitude = ${Location}.latitude
+      AND ${Incident}.longitude = ${Location}.longitude
+      AND ${StatePopulation}.state = ${Location}.state
+      AND EXTRACT(YEAR FROM i_date) = '${req.params.year}'
+      AND ${StatePopulation}.year = '${req.params.year}'
+      GROUP BY ${Location}.state, ${StatePopulation}.population
+      ORDER BY N_KILLED DESC`
+    );
+    return res.status(OK).json(mostdangerousstates);
   } catch (err) {
     logger.error(err.message, err);
     return res.status(BAD_REQUEST).json({

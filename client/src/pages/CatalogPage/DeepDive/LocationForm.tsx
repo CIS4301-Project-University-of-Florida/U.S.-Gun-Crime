@@ -5,6 +5,7 @@ import { SelectValue } from 'antd/lib/select';
 import FormField from 'components/Forms/FormField/FormField';
 import axios from 'axios';
 import LoadingSpin from 'components/LoadingSpin/LoadingSpin';
+import states from '../DataVisualizations/Graphs/StateComparisons/states';
 
 interface LocationFormProps {
   onUSStateChange: (value: SelectValue | undefined) => void;
@@ -15,7 +16,6 @@ interface LocationFormProps {
 
 interface LocationFormState {
   waitingForStateData: boolean;
-  states: string[];
   waitingForCityCountyData: boolean;
   citiesAndCounties: string[];
   waitingForHouseDistrictData: boolean;
@@ -32,7 +32,6 @@ class LocationForm extends React.Component<
     super(props);
     this.state = {
       waitingForStateData: true,
-      states: [],
       waitingForCityCountyData: true,
       citiesAndCounties: [],
       waitingForHouseDistrictData: true,
@@ -43,26 +42,10 @@ class LocationForm extends React.Component<
   }
 
   public componentDidMount() {
-    this.fetchStateData();
     this.fetchCityAndCountyData();
     this.fetchHouseDistrictData();
     this.fetchSenateDistrictData();
   }
-
-  private fetchStateData = async () => {
-    try {
-      const response = await axios.get('/api/location/states');
-
-      const states: string[] = [];
-      response.data.forEach((s: { STATE: string }) => states.push(s.STATE));
-
-      this.setState({
-        ...this.state,
-        waitingForStateData: false,
-        states,
-      });
-    } catch (error) {}
-  };
 
   private fetchCityAndCountyData = async (state?: string) => {
     try {
@@ -166,15 +149,8 @@ class LocationForm extends React.Component<
         <FormField label="State">
           <SelectSearch
             style={{ minWidth: '200px' }}
-            data={this.state.states}
-            disabled={this.state.waitingForStateData}
-            placeholder={
-              this.state.waitingForStateData ? (
-                <LoadingSpin />
-              ) : (
-                'Select a state...'
-              )
-            }
+            data={states}
+            placeholder={'Select a state...'}
             onChange={this.onUSStateChange}
           />
         </FormField>

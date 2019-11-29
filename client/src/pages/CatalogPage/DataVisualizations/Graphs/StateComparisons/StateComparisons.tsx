@@ -1,39 +1,32 @@
 import React from 'react';
 import axios from 'axios';
-import { Line } from 'react-chartjs-2';
-import { Card, Spin, Alert } from 'antd';
-import StatesList from './StatesList';
+import { Line, ChartData } from 'react-chartjs-2';
+import { Card } from 'antd';
 import { Select } from 'antd';
+import states from './states';
+import LoadingSpin from 'components/LoadingSpin/LoadingSpin';
+import * as chartjs from 'chart.js';
 
-// tslint:disable-next-line: no-empty-interface
-interface LineGraphProps {}
+interface StateComparisonProps {
+  className: string;
+}
 
-interface LineGraphState {
-  states: string[];
+interface StateComparisonState {
   stateOne: string;
   stateTwo: string;
   isLoading: boolean;
-  data: DataObj;
+  data: ChartData<chartjs.ChartData>;
 }
 
-interface DataSetObj {
-  label: string;
-  backgroundColor: string;
-  data: number[];
-}
-
-interface DataObj {
-  labels: string[];
-  datasets: DataSetObj[];
-}
-
-class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
-  public constructor(props: LineGraphProps) {
+class StateComparisons extends React.Component<
+  StateComparisonProps,
+  StateComparisonState
+> {
+  public constructor(props: StateComparisonProps) {
     super(props);
     this.state = {
-      states: StatesList.states,
-      stateOne: StatesList.states[0],
-      stateTwo: StatesList.states[2],
+      stateOne: states[0],
+      stateTwo: states[2],
       isLoading: true,
       data: {
         labels: [],
@@ -46,27 +39,30 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
         ],
       },
     };
-    this.fetchLineGraphData();
   }
 
-  private fetchLineGraphData = async () => {
+  public componentDidMount() {
+    this.fetchStateComparisonData();
+  }
+
+  private fetchStateComparisonData = async () => {
     try {
-      const response = await axios.get(
-        '/api/statecomparisons/deathsperyear/' + this.state.stateOne
+      const response1 = await axios.get(
+        `/api/location/${this.state.stateOne}/deathsPerYear`
       );
 
-      const LineGraphData: number[] = [];
-      response.data.forEach((p: { DEATHS: number }) =>
-        LineGraphData.push(p.DEATHS)
+      const deathsPerYear1: number[] = [];
+      response1.data.forEach((p: { DEATHS: number }) =>
+        deathsPerYear1.push(p.DEATHS)
       );
 
       const response2 = await axios.get(
-        '/api/statecomparisons/deathsperyear/' + this.state.stateTwo
+        `/api/location/${this.state.stateTwo}/deathsPerYear/`
       );
 
-      const LineGraphData2: number[] = [];
+      const deathsPerYear2: number[] = [];
       response2.data.forEach((p: { DEATHS: number }) =>
-        LineGraphData2.push(p.DEATHS)
+        deathsPerYear2.push(p.DEATHS)
       );
 
       this.setState({
@@ -77,13 +73,13 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
           datasets: [
             {
               label: 'Gun deaths by year in ' + this.state.stateOne,
-              backgroundColor: 'rgba(80, 17, 68, 0.7)',
-              data: LineGraphData,
+              backgroundColor: 'rgba(247, 143, 76, 0.2)',
+              data: deathsPerYear1,
             },
             {
               label: 'Gun deaths by year in ' + this.state.stateTwo,
-              backgroundColor: 'rgba(80, 17, 68, 0.8)',
-              data: LineGraphData2,
+              backgroundColor: 'rgba(60, 102, 163, 0.8)',
+              data: deathsPerYear2,
             },
           ],
         },
@@ -93,7 +89,7 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
     }
   };
 
-  public stateOneChange = (value: string) => {
+  public onStateOneChange = (value: string) => {
     this.setState(
       {
         stateOne: value,
@@ -110,12 +106,12 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
         },
       },
       () => {
-        this.fetchLineGraphData();
+        this.fetchStateComparisonData();
       }
     );
   };
 
-  public stateTwoChange = (value: string) => {
+  public onStateTwoChange = (value: string) => {
     this.setState(
       {
         stateTwo: value,
@@ -132,7 +128,7 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
         },
       },
       () => {
-        this.fetchLineGraphData();
+        this.fetchStateComparisonData();
       }
     );
   };
@@ -140,42 +136,36 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
   public render() {
     const { stateOne, stateTwo } = this.state;
     return (
-      <Card title="State Comparisons">
-        <Select
-          defaultValue={stateOne}
-          onChange={this.stateOneChange}
-          showSearch={true}
-          style={{ width: 150 }}
-        >
-          {this.state.states.map((item, index) => (
-            <Select.Option value={item} key={index}>
-              {item}
-            </Select.Option>
-          ))}
-        </Select>
-        &#160;
-        <Select
-          defaultValue={stateTwo}
-          onChange={this.stateTwoChange}
-          showSearch={true}
-          style={{ width: 150 }}
-        >
-          {this.state.states.map((item, index) => (
-            <Select.Option value={item} key={index}>
-              {item}
-            </Select.Option>
-          ))}
-        </Select>
-        {!this.state.isLoading ? (
-          <Line
-            options={{
-              responsive: true,
-            }}
-            data={this.state.data}
-            redraw={true}
-          />
-        ) : (
-          <Spin tip="Loading...">
+      <section className={this.props.className}>
+        <Card title="State Comparisons">
+          <div style={{ marginBottom: '20px' }}>
+            <Select
+              defaultValue={stateOne}
+              onChange={this.onStateOneChange}
+              showSearch={true}
+              style={{ width: 150 }}
+            >
+              {states.map((item, index) => (
+                <Select.Option value={item} key={`${index}1`}>
+                  {item}
+                </Select.Option>
+              ))}
+            </Select>
+            &#160;
+            <Select
+              defaultValue={stateTwo}
+              onChange={this.onStateTwoChange}
+              showSearch={true}
+              style={{ width: 150 }}
+            >
+              {states.map((item, index) => (
+                <Select.Option value={item} key={`${index}2`}>
+                  {item}
+                </Select.Option>
+              ))}
+            </Select>
+          </div>
+          <LoadingSpin spinning={this.state.isLoading}>
             <Line
               options={{
                 responsive: true,
@@ -183,9 +173,9 @@ class StateComparisons extends React.Component<LineGraphProps, LineGraphState> {
               data={this.state.data}
               redraw={true}
             />
-          </Spin>
-        )}
-      </Card>
+          </LoadingSpin>
+        </Card>
+      </section>
     );
   }
 }

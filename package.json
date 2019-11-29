@@ -26,8 +26,6 @@
   },
   "dependencies": {
     "@types/react-helmet": "^5.0.12",
-    "chart.js": "^2.9.2",
-    "react-chartjs-2": "^2.8.0",
     "react-helmet": "^5.2.1",
     "react-router-dom": "^5.1.2"
   }
