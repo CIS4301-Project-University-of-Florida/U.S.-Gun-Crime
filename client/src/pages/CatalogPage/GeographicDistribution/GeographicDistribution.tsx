@@ -12,10 +12,7 @@ import {
 } from 'react-simple-maps';
 import DateRangePicker from 'components/DateRangePicker/DateRangePicker';
 import moment from 'moment';
-import {
-  RangePickerValue,
-  RangePickerPresetRange,
-} from 'antd/lib/date-picker/interface';
+import { RangePickerValue } from 'antd/lib/date-picker/interface';
 import LoadingOverlay from 'components/LoadingOverlay/LoadingOverlay';
 import { orange } from '../DataVisualizations/chartColors';
 
@@ -31,15 +28,6 @@ interface GeographicDistributionState {
 }
 
 const defaultDateRange: [string, string] = ['01/01/2013', '12/31/2013'];
-
-const presetRanges: { [range: string]: RangePickerPresetRange } = {
-  '2013': [moment('01/01/2013'), moment('12/31/2013')],
-  '2014': [moment('01/01/2014'), moment('12/31/2014')],
-  '2015': [moment('01/01/2015'), moment('12/31/2015')],
-  '2016': [moment('01/01/2016'), moment('12/31/2016')],
-  '2017': [moment('01/01/2017'), moment('12/31/2017')],
-  '2018': [moment('01/01/2018'), moment('03/31/2018')],
-};
 
 class GeographicDistribution extends React.Component<
   {},
@@ -105,7 +93,6 @@ class GeographicDistribution extends React.Component<
           <DateRangePicker
             disabled={this.state.waitingForData}
             onChange={this.onYearChange}
-            ranges={presetRanges}
             value={[
               moment(this.state.dateRange[0]),
               moment(this.state.dateRange[1]),
