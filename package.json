@@ -1,7 +1,7 @@
 {
   "name": "us-gun-crime",
   "version": "1.0.0",
-  "description": "> A web app that informs users about gun crime trends in the U.S., using over 260,000 incident records scraped from the Gun Violence Archive for the period of 2013–2018. [Data source](https://github.com/jamesqo/gun-violence-data).",
+  "description": "> A web app that informs users about gun crime trends in the U.S., using over 230,000 incident records scraped from the Gun Violence Archive for the period of 2013–2018. [Data source](https://github.com/jamesqo/gun-violence-data).",
   "scripts": {
     "install:client": "cd client && yarn",
     "install:server": "cd server && yarn",
@@ -14,8 +14,8 @@
     "type": "git",
     "url": "git+https://github.com/CIS4301-Project-University-of-Florida/U.S.-Gun-Crime.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Aleksandr Hovhannisyan and Rachana Podaralla",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/CIS4301-Project-University-of-Florida/U.S.-Gun-Crime/issues"
   },
