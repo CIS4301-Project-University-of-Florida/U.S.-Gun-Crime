@@ -6,6 +6,7 @@ import DeadliestStates from './DeadliestStates';
 import DeadliestIncidents from './DeadliestIncidents';
 import DeadliestGuns from './DeadliestGuns';
 import AtRiskRelationships from './AtRiskRelationships';
+import { Link } from 'react-router-dom';
 
 const { Panel } = Collapse;
 
@@ -28,10 +29,9 @@ class Rankings extends React.Component {
                   The list of incidents from 2013 and 2018 are incomplete.
                 </li>
                 <li>
-                  The "States Most Affected By Gun Crime" data was calculated by
-                  normalizing the gun deaths in each state by their populations.
-                  For exact figures for each gun incident please use the Search
-                  Tool.
+                  Exact numbers are not provided for the Deaths Per Capita by
+                  State ranking. For more specific information, please use the{' '}
+                  <Link to={PageEnum.DEEP_DIVE.url}>Search Tool.</Link>
                 </li>
               </ul>
             </Panel>
