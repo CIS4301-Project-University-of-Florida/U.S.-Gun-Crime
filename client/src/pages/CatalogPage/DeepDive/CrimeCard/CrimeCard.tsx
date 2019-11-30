@@ -68,14 +68,16 @@ const CrimeCard = (props: CrimeCardProps) => {
             <Icon type="info-circle" /> {props.NOTES}
           </p>
         ) : null}
-        <a
-          href={props.SOURCE_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={onNewsAnchorClicked}
-        >
-          <Icon type="notification" /> In the news
-        </a>
+        {props.SOURCE_URL ? (
+          <a
+            href={props.SOURCE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={onNewsAnchorClicked}
+          >
+            <Icon type="notification" /> In the news
+          </a>
+        ) : null}
       </section>
     </MaterialCard>
   );
