@@ -8,8 +8,8 @@ import axios from 'axios';
 import { equalityDefault } from 'components/Forms/EqualityInput/EqualityInput';
 import { RangePickerValue } from 'antd/lib/date-picker/interface';
 import ParticipantForm from '../ParticipantForm/ParticipantForm';
-import Participant from 'pages/CatalogPage/DeepDive/ParticipantForm/Participant';
-import { GunCrime } from 'pages/CatalogPage/GunCrime';
+import Participant from 'pages/DeepDive/ParticipantForm/Participant';
+import { GunCrime } from 'pages/GunCrime';
 import styles from './SearchTool.module.less';
 import CrimeResults from '../CrimeResults/CrimeResults';
 

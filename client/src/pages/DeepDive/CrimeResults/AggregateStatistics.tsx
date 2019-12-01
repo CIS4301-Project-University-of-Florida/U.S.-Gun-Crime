@@ -1,5 +1,5 @@
 import React from 'react';
-import { GunCrime } from 'pages/CatalogPage/GunCrime';
+import { GunCrime } from 'pages/GunCrime';
 import { Statistic } from 'antd';
 import styles from './AggregateStatistics.module.less';
 

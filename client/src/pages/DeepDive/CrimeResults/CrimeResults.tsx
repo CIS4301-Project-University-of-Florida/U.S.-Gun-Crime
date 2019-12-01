@@ -1,5 +1,5 @@
 import React from 'react';
-import { GunCrime } from 'pages/CatalogPage/GunCrime';
+import { GunCrime } from 'pages/GunCrime';
 import { List, Icon, Result, Modal } from 'antd';
 import CrimeCard from '../CrimeCard/CrimeCard';
 import moment from 'moment';

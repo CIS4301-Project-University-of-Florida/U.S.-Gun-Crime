@@ -1,8 +1,8 @@
 import HomePage from 'pages/HomePage/HomePage';
-import DataVisualization from './CatalogPage/DataVisualizations/DataVisualizations';
-import Rankings from './CatalogPage/Rankings/Rankings';
-import DeepDive from './CatalogPage/DeepDive/DeepDive';
-import GeographicDistribution from './CatalogPage/GeographicDistribution/GeographicDistribution';
+import DataVisualization from './DataVisualizations/DataVisualizations';
+import Rankings from './Rankings/Rankings';
+import DeepDive from './DeepDive/DeepDive';
+import GeographicDistribution from './GeographicDistribution/GeographicDistribution';
 
 // https://stackoverflow.com/a/51398471/5323344
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Icon } from 'antd';
 import { CardProps } from 'antd/lib/card';
 import styles from './CrimeCard.module.less';
-import { GunCrime } from 'pages/CatalogPage/GunCrime';
+import { GunCrime } from 'pages/GunCrime';
 import MaterialCard from 'components/MaterialCard/MaterialCard';
 
 interface CrimeCardProps extends CardProps, GunCrime {
