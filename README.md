@@ -23,9 +23,9 @@
 
 ## Demo Video
 
-Here's a YouTube video walking through the app on a local environment:
+Here's a [YouTube video](https://www.youtube.com/watch?v=61FSc-E7b9U) walking through the app on a local environment:
 
-[![](https://i.ytimg.com/an_webp/61FSc-E7b9U/mqdefault_6s.webp?du=3000&sqp=COyKi-8F&rs=AOn4CLA2rGioOWO4b2nwtAGHShNi-Od-1w)](https://www.youtube.com/watch?v=61FSc-E7b9U)
+[![](https://img.youtube.com/vi/61FSc-E7b9U/maxresdefault.jpg)](https://www.youtube.com/watch?v=61FSc-E7b9U)
 
 ## Getting Started: Running the App
 
