@@ -20,6 +20,7 @@
    - [Linting and Code Style](#linting-and-code-style)
    - [Git Workflow](#git-workflow)
 6. [Command Cheat Sheet](#command-cheat-sheet)
+7. [Sources and Attributions](#sources-and-attributions)
 
 ## Demo Video
 
@@ -226,3 +227,11 @@ Finally, make a pull request to merge your feature branch into `master`.
 - Run `yarn server` from the root directory to launch the backend (server).
 
 - Run `yarn dev` from the root directory to run the client and server alongside each other, with hot reloading.
+
+## Sources and Attributions
+
+- [Gun crime data set](https://github.com/jamesqo/gun-violence-data)
+
+- [express-generator-typescript](https://github.com/seanpmaxwell/express-generator-typescript/blob/master/LICENSE) (MIT), by Sean Maxwell
+
+- [U.S. Census Bureau State Population Totals for 2010–2018](https://www.census.gov/data/tables/time-series/demo/popest/2010s-state-total.html#par_textimage_1574439295)
