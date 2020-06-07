@@ -52,7 +52,6 @@ class AtRiskRelationships extends React.Component<
       );
 
       this.setState({
-        ...this.state,
         isLoading: false,
         data: {
           labels: relationshipLabels,

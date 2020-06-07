@@ -66,21 +66,18 @@ class SearchTool extends React.Component<{}, SearchToolState> {
 
   public onCharacteristicChange = (characteristics: string[]) => {
     this.setState({
-      ...this.state,
       characteristics,
     });
   };
 
   public onKilledEqualityChange = (value: string) => {
     this.setState({
-      ...this.state,
       numKilled: { equality: value, count: this.state.numKilled.count },
     });
   };
 
   public onKillCountChange = (count: number) => {
     this.setState({
-      ...this.state,
       numKilled: {
         equality: this.state.numKilled.equality,
         count,
@@ -90,14 +87,12 @@ class SearchTool extends React.Component<{}, SearchToolState> {
 
   public onInjuredEqualityChange = (value: string) => {
     this.setState({
-      ...this.state,
       numInjured: { equality: value, count: this.state.numInjured.count },
     });
   };
 
   public onInjuredCountChange = (count: number) => {
     this.setState({
-      ...this.state,
       numInjured: {
         equality: this.state.numInjured.equality,
         count,
@@ -110,21 +105,18 @@ class SearchTool extends React.Component<{}, SearchToolState> {
     dateStrings: [string, string]
   ) => {
     this.setState({
-      ...this.state,
       dateRange: dateStrings,
     });
   };
 
   public onGunCountEqualityChange = (equality: string) => {
     this.setState({
-      ...this.state,
       numGuns: { equality, count: this.state.numGuns.count },
     });
   };
 
   public onGunCountChange = (count: number) => {
     this.setState({
-      ...this.state,
       numGuns: {
         equality: this.state.numGuns.equality,
         count,
@@ -134,28 +126,24 @@ class SearchTool extends React.Component<{}, SearchToolState> {
 
   public onGunTypeChange = (gunTypes: string[]) => {
     this.setState({
-      ...this.state,
       gunTypes,
     });
   };
 
   public onParticipantQualifierChange = (qualifier: string) => {
     this.setState({
-      ...this.state,
       participant: { ...this.state.participant, qualifier },
     });
   };
 
   public onParticipantGenderChange = (gender: string) => {
     this.setState({
-      ...this.state,
       participant: { ...this.state.participant, gender },
     });
   };
 
   public onParticipantAgeEqualityChange = (equality: string) => {
     this.setState({
-      ...this.state,
       participant: {
         ...this.state.participant,
         age: { ...this.state.participant.age, equality },
@@ -165,7 +153,6 @@ class SearchTool extends React.Component<{}, SearchToolState> {
 
   public onParticipantAgeValueChange = (age: number) => {
     this.setState({
-      ...this.state,
       participant: {
         ...this.state.participant,
         age: { ...this.state.participant.age, count: age },
@@ -175,49 +162,42 @@ class SearchTool extends React.Component<{}, SearchToolState> {
 
   public onParticipantTypeChange = (type: string) => {
     this.setState({
-      ...this.state,
       participant: { ...this.state.participant, type },
     });
   };
 
   public onParticipantStatusChange = (status: string) => {
     this.setState({
-      ...this.state,
       participant: { ...this.state.participant, status },
     });
   };
 
   public onParticipantRelationshipChange = (relationship: string) => {
     this.setState({
-      ...this.state,
       participant: { ...this.state.participant, relationship },
     });
   };
 
   public onUSStateChange = (usState: SelectValue | undefined) => {
     this.setState({
-      ...this.state,
       usState: usState ? usState.toString() : '',
     });
   };
 
   public onCityOrCountyChange = (cityOrCounty: SelectValue | undefined) => {
     this.setState({
-      ...this.state,
       cityOrCounty: cityOrCounty ? cityOrCounty.toString() : '',
     });
   };
 
   public onHouseDistrictChange = (houseDistrict: SelectValue | undefined) => {
     this.setState({
-      ...this.state,
       houseDistrict: houseDistrict ? houseDistrict.toString() : '',
     });
   };
 
   public onSenateDistrictChange = (senateDistrict: SelectValue | undefined) => {
     this.setState({
-      ...this.state,
       senateDistrict: senateDistrict ? senateDistrict.toString() : '',
     });
   };
@@ -225,7 +205,6 @@ class SearchTool extends React.Component<{}, SearchToolState> {
   public fetchGunCrimes = async () => {
     // Fire up the spinning indicator
     this.setState({
-      ...this.state,
       waitingForData: true,
       gunCrimes: [],
       resultsAvailable: false,
@@ -246,17 +225,15 @@ class SearchTool extends React.Component<{}, SearchToolState> {
         timeout: 120000,
       });
       this.setState({
-        ...this.state,
         gunCrimes: response.data,
         dataFetchFailed: false,
       });
     } catch (error) {
-      this.setState({ ...this.state, dataFetchFailed: true });
+      this.setState({ dataFetchFailed: true });
     }
 
     // Spinning indicator stops
     this.setState({
-      ...this.state,
       waitingForData: false,
       resultsAvailable: true,
     });

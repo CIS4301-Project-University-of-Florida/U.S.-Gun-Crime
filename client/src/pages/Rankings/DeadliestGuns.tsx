@@ -47,7 +47,6 @@ class DeadliestGuns extends React.Component<{}, DeadliestGunsState> {
       });
 
       this.setState({
-        ...this.state,
         isLoading: false,
         data: {
           labels: gunLabels,

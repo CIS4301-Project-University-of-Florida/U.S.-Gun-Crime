@@ -59,7 +59,6 @@ class LocationForm extends React.Component<
       );
 
       this.setState({
-        ...this.state,
         waitingForCityCountyData: false,
         citiesAndCounties,
       });
@@ -78,7 +77,6 @@ class LocationForm extends React.Component<
       );
 
       this.setState({
-        ...this.state,
         waitingForHouseDistrictData: false,
         houseDistricts,
       });
@@ -97,7 +95,6 @@ class LocationForm extends React.Component<
       );
 
       this.setState({
-        ...this.state,
         waitingForSenateDistrictData: false,
         senateDistricts,
       });
@@ -116,7 +113,6 @@ class LocationForm extends React.Component<
     // We'll refetch all this data to help users so they don't
     // select the wrong information for a state
     this.setState({
-      ...this.state,
       waitingForCityCountyData: true,
       waitingForHouseDistrictData: true,
       waitingForSenateDistrictData: true,

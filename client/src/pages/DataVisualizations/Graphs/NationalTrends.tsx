@@ -44,7 +44,6 @@ class NationalTrends extends React.Component<{}, NationalTrendsState> {
       );
 
       this.setState({
-        ...this.state,
         isLoading: false,
         nationalTrendsData,
         data: {

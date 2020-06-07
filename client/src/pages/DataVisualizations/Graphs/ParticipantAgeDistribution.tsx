@@ -75,7 +75,6 @@ class ParticipantAgeDistribution extends React.Component<
       );
 
       this.setState({
-        ...this.state,
         isLoading: false,
         participantAgeDistributionData,
         data: {

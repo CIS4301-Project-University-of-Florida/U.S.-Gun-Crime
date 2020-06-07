@@ -54,7 +54,6 @@ class DeadliestStates extends React.Component<{}, DeadliestStatesState> {
       });
 
       this.setState({
-        ...this.state,
         isLoading: false,
         data: {
           labels: stateLabels,

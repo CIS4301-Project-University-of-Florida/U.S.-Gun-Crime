@@ -48,7 +48,6 @@ class GeographicDistribution extends React.Component<
 
   private fetchLocationsFor = async (dateRange: [string, string]) => {
     this.setState({
-      ...this.state,
       dateRange,
       waitingForData: true,
     });
@@ -60,7 +59,6 @@ class GeographicDistribution extends React.Component<
       });
 
       this.setState({
-        ...this.state,
         waitingForData: false,
         locations: locations.data,
       });

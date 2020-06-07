@@ -45,7 +45,6 @@ class CrimesByGender extends React.Component<{}, CrimesByGenderState> {
       );
 
       this.setState({
-        ...this.state,
         isLoading: false,
         numberOfCrimes,
         data: {
